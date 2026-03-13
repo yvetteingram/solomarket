@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# SPA fallback — all non-file routes serve index.html
+# (Netlify Functions with path config take priority, so /api/* is handled by the function)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
