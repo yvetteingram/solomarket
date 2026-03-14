@@ -8,7 +8,8 @@ import {
   Calendar,
   CheckCircle2,
   ChevronRight,
-  Target as TargetIcon
+  Target as TargetIcon,
+  Package
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
@@ -27,7 +28,15 @@ export const Plans = () => {
   const [audience, setAudience] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  // Inline add-product state
+  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [newProductName, setNewProductName] = useState('');
+  const [newProductDesc, setNewProductDesc] = useState('');
+  const [newProductType, setNewProductType] = useState('digital');
+  const [newProductPrice, setNewProductPrice] = useState('');
+  const [addingProduct, setAddingProduct] = useState(false);
+
+  const fetchProducts = () => {
     apiFetch('/api/products')
       .then(res => {
         if (!res.ok) throw new Error('Failed to load products');
@@ -35,13 +44,45 @@ export const Plans = () => {
       })
       .then(data => {
         setProducts(data);
-        if (data.length > 0) setSelectedProductId(data[0].id);
+        if (data.length > 0 && !selectedProductId) setSelectedProductId(data[0].id);
       })
       .catch(err => {
         console.error('Failed to fetch products:', err);
-        setError('Unable to load products.');
       });
+  };
+
+  useEffect(() => {
+    fetchProducts();
   }, []);
+
+  const handleAddProduct = async () => {
+    if (!newProductName.trim()) return;
+    setAddingProduct(true);
+    try {
+      const res = await apiFetch('/api/products', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: newProductName.trim(),
+          description: newProductDesc.trim(),
+          product_type: newProductType,
+          price_cents: newProductPrice ? Math.round(parseFloat(newProductPrice) * 100) : 0,
+        }),
+      });
+      if (!res.ok) throw new Error('Failed to add product');
+      const created = await res.json();
+      setProducts(prev => [...prev, created]);
+      setSelectedProductId(created.id);
+      setNewProductName('');
+      setNewProductDesc('');
+      setNewProductType('digital');
+      setNewProductPrice('');
+      setShowAddProduct(false);
+    } catch {
+      setError('Failed to add product. Please try again.');
+    } finally {
+      setAddingProduct(false);
+    }
+  };
 
   const selectedProduct = products.find(p => p.id === selectedProductId);
 
@@ -96,18 +137,109 @@ export const Plans = () => {
             <form className="space-y-5">
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Select Product</label>
-                <select
-                  value={selectedProductId}
-                  onChange={(e) => setSelectedProductId(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
-                >
-                  {products.map(p => (
-                    <option key={p.id} value={p.id}>{p.name}</option>
-                  ))}
-                </select>
+                {products.length === 0 && !showAddProduct ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowAddProduct(true)}
+                    className="w-full px-3 py-4 rounded-lg border-2 border-dashed border-slate-200 hover:border-brand hover:text-brand text-slate-400 text-sm font-medium flex items-center justify-center gap-2 transition-colors"
+                  >
+                    <Package size={18} />
+                    Add your first product to get started
+                  </button>
+                ) : !showAddProduct ? (
+                  <div className="flex gap-2">
+                    <select
+                      value={selectedProductId}
+                      onChange={(e) => setSelectedProductId(e.target.value)}
+                      className="flex-1 px-3 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
+                    >
+                      {products.map(p => (
+                        <option key={p.id} value={p.id}>{p.name}</option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddProduct(true)}
+                      className="px-3 py-2.5 rounded-lg border border-slate-200 hover:border-brand hover:text-brand text-slate-400 transition-colors"
+                      title="Add new product"
+                    >
+                      <Plus size={18} />
+                    </button>
+                  </div>
+                ) : null}
               </div>
 
-              {selectedProduct && (
+              {showAddProduct && (
+                <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+                  <h4 className="text-xs font-bold text-slate-700 flex items-center gap-2">
+                    <Package size={14} />
+                    Add New Product
+                  </h4>
+                  <input
+                    type="text"
+                    value={newProductName}
+                    onChange={(e) => setNewProductName(e.target.value)}
+                    placeholder="Product name *"
+                    className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
+                  />
+                  <textarea
+                    value={newProductDesc}
+                    onChange={(e) => setNewProductDesc(e.target.value)}
+                    placeholder="Brief description..."
+                    className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 h-16 resize-none"
+                  />
+                  <div className="grid grid-cols-2 gap-3">
+                    <select
+                      value={newProductType}
+                      onChange={(e) => setNewProductType(e.target.value)}
+                      className="px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
+                    >
+                      <option value="digital">Digital Product</option>
+                      <option value="course">Course</option>
+                      <option value="ebook">E-book</option>
+                      <option value="template">Template</option>
+                      <option value="saas">SaaS</option>
+                      <option value="service">Service</option>
+                      <option value="membership">Membership</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={newProductPrice}
+                      onChange={(e) => setNewProductPrice(e.target.value)}
+                      placeholder="Price (USD)"
+                      className="px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={handleAddProduct}
+                      disabled={!newProductName.trim() || addingProduct}
+                      className="px-4 py-2 bg-brand text-white rounded-lg text-xs font-bold hover:bg-brand/90 transition-colors disabled:opacity-50"
+                    >
+                      {addingProduct ? 'Adding...' : 'Add Product'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowAddProduct(false);
+                        setNewProductName('');
+                        setNewProductDesc('');
+                        setNewProductType('digital');
+                        setNewProductPrice('');
+                      }}
+                      className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {selectedProduct && !showAddProduct && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Type</label>

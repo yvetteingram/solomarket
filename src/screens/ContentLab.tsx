@@ -14,7 +14,8 @@ import {
   FileText,
   Mail,
   Linkedin,
-  Twitter
+  Twitter,
+  Package
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
@@ -46,6 +47,32 @@ export const ContentLab = () => {
   const [saving, setSaving] = useState(false);
   const [editTitle, setEditTitle] = useState('');
   const [editBody, setEditBody] = useState('');
+
+  // Inline add-product state
+  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [newProductName, setNewProductName] = useState('');
+  const [addingProduct, setAddingProduct] = useState(false);
+
+  const handleAddProduct = async () => {
+    if (!newProductName.trim()) return;
+    setAddingProduct(true);
+    try {
+      const res = await apiFetch('/api/products', {
+        method: 'POST',
+        body: JSON.stringify({ name: newProductName.trim(), product_type: 'digital', price_cents: 0 }),
+      });
+      if (!res.ok) throw new Error('Failed');
+      const created = await res.json();
+      setProducts(prev => [...prev, created]);
+      setSelectedProductId(created.id);
+      setNewProductName('');
+      setShowAddProduct(false);
+    } catch {
+      setError('Failed to add product.');
+    } finally {
+      setAddingProduct(false);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -294,15 +321,63 @@ export const ContentLab = () => {
             <div className="space-y-4">
               <div>
                 <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Select Product</label>
-                <select
-                  value={selectedProductId}
-                  onChange={(e) => setSelectedProductId(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-brand/20 outline-none"
-                >
-                  {products.map(p => (
-                    <option key={p.id} value={p.id}>{p.name}</option>
-                  ))}
-                </select>
+                {products.length === 0 && !showAddProduct ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowAddProduct(true)}
+                    className="w-full px-3 py-3 rounded-lg border-2 border-dashed border-slate-200 hover:border-brand hover:text-brand text-slate-400 text-xs font-medium flex items-center justify-center gap-2 transition-colors"
+                  >
+                    <Package size={16} />
+                    Add a product first
+                  </button>
+                ) : showAddProduct ? (
+                  <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                    <input
+                      type="text"
+                      value={newProductName}
+                      onChange={(e) => setNewProductName(e.target.value)}
+                      placeholder="Product name"
+                      className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={handleAddProduct}
+                        disabled={!newProductName.trim() || addingProduct}
+                        className="px-3 py-1.5 bg-brand text-white rounded-lg text-xs font-bold hover:bg-brand/90 disabled:opacity-50"
+                      >
+                        {addingProduct ? 'Adding...' : 'Add'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => { setShowAddProduct(false); setNewProductName(''); }}
+                        className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-500"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <select
+                      value={selectedProductId}
+                      onChange={(e) => setSelectedProductId(e.target.value)}
+                      className="flex-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-brand/20 outline-none"
+                    >
+                      {products.map(p => (
+                        <option key={p.id} value={p.id}>{p.name}</option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddProduct(true)}
+                      className="px-2 py-2 rounded-lg border border-slate-200 hover:border-brand hover:text-brand text-slate-400 transition-colors"
+                      title="Add new product"
+                    >
+                      <Plus size={16} />
+                    </button>
+                  </div>
+                )}
               </div>
               <div>
                 <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Content Type</label>
