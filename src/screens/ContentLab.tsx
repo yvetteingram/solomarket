@@ -431,9 +431,9 @@ export const ContentLab = () => {
           </SectionCard>
 
           <div className="p-4 bg-brand/5 rounded-2xl border border-brand/10">
-            <h4 className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Pro Tip</h4>
+            <h4 className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Tip</h4>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Use the "Authority Building" theme from your current plan for better consistency.
+              Generate a plan in <strong>Plans</strong> first, then use those themes here for consistent messaging.
             </p>
           </div>
         </div>
