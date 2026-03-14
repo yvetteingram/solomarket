@@ -9,7 +9,8 @@ import {
   CheckCircle2,
   ChevronRight,
   Target as TargetIcon,
-  Package
+  Package,
+  Trash2
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
@@ -27,6 +28,8 @@ export const Plans = () => {
   const [tone, setTone] = useState('Professional');
   const [audience, setAudience] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [savedPlans, setSavedPlans] = useState<any[]>([]);
+  const [deletingPlanId, setDeletingPlanId] = useState<string | null>(null);
 
   // Inline add-product state
   const [showAddProduct, setShowAddProduct] = useState(false);
@@ -51,8 +54,26 @@ export const Plans = () => {
       });
   };
 
+  const fetchPlans = () => {
+    apiFetch('/api/plans')
+      .then(res => res.ok ? res.json() : [])
+      .then(data => {
+        setSavedPlans(Array.isArray(data) ? data : []);
+        // Show the most recent plan if we have one and none is currently displayed
+        if (Array.isArray(data) && data.length > 0 && !plan) {
+          const latest = data[0];
+          try {
+            const weeks = typeof latest.plan_json === 'string' ? JSON.parse(latest.plan_json) : latest.plan_json;
+            if (Array.isArray(weeks) && weeks.length > 0) setPlan(weeks);
+          } catch { /* ignore */ }
+        }
+      })
+      .catch(() => {});
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchPlans();
   }, []);
 
   const handleAddProduct = async () => {
@@ -106,11 +127,44 @@ export const Plans = () => {
 
       if (!response.ok) throw new Error('Failed to save plan');
       setPlan(generatedPlan);
+      fetchPlans();
     } catch (err: any) {
       console.error('Failed to generate or save plan:', err);
       setError(err?.message || 'Failed to generate plan. Please try again.');
     } finally {
       setGenerating(false);
+    }
+  };
+
+  const handleDeletePlan = async (planId: string) => {
+    if (!confirm('Delete this marketing plan?')) return;
+    setDeletingPlanId(planId);
+    try {
+      const res = await apiFetch(`/api/plans/${planId}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete plan');
+      setSavedPlans(prev => prev.filter(p => p.id !== planId));
+      setPlan(null);
+    } catch {
+      setError('Failed to delete plan.');
+    } finally {
+      setDeletingPlanId(null);
+    }
+  };
+
+  const handleDeleteProduct = async (productId: string) => {
+    if (!confirm('Delete this product? Any associated plans will remain.')) return;
+    try {
+      const res = await apiFetch(`/api/products/${productId}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete product');
+      setProducts(prev => {
+        const updated = prev.filter(p => p.id !== productId);
+        if (selectedProductId === productId) {
+          setSelectedProductId(updated.length > 0 ? updated[0].id : '');
+        }
+        return updated;
+      });
+    } catch {
+      setError('Failed to delete product.');
     }
   };
 
@@ -171,6 +225,16 @@ export const Plans = () => {
                     >
                       <Plus size={18} />
                     </button>
+                    {selectedProductId && (
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteProduct(selectedProductId)}
+                        className="px-3 py-2.5 rounded-lg border border-slate-200 hover:border-red-300 hover:text-red-500 text-slate-400 transition-colors"
+                        title="Delete product"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    )}
                   </div>
                 ) : null}
               </div>
@@ -360,6 +424,16 @@ export const Plans = () => {
                     <FileText size={14} />
                     <span>Generate Content</span>
                   </button>
+                  {savedPlans.length > 0 && (
+                    <button
+                      onClick={() => handleDeletePlan(savedPlans[0].id)}
+                      disabled={deletingPlanId !== null}
+                      className="px-3 py-1.5 bg-white text-red-600 text-xs font-bold rounded-lg border border-red-200 hover:bg-red-50 transition-colors flex items-center gap-2 disabled:opacity-50"
+                    >
+                      <Trash2 size={14} />
+                      <span>{deletingPlanId ? 'Deleting...' : 'Delete Plan'}</span>
+                    </button>
+                  )}
                 </div>
               </div>
 

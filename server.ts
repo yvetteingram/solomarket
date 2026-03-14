@@ -231,6 +231,21 @@ async function startServer() {
     }
   });
 
+  app.delete("/api/plans/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const supabase = getSupabase();
+      const { error } = await supabase
+        .from('marketing_plans')
+        .delete()
+        .eq('id', req.params.id)
+        .eq('user_id', req.userId!);
+      if (error) throw error;
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to delete plan' });
+    }
+  });
+
   // Campaigns
   app.get("/api/campaigns", requireAuth, async (req: Request, res: Response) => {
     try {
