@@ -274,7 +274,13 @@ export const Leads = () => {
                   <Mail size={16} />
                   <span>Email</span>
                 </a>
-                <button className="flex-1 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors">
+                <button
+                  onClick={() => {
+                    const subject = encodeURIComponent(`Follow-up: ${selectedLead.email}`);
+                    window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${subject}`, '_blank');
+                  }}
+                  className="flex-1 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors"
+                >
                   <Calendar size={16} />
                   <span>Schedule</span>
                 </button>

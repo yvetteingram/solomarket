@@ -154,6 +154,38 @@ async function handleGetProducts(userId: string) {
   return json(data);
 }
 
+async function handleCreateProduct(userId: string, body: any) {
+  const { name, description, product_type, price_cents } = body;
+  if (!name) return json({ error: "Product name is required" }, 400);
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const { data, error } = await getSupabase()
+    .from("products")
+    .insert({
+      user_id: userId,
+      name,
+      slug,
+      description: description || "",
+      product_type: product_type || "digital",
+      price_cents: price_cents || 0,
+      price: price_cents ? `$${(price_cents / 100).toFixed(2)}` : "$0.00",
+      is_active: true,
+    })
+    .select()
+    .single();
+  if (error) throw error;
+  return json(data, 201);
+}
+
+async function handleDeleteProduct(userId: string, productId: string) {
+  const { error } = await getSupabase()
+    .from("products")
+    .delete()
+    .eq("id", productId)
+    .eq("user_id", userId);
+  if (error) throw error;
+  return json({ success: true });
+}
+
 async function handleGetPlans(userId: string) {
   const { data, error } = await getSupabase()
     .from("marketing_plans")
@@ -456,6 +488,9 @@ export default async (request: Request) => {
 
     // Products
     if (path === "products" && method === "GET") return await handleGetProducts(userId);
+    if (path === "products" && method === "POST") return await handleCreateProduct(userId, body);
+    const productMatch = path.match(/^products\/(.+)$/);
+    if (productMatch && method === "DELETE") return await handleDeleteProduct(userId, productMatch[1]);
 
     // Plans
     if (path === "plans" && method === "GET") return await handleGetPlans(userId);

@@ -11,6 +11,7 @@ import { Settings } from './screens/Settings';
 import { Onboarding } from './components/Onboarding';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Auth } from './screens/Auth';
+import { QuickStart } from './screens/QuickStart';
 import { apiFetch } from './services/api';
 
 const ROUTE_TO_ID: Record<string, string> = {
@@ -80,6 +81,10 @@ function AppContent() {
   }
 
   if (!user) {
+    // Public routes accessible without login
+    if (location.pathname === '/quick-start') {
+      return <QuickStart />;
+    }
     return <Auth />;
   }
 
@@ -115,6 +120,7 @@ function AppContent() {
           <Route path="/leads" element={<Leads />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/quick-start" element={<QuickStart />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

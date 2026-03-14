@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   TrendingUp,
   Users,
@@ -59,6 +60,7 @@ const getPlatformIcon = (platform: string) => {
 };
 
 export const Analytics = () => {
+  const navigate = useNavigate();
   const [timeRange] = useState('Last 30 Days');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -255,8 +257,11 @@ export const Analytics = () => {
                   </p>
                 </div>
               </div>
-              <button className="w-full mt-2 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold transition-colors">
-                View Full Report
+              <button
+                onClick={() => navigate('/leads')}
+                className="w-full mt-2 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold transition-colors"
+              >
+                View All Leads
               </button>
             </div>
           </SectionCard>

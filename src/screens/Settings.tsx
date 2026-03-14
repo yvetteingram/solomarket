@@ -5,7 +5,10 @@ import {
   Twitter,
   Mail,
   Globe,
-  LogOut
+  LogOut,
+  Plus,
+  Trash2,
+  Package
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
@@ -32,6 +35,11 @@ export const Settings = () => {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Products state
+  const [products, setProducts] = useState<{ id: string; name: string; description: string; product_type: string; price_cents: number }[]>([]);
+  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [newProduct, setNewProduct] = useState({ name: '', description: '', product_type: 'digital', price: '' });
+
   useEffect(() => {
     apiFetch('/api/settings')
       .then(res => res.ok ? res.json() : Promise.reject())
@@ -44,14 +52,50 @@ export const Settings = () => {
         });
       })
       .catch(() => {
-        // Use defaults from user metadata
         setSettings(prev => ({
           ...prev,
           full_name: user?.user_metadata?.full_name || ''
         }));
       })
       .finally(() => setLoading(false));
+
+    apiFetch('/api/products')
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setProducts(Array.isArray(data) ? data : []))
+      .catch(() => {});
   }, [user]);
+
+  const handleAddProduct = async () => {
+    if (!newProduct.name.trim()) return;
+    try {
+      const res = await apiFetch('/api/products', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: newProduct.name.trim(),
+          description: newProduct.description.trim(),
+          product_type: newProduct.product_type,
+          price_cents: newProduct.price ? Math.round(parseFloat(newProduct.price) * 100) : 0,
+        }),
+      });
+      if (!res.ok) throw new Error('Failed to add product');
+      const created = await res.json();
+      setProducts(prev => [...prev, created]);
+      setNewProduct({ name: '', description: '', product_type: 'digital', price: '' });
+      setShowAddProduct(false);
+    } catch {
+      setError('Failed to add product. Please try again.');
+    }
+  };
+
+  const handleDeleteProduct = async (id: string) => {
+    if (!window.confirm('Delete this product? Plans and content linked to it will remain.')) return;
+    try {
+      await apiFetch(`/api/products/${id}`, { method: 'DELETE' });
+      setProducts(prev => prev.filter(p => p.id !== id));
+    } catch {
+      setError('Failed to delete product.');
+    }
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -128,10 +172,7 @@ export const Settings = () => {
               {initials}
             </div>
             <div>
-              <button className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors">
-                Change Avatar
-              </button>
-              <p className="text-xs text-slate-400 mt-2">JPG, PNG or GIF. Max size 2MB.</p>
+              <p className="text-xs text-slate-400 mt-1">Avatar support coming soon.</p>
             </div>
           </div>
 
@@ -154,6 +195,124 @@ export const Settings = () => {
                 className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-500 outline-none"
               />
             </div>
+          </div>
+        </SectionCard>
+
+        {/* Your Products */}
+        <SectionCard title="Your Products" description="Add the products you want to market. These appear in Plans and Content Lab.">
+          <div className="space-y-3">
+            {products.length === 0 && !showAddProduct && (
+              <div className="text-center py-8 text-slate-400">
+                <Package size={32} className="mx-auto mb-2 opacity-50" />
+                <p className="text-sm font-medium">No products yet</p>
+                <p className="text-xs mt-1">Add your first product to start generating plans and content.</p>
+              </div>
+            )}
+
+            {products.map((product) => (
+              <div key={product.id} className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                    <Package size={18} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-900">{product.name}</h4>
+                    <p className="text-[10px] text-slate-400">
+                      {product.product_type} {product.price_cents > 0 ? `· $${(product.price_cents / 100).toFixed(2)}` : '· Free'}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleDeleteProduct(product.id)}
+                  className="p-2 text-slate-300 hover:text-red-500 transition-colors"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            ))}
+
+            {showAddProduct && (
+              <div className="p-5 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Product Name *</label>
+                  <input
+                    type="text"
+                    value={newProduct.name}
+                    onChange={(e) => setNewProduct(p => ({ ...p, name: e.target.value }))}
+                    placeholder="e.g. My Online Course"
+                    className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand/20"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Description</label>
+                  <textarea
+                    value={newProduct.description}
+                    onChange={(e) => setNewProduct(p => ({ ...p, description: e.target.value }))}
+                    placeholder="Briefly describe what this product does..."
+                    className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand/20 h-20 resize-none"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Type</label>
+                    <select
+                      value={newProduct.product_type}
+                      onChange={(e) => setNewProduct(p => ({ ...p, product_type: e.target.value }))}
+                      className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand/20"
+                    >
+                      <option value="digital">Digital Product</option>
+                      <option value="course">Course</option>
+                      <option value="ebook">E-book</option>
+                      <option value="template">Template</option>
+                      <option value="saas">SaaS</option>
+                      <option value="service">Service</option>
+                      <option value="membership">Membership</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Price (USD)</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={newProduct.price}
+                      onChange={(e) => setNewProduct(p => ({ ...p, price: e.target.value }))}
+                      placeholder="0.00"
+                      className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand/20"
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-2 pt-1">
+                  <button
+                    onClick={handleAddProduct}
+                    disabled={!newProduct.name.trim()}
+                    className="px-5 py-2 bg-brand text-white rounded-xl text-sm font-bold hover:bg-brand/90 transition-colors disabled:opacity-50"
+                  >
+                    Add Product
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowAddProduct(false);
+                      setNewProduct({ name: '', description: '', product_type: 'digital', price: '' });
+                    }}
+                    className="px-5 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {!showAddProduct && (
+              <button
+                onClick={() => setShowAddProduct(true)}
+                className="w-full py-3 border-2 border-dashed border-slate-200 rounded-2xl text-sm font-bold text-slate-400 hover:border-brand hover:text-brand transition-colors flex items-center justify-center gap-2"
+              >
+                <Plus size={18} />
+                Add Product
+              </button>
+            )}
           </div>
         </SectionCard>
 
