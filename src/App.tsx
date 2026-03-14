@@ -8,6 +8,7 @@ import { Campaigns } from './screens/Campaigns';
 import { Leads } from './screens/Leads';
 import { Analytics } from './screens/Analytics';
 import { Settings } from './screens/Settings';
+import { Calendar } from './screens/Calendar';
 import { Onboarding } from './components/Onboarding';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Auth } from './screens/Auth';
@@ -19,6 +20,7 @@ const ROUTE_TO_ID: Record<string, string> = {
   '/plans': 'plans',
   '/campaigns': 'campaigns',
   '/content': 'content',
+  '/calendar': 'calendar',
   '/leads': 'leads',
   '/analytics': 'analytics',
   '/settings': 'settings',
@@ -30,6 +32,7 @@ const ID_TO_ROUTE: Record<string, string> = {
   'plans': '/plans',
   'campaigns': '/campaigns',
   'content': '/content',
+  'calendar': '/calendar',
   'leads': '/leads',
   'analytics': '/analytics',
   'settings': '/settings',
@@ -123,6 +126,7 @@ function AppContent() {
           <Route path="/plans" element={<Plans />} />
           <Route path="/campaigns" element={<Campaigns />} />
           <Route path="/content" element={<ContentLab />} />
+          <Route path="/calendar" element={<Calendar />} />
           <Route path="/leads" element={<Leads />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/settings" element={<Settings />} />

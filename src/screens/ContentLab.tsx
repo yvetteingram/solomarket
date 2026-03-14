@@ -47,6 +47,9 @@ export const ContentLab = () => {
   const [saving, setSaving] = useState(false);
   const [editTitle, setEditTitle] = useState('');
   const [editBody, setEditBody] = useState('');
+  const [showSchedulePicker, setShowSchedulePicker] = useState(false);
+  const [scheduleDate, setScheduleDate] = useState('');
+  const [scheduleTime, setScheduleTime] = useState('09:00');
 
   // Latest plan theme for dynamic tip
   const [planTheme, setPlanTheme] = useState('');
@@ -248,26 +251,33 @@ export const ContentLab = () => {
     }
   };
 
-  const handleSchedule = async () => {
-    if (!selectedContent) return;
-    // Schedule for tomorrow at 9 AM
+  const openSchedulePicker = () => {
+    // Default to tomorrow
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    tomorrow.setHours(9, 0, 0, 0);
+    setScheduleDate(tomorrow.toISOString().split('T')[0]);
+    setScheduleTime('09:00');
+    setShowSchedulePicker(true);
+  };
+
+  const handleScheduleConfirm = async () => {
+    if (!selectedContent || !scheduleDate) return;
+    const scheduledAt = new Date(`${scheduleDate}T${scheduleTime}:00`);
 
     setSaving(true);
     try {
       const res = await apiFetch(`/api/posts/${selectedContent.id}`, {
         method: 'PATCH',
-        body: JSON.stringify({ title: editTitle, content: editBody, status: 'scheduled', scheduled_at: tomorrow.toISOString() })
+        body: JSON.stringify({ title: editTitle, content: editBody, status: 'scheduled', scheduled_at: scheduledAt.toISOString() })
       });
       if (!res.ok) throw new Error('Failed to schedule');
 
       setContent(prev => prev.map(c =>
         c.id === selectedContent.id
-          ? { ...c, title: editTitle, preview: editBody, status: 'Scheduled', scheduledAt: tomorrow.toISOString() }
+          ? { ...c, title: editTitle, preview: editBody, status: 'Scheduled', scheduledAt: scheduledAt.toISOString() }
           : c
       ));
+      setShowSchedulePicker(false);
     } catch (err) {
       console.error('Schedule failed:', err);
     } finally {
@@ -549,15 +559,58 @@ export const ContentLab = () => {
                   </div>
 
                   <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 relative">
                       <button
-                        onClick={handleSchedule}
+                        onClick={openSchedulePicker}
                         disabled={saving}
                         className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors flex items-center gap-2 disabled:opacity-50"
                       >
                         <Calendar size={14} />
                         <span>Schedule</span>
                       </button>
+
+                      {showSchedulePicker && (
+                        <div className="absolute bottom-full left-0 mb-2 p-4 bg-white border border-slate-200 rounded-xl shadow-lg z-10 w-72">
+                          <h4 className="text-xs font-bold text-slate-700 uppercase tracking-widest mb-3">Schedule Post</h4>
+                          <div className="space-y-3">
+                            <div>
+                              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Date</label>
+                              <input
+                                type="date"
+                                value={scheduleDate}
+                                onChange={(e) => setScheduleDate(e.target.value)}
+                                min={new Date().toISOString().split('T')[0]}
+                                className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Time</label>
+                              <input
+                                type="time"
+                                value={scheduleTime}
+                                onChange={(e) => setScheduleTime(e.target.value)}
+                                className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
+                              />
+                            </div>
+                            <div className="flex gap-2 pt-1">
+                              <button
+                                onClick={handleScheduleConfirm}
+                                disabled={saving || !scheduleDate}
+                                className="flex-1 px-3 py-2 bg-brand text-white rounded-lg text-xs font-bold hover:bg-brand/90 disabled:opacity-50 flex items-center justify-center gap-2"
+                              >
+                                <Calendar size={14} />
+                                {saving ? 'Scheduling...' : 'Confirm'}
+                              </button>
+                              <button
+                                onClick={() => setShowSchedulePicker(false)}
+                                className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="flex items-center gap-2">
                       <button
