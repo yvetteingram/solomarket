@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../services/supabase';
 import { motion } from 'motion/react';
-import { LogIn, UserPlus, Mail, Lock, AlertCircle, Loader2, Ticket } from 'lucide-react';
+import { LogIn, UserPlus, Mail, Lock, AlertCircle, Loader2, Ticket, ArrowLeft } from 'lucide-react';
 
 // Beta invite codes — add codes here to grant access
 const VALID_INVITE_CODES = ['SOLOBETA2026'];
 
 export function Auth() {
-  const [isLogin, setIsLogin] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(location.pathname !== '/signup');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [inviteCode, setInviteCode] = useState('');
@@ -172,15 +175,30 @@ export function Auth() {
           </button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center space-y-3">
           <button
-            onClick={() => { setIsLogin(!isLogin); setError(null); setMessage(null); }}
+            onClick={() => {
+              const target = isLogin ? '/signup' : '/login';
+              setIsLogin(!isLogin);
+              setError(null);
+              setMessage(null);
+              navigate(target, { replace: true });
+            }}
             className="text-sm text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
           >
             {isLogin
               ? "Don't have an account? Sign up"
               : "Already have an account? Login"}
           </button>
+          <div>
+            <button
+              onClick={() => navigate('/')}
+              className="text-sm text-slate-400 hover:text-slate-600 transition-colors inline-flex items-center gap-1"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              Back to home
+            </button>
+          </div>
         </div>
       </motion.div>
     </div>

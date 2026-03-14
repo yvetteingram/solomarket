@@ -12,6 +12,7 @@ import { Calendar } from './screens/Calendar';
 import { Onboarding } from './components/Onboarding';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Auth } from './screens/Auth';
+import { LandingPage } from './screens/LandingPage';
 import { QuickStart } from './screens/QuickStart';
 import { apiFetch } from './services/api';
 
@@ -90,11 +91,14 @@ function AppContent() {
   }
 
   if (!user) {
-    // Public routes accessible without login
-    if (location.pathname === '/quick-start') {
-      return <QuickStart />;
-    }
-    return <Auth />;
+    return (
+      <Routes>
+        <Route path="/login" element={<Auth />} />
+        <Route path="/signup" element={<Auth />} />
+        <Route path="/quick-start" element={<QuickStart />} />
+        <Route path="*" element={<LandingPage />} />
+      </Routes>
+    );
   }
 
   const activeItem = ROUTE_TO_ID[location.pathname] || 'dashboard';
