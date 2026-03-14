@@ -7,7 +7,6 @@ import {
   Lightbulb,
   BarChart3,
   ArrowRight,
-  CheckCircle2,
   Zap,
   Target,
   PenTool,
@@ -146,39 +145,48 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* App Preview */}
+      {/* App Screenshots */}
       <section className="pb-16 sm:pb-24 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
+          {/* Main screenshot — Dashboard */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl"
+            className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-2xl mb-8"
           >
-            <div className="bg-slate-700/50 rounded-xl sm:rounded-2xl p-6 sm:p-10 border border-slate-600/30">
-              <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-6">
-                {[
-                  { label: 'Active Campaigns', value: '4', color: 'text-emerald-400' },
-                  { label: 'Posts This Week', value: '12', color: 'text-blue-400' },
-                  { label: 'Leads Captured', value: '38', color: 'text-amber-400' },
-                ].map((stat) => (
-                  <div key={stat.label} className="bg-slate-800/60 rounded-xl p-3 sm:p-4 text-center">
-                    <p className={`text-2xl sm:text-3xl font-bold ${stat.color}`}>{stat.value}</p>
-                    <p className="text-[10px] sm:text-xs text-slate-400 mt-1">{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="space-y-2 sm:space-y-3">
-                {['Product Launch Campaign — Week 2 of 4', 'LinkedIn Authority Series — 3 posts scheduled', 'Email Nurture Sequence — 67% open rate'].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-slate-800/40 rounded-lg p-3 text-sm text-slate-300">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span className="text-xs sm:text-sm">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <img
+              src="/screenshots/solomarket_dashboard.png"
+              alt="SoloMarket Dashboard — your marketing command center"
+              className="w-full rounded-xl sm:rounded-2xl"
+            />
           </motion.div>
+
+          {/* Secondary screenshots — Content Lab & Calendar */}
+          <div className="grid sm:grid-cols-2 gap-6">
+            {[
+              { src: '/screenshots/solomarket_contentlab.png', alt: 'Content Lab — AI-powered content creation', label: 'Content Lab' },
+              { src: '/screenshots/solomarket_calendar.png', alt: 'Campaign Calendar — plan your marketing schedule', label: 'Campaign Calendar' },
+            ].map((shot, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.15 }}
+              >
+                <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-3 sm:p-4 shadow-xl">
+                  <img
+                    src={shot.src}
+                    alt={shot.alt}
+                    className="w-full rounded-xl"
+                  />
+                </div>
+                <p className="text-center text-sm text-slate-500 font-medium mt-3">{shot.label}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
