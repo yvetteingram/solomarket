@@ -10,7 +10,13 @@ import {
   Megaphone,
   Clock,
   CheckCircle2,
-  Send
+  Send,
+  Camera,
+  Users,
+  Play,
+  Video,
+  MapPin,
+  MessageCircle
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { apiFetch } from '../services/api';
@@ -33,6 +39,12 @@ const getIcon = (type: string, subtype: string) => {
     case 'LinkedIn': return <Linkedin size={12} />;
     case 'Twitter': return <Twitter size={12} />;
     case 'Email': return <Mail size={12} />;
+    case 'Instagram': case 'Instagram Reel': return <Camera size={12} />;
+    case 'Facebook': return <Users size={12} />;
+    case 'YouTube': case 'YouTube Short': return <Play size={12} />;
+    case 'TikTok': return <Video size={12} />;
+    case 'Pinterest': return <MapPin size={12} />;
+    case 'Threads': return <MessageCircle size={12} />;
     default: return <FileText size={12} />;
   }
 };
@@ -53,6 +65,12 @@ const getEventColor = (type: string, subtype: string) => {
     case 'LinkedIn': return 'bg-blue-50 border-blue-200 text-blue-700';
     case 'Twitter': return 'bg-sky-50 border-sky-200 text-sky-700';
     case 'Email': return 'bg-rose-50 border-rose-200 text-rose-700';
+    case 'Instagram': case 'Instagram Reel': return 'bg-pink-50 border-pink-200 text-pink-700';
+    case 'Facebook': return 'bg-blue-50 border-blue-300 text-blue-800';
+    case 'YouTube': case 'YouTube Short': return 'bg-red-50 border-red-200 text-red-700';
+    case 'TikTok': return 'bg-slate-100 border-slate-300 text-slate-800';
+    case 'Pinterest': return 'bg-red-50 border-red-300 text-red-800';
+    case 'Threads': return 'bg-slate-50 border-slate-300 text-slate-700';
     default: return 'bg-slate-50 border-slate-200 text-slate-700';
   }
 };
@@ -320,7 +338,13 @@ export const Calendar = () => {
             <div className="space-y-2">
               {[
                 { label: 'LinkedIn', color: 'bg-blue-100 text-blue-600', icon: <Linkedin size={12} /> },
-                { label: 'Twitter', color: 'bg-sky-100 text-sky-600', icon: <Twitter size={12} /> },
+                { label: 'Twitter/X', color: 'bg-sky-100 text-sky-600', icon: <Twitter size={12} /> },
+                { label: 'Instagram', color: 'bg-pink-100 text-pink-600', icon: <Camera size={12} /> },
+                { label: 'Facebook', color: 'bg-blue-100 text-blue-500', icon: <Users size={12} /> },
+                { label: 'YouTube', color: 'bg-red-100 text-red-600', icon: <Play size={12} /> },
+                { label: 'TikTok', color: 'bg-slate-200 text-slate-700', icon: <Video size={12} /> },
+                { label: 'Pinterest', color: 'bg-red-100 text-red-700', icon: <MapPin size={12} /> },
+                { label: 'Threads', color: 'bg-slate-100 text-slate-600', icon: <MessageCircle size={12} /> },
                 { label: 'Email', color: 'bg-rose-100 text-rose-600', icon: <Mail size={12} /> },
                 { label: 'Blog', color: 'bg-slate-100 text-slate-600', icon: <FileText size={12} /> },
                 { label: 'Campaign', color: 'bg-orange-100 text-orange-600', icon: <Megaphone size={12} /> },

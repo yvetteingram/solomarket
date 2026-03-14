@@ -8,7 +8,13 @@ import {
   LogOut,
   Plus,
   Trash2,
-  Package
+  Package,
+  Camera,
+  Users,
+  Play,
+  Video,
+  MapPin,
+  MessageCircle
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
@@ -356,6 +362,12 @@ export const Settings = () => {
             {[
               { name: 'LinkedIn', icon: Linkedin, status: 'Coming Soon', color: 'text-blue-600' },
               { name: 'Twitter / X', icon: Twitter, status: 'Coming Soon', color: 'text-sky-500' },
+              { name: 'Instagram', icon: Camera, status: 'Coming Soon', color: 'text-pink-500' },
+              { name: 'Facebook', icon: Users, status: 'Coming Soon', color: 'text-blue-500' },
+              { name: 'YouTube', icon: Play, status: 'Coming Soon', color: 'text-red-500' },
+              { name: 'TikTok', icon: Video, status: 'Coming Soon', color: 'text-slate-900' },
+              { name: 'Pinterest', icon: MapPin, status: 'Coming Soon', color: 'text-red-600' },
+              { name: 'Threads', icon: MessageCircle, status: 'Coming Soon', color: 'text-slate-700' },
               { name: 'Email (Mailchimp)', icon: Mail, status: 'Coming Soon', color: 'text-slate-400' },
               { name: 'Personal Blog', icon: Globe, status: 'Coming Soon', color: 'text-slate-400' },
             ].map((channel) => (

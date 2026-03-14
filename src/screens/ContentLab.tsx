@@ -15,6 +15,12 @@ import {
   Mail,
   Linkedin,
   Twitter,
+  Camera,
+  Users,
+  Play,
+  Video,
+  MapPin,
+  MessageCircle,
   Package
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
@@ -25,7 +31,7 @@ import { Product } from '../types';
 
 interface ContentItem {
   id: string;
-  type: 'LinkedIn' | 'Twitter' | 'Email' | 'Blog';
+  type: 'LinkedIn' | 'Twitter' | 'Email' | 'Blog' | 'Instagram' | 'Instagram Reel' | 'Facebook' | 'YouTube' | 'YouTube Short' | 'TikTok' | 'Pinterest' | 'Threads';
   title: string;
   preview: string;
   status: 'Draft' | 'Scheduled' | 'Published';
@@ -172,11 +178,19 @@ export const ContentLab = () => {
         product
       });
 
-      const typeMap: Record<string, 'LinkedIn' | 'Twitter' | 'Email' | 'Blog'> = {
+      const typeMap: Record<string, ContentItem['type']> = {
         'LinkedIn Post': 'LinkedIn',
         'Twitter Thread': 'Twitter',
         'Email Newsletter': 'Email',
-        'Blog Outline': 'Blog'
+        'Blog Outline': 'Blog',
+        'Instagram Caption': 'Instagram',
+        'Instagram Reel Script': 'Instagram Reel',
+        'Facebook Post': 'Facebook',
+        'YouTube Script': 'YouTube',
+        'YouTube Shorts Script': 'YouTube Short',
+        'TikTok Script': 'TikTok',
+        'Pinterest Pin': 'Pinterest',
+        'Threads Post': 'Threads',
       };
 
       const platform = typeMap[contentType] || 'LinkedIn';
@@ -290,7 +304,10 @@ export const ContentLab = () => {
     const typeMap: Record<string, string> = {
       'Turn into Email': 'Email Newsletter',
       'Blog Outline': 'Blog Outline',
-      'Twitter Thread': 'Twitter Thread'
+      'Twitter Thread': 'Twitter Thread',
+      'Instagram Caption': 'Instagram Caption',
+      'TikTok Script': 'TikTok Script',
+      'YouTube Short': 'YouTube Shorts Script',
     };
     setContentType(typeMap[targetType] || 'LinkedIn Post');
     setTopic(`Repurpose: ${selectedContent.title}`);
@@ -315,6 +332,12 @@ export const ContentLab = () => {
       case 'LinkedIn': return <Linkedin size={16} className="text-blue-600" />;
       case 'Twitter': return <Twitter size={16} className="text-sky-500" />;
       case 'Email': return <Mail size={16} className="text-rose-500" />;
+      case 'Instagram': case 'Instagram Reel': return <Camera size={16} className="text-pink-500" />;
+      case 'Facebook': return <Users size={16} className="text-blue-500" />;
+      case 'YouTube': case 'YouTube Short': return <Play size={16} className="text-red-500" />;
+      case 'TikTok': return <Video size={16} className="text-slate-900" />;
+      case 'Pinterest': return <MapPin size={16} className="text-red-600" />;
+      case 'Threads': return <MessageCircle size={16} className="text-slate-700" />;
       default: return <FileText size={16} className="text-slate-500" />;
     }
   };
@@ -419,10 +442,24 @@ export const ContentLab = () => {
                   onChange={(e) => setContentType(e.target.value)}
                   className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-brand/20 outline-none"
                 >
-                  <option>LinkedIn Post</option>
-                  <option>Twitter Thread</option>
-                  <option>Email Newsletter</option>
-                  <option>Blog Outline</option>
+                  <optgroup label="Social Media">
+                    <option>LinkedIn Post</option>
+                    <option>Twitter Thread</option>
+                    <option>Facebook Post</option>
+                    <option>Threads Post</option>
+                  </optgroup>
+                  <optgroup label="Visual / Short-Form">
+                    <option>Instagram Caption</option>
+                    <option>Instagram Reel Script</option>
+                    <option>TikTok Script</option>
+                    <option>YouTube Shorts Script</option>
+                    <option>Pinterest Pin</option>
+                  </optgroup>
+                  <optgroup label="Long-Form">
+                    <option>Email Newsletter</option>
+                    <option>Blog Outline</option>
+                    <option>YouTube Script</option>
+                  </optgroup>
                 </select>
               </div>
               <div>
@@ -643,8 +680,11 @@ export const ContentLab = () => {
                 <div className="mt-6 grid grid-cols-3 gap-4">
                   {[
                     { label: 'Turn into Email', icon: Mail },
-                    { label: 'Blog Outline', icon: FileText },
+                    { label: 'Instagram Caption', icon: Camera },
                     { label: 'Twitter Thread', icon: Twitter },
+                    { label: 'TikTok Script', icon: Video },
+                    { label: 'YouTube Short', icon: Play },
+                    { label: 'Blog Outline', icon: FileText },
                   ].map(opt => (
                     <button
                       key={opt.label}
