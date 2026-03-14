@@ -270,7 +270,12 @@ export const ContentLab = () => {
 
   const handleDelete = async () => {
     if (!selectedContent) return;
-    // For now, just remove from local state — we don't have a DELETE endpoint yet
+    if (!window.confirm('Delete this content?')) return;
+    try {
+      await apiFetch(`/api/posts/${selectedContent.id}`, { method: 'DELETE' });
+    } catch {
+      // still remove from UI
+    }
     setContent(prev => prev.filter(c => c.id !== selectedContent.id));
     setSelectedId(null);
     setEditTitle('');

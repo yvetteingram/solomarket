@@ -300,6 +300,16 @@ async function handleCreatePost(userId: string, body: any) {
   return json(data[0]);
 }
 
+async function handleDeletePost(userId: string, id: string) {
+  const { error } = await getSupabase()
+    .from("marketing_posts")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", userId);
+  if (error) throw error;
+  return json({ success: true });
+}
+
 async function handlePatchPost(userId: string, id: string, body: any) {
   const { title, content, status, scheduled_at } = body;
   const updates: Record<string, unknown> = {};
@@ -509,6 +519,7 @@ export default async (request: Request) => {
     if (path === "posts" && method === "GET") return await handleGetPosts(userId);
     if (path === "posts" && method === "POST") return await handleCreatePost(userId, body);
     const postMatch = path.match(/^posts\/(.+)$/);
+    if (postMatch && method === "DELETE") return await handleDeletePost(userId, postMatch[1]);
     if (postMatch && method === "PATCH") return await handlePatchPost(userId, postMatch[1], body);
 
     // Analytics

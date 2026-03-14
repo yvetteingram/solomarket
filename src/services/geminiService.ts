@@ -1,7 +1,7 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { PlanWeek } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || "" });
 
 export const generateMarketingPlan = async (product: any): Promise<PlanWeek[]> => {
   const priceDisplay = product.price || (product.price_cents ? `$${(product.price_cents / 100).toFixed(2)}` : 'N/A');

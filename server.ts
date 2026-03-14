@@ -146,6 +146,48 @@ async function startServer() {
     }
   });
 
+  app.post("/api/products", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { name, description, product_type, price_cents } = req.body;
+      if (!name) { res.status(400).json({ error: 'Product name is required' }); return; }
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const supabase = getSupabase();
+      const { data, error } = await supabase
+        .from('products')
+        .insert({
+          user_id: req.userId!,
+          name,
+          slug,
+          description: description || '',
+          product_type: product_type || 'digital',
+          price_cents: price_cents || 0,
+          price: price_cents ? `$${(price_cents / 100).toFixed(2)}` : '$0.00',
+          is_active: true,
+        })
+        .select()
+        .single();
+      if (error) throw error;
+      res.status(201).json(data);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to create product' });
+    }
+  });
+
+  app.delete("/api/products/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const supabase = getSupabase();
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', req.params.id)
+        .eq('user_id', req.userId!);
+      if (error) throw error;
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to delete product' });
+    }
+  });
+
   // Marketing Plans
   app.get("/api/plans", requireAuth, async (req: Request, res: Response) => {
     try {
@@ -285,6 +327,21 @@ async function startServer() {
       res.json(data[0]);
     } catch (error) {
       res.status(500).json({ error: 'Failed to create post' });
+    }
+  });
+
+  app.delete("/api/posts/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const supabase = getSupabase();
+      const { error } = await supabase
+        .from('marketing_posts')
+        .delete()
+        .eq('id', req.params.id)
+        .eq('user_id', req.userId!);
+      if (error) throw error;
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to delete post' });
     }
   });
 
