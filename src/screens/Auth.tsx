@@ -34,11 +34,17 @@ export function Auth() {
           throw new Error('Invalid invite code. SoloMarket is currently in private beta.');
         }
 
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
         });
         if (error) throw error;
+        // If Supabase returns a session, user is auto-confirmed and logged in
+        if (data.session) {
+          // Auth context will pick up the session automatically
+          return;
+        }
+        // Fallback message if email confirmation is still enabled
         setMessage('Check your email for the confirmation link!');
       }
     } catch (err: any) {
