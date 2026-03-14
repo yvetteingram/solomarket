@@ -1,7 +1,7 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { PlanWeek } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || "" });
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY || "" });
 
 export const generateMarketingPlan = async (product: any): Promise<PlanWeek[]> => {
   const priceDisplay = product.price || (product.price_cents ? `$${(product.price_cents / 100).toFixed(2)}` : 'N/A');
@@ -20,7 +20,7 @@ export const generateMarketingPlan = async (product: any): Promise<PlanWeek[]> =
   - conversionActivity: string (the primary call to action for that week)`;
 
   const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+    model: "gemini-2.0-flash",
     contents: prompt,
     config: {
       responseMimeType: "application/json",
@@ -62,7 +62,7 @@ export const generateContentDraft = async (params: {
   Return only the text content of the draft.`;
 
   const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+    model: "gemini-2.0-flash",
     contents: prompt,
   });
 
