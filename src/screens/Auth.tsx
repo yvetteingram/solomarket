@@ -73,10 +73,10 @@ export function Auth() {
         </div>
 
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-3">
+          <button onClick={() => navigate('/')} className="flex items-center justify-center gap-2 mb-3 hover:opacity-80 transition-opacity mx-auto">
             <div className="w-10 h-10 bg-brand rounded-xl flex items-center justify-center text-white font-bold text-lg">S</div>
             <span className="font-bold text-2xl tracking-tight">SoloMarket</span>
-          </div>
+          </button>
           <h1 className="text-xl font-bold text-ink-main mb-1">
             {isLogin ? 'Welcome Back' : 'Join the Beta'}
           </h1>

@@ -86,11 +86,11 @@ export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle }: AppS
       >
         <div className="p-4 flex items-center justify-between border-b border-slate-100">
           {!collapsed && (
-            <div className="flex items-center gap-2">
+            <button onClick={() => onNavigate('dashboard')} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-white font-bold">S</div>
               <span className="font-bold text-lg tracking-tight">SoloMarket</span>
               <span className="text-[9px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-md">Beta</span>
-            </div>
+            </button>
           )}
           <button
             onClick={onToggle}
