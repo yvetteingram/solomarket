@@ -48,6 +48,9 @@ export const ContentLab = () => {
   const [editTitle, setEditTitle] = useState('');
   const [editBody, setEditBody] = useState('');
 
+  // Latest plan theme for dynamic tip
+  const [planTheme, setPlanTheme] = useState('');
+
   // Inline add-product state
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [newProductName, setNewProductName] = useState('');
@@ -77,15 +80,30 @@ export const ContentLab = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productsRes, postsRes] = await Promise.all([
+        const [productsRes, postsRes, plansRes] = await Promise.all([
           apiFetch('/api/products'),
-          apiFetch('/api/posts')
+          apiFetch('/api/posts'),
+          apiFetch('/api/plans')
         ]);
 
         if (!productsRes.ok || !postsRes.ok) throw new Error('Failed to load data');
 
         const productsData = await productsRes.json();
         const postsData = await postsRes.json();
+
+        // Get latest plan theme for tip
+        if (plansRes.ok) {
+          const plansData = await plansRes.json();
+          if (plansData.length > 0) {
+            const latest = plansData[plansData.length - 1];
+            try {
+              const weeks = typeof latest.plan_json === 'string' ? JSON.parse(latest.plan_json) : latest.plan_json;
+              if (Array.isArray(weeks) && weeks.length > 0) {
+                setPlanTheme(weeks[0].theme);
+              }
+            } catch { /* ignore */ }
+          }
+        }
 
         setProducts(productsData);
         if (productsData.length > 0) setSelectedProductId(productsData[0].id);
@@ -433,7 +451,10 @@ export const ContentLab = () => {
           <div className="p-4 bg-brand/5 rounded-2xl border border-brand/10">
             <h4 className="text-xs font-bold text-brand uppercase tracking-widest mb-2">Tip</h4>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Generate a plan in <strong>Plans</strong> first, then use those themes here for consistent messaging.
+              {planTheme
+                ? <>Try the <strong>"{planTheme}"</strong> theme from your latest plan for consistent messaging.</>
+                : <>Generate a plan in <strong>Plans</strong> first, then use those themes here for consistent messaging.</>
+              }
             </p>
           </div>
         </div>
