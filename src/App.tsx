@@ -62,8 +62,14 @@ function AppContent() {
       setHasPlans(hpl);
       setHasPosts(hpo);
 
-      // Redirect new users with no data to onboarding
-      if (!hp && !hpl && !hpo && location.pathname === '/') {
+      // Mark onboarding complete once user has any data
+      if (hp || hpl || hpo) {
+        localStorage.setItem(`onboarding_done_${user.id}`, '1');
+      }
+
+      // Only redirect brand-new users who have never completed onboarding
+      const onboardingDone = localStorage.getItem(`onboarding_done_${user.id}`);
+      if (!onboardingDone && !hp && !hpl && !hpo && location.pathname === '/') {
         navigate('/welcome', { replace: true });
       }
       setOnboardingChecked(true);

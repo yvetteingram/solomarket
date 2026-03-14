@@ -56,6 +56,8 @@ export const Onboarding = ({ hasProducts, hasPlans, hasPosts }: OnboardingProps)
       }
       setProductAdded(true);
       setShowProductForm(false);
+      // Mark onboarding as done so user won't see it again
+      if (user?.id) localStorage.setItem(`onboarding_done_${user.id}`, '1');
       setProductName('');
       setProductDesc('');
       setProductPrice('');
