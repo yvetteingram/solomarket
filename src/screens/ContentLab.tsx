@@ -21,7 +21,10 @@ import {
   Video,
   MapPin,
   MessageCircle,
-  Package
+  Package,
+  ExternalLink,
+  Copy,
+  Check
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
@@ -56,6 +59,8 @@ export const ContentLab = () => {
   const [showSchedulePicker, setShowSchedulePicker] = useState(false);
   const [scheduleDate, setScheduleDate] = useState('');
   const [scheduleTime, setScheduleTime] = useState('09:00');
+  const [copied, setCopied] = useState(false);
+  const [showShareMenu, setShowShareMenu] = useState(false);
 
   // Latest plan theme for dynamic tip
   const [planTheme, setPlanTheme] = useState('');
@@ -327,6 +332,51 @@ export const ContentLab = () => {
     setEditBody('');
   };
 
+  const handleShareTo = async (platform: 'linkedin' | 'facebook' | 'twitter') => {
+    if (!selectedContent) return;
+
+    // Copy content to clipboard
+    const shareText = `${editTitle}\n\n${editBody}`;
+    try {
+      await navigator.clipboard.writeText(shareText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } catch {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = shareText;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    }
+
+    // Open the platform in a new tab
+    const urls: Record<string, string> = {
+      linkedin: 'https://www.linkedin.com/feed/',
+      facebook: 'https://www.facebook.com/',
+      twitter: 'https://twitter.com/compose/tweet',
+    };
+    window.open(urls[platform], '_blank', 'noopener');
+
+    // Save the draft first, then mark as published
+    try {
+      await apiFetch(`/api/posts/${selectedContent.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ title: editTitle, content: editBody, status: 'published' })
+      });
+      setContent(prev => prev.map(c =>
+        c.id === selectedContent.id ? { ...c, title: editTitle, preview: editBody, status: 'Published' } : c
+      ));
+    } catch {
+      // Content was copied and platform opened — don't block the flow
+    }
+
+    setShowShareMenu(false);
+  };
+
   const getIcon = (type: string) => {
     switch (type) {
       case 'LinkedIn': return <Linkedin size={16} className="text-blue-600" />;
@@ -595,76 +645,126 @@ export const ContentLab = () => {
                     />
                   </div>
 
-                  <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div className="flex items-center gap-2 relative">
+                  <div className="p-4 border-t border-slate-100 bg-slate-50/50 space-y-3">
+                    {/* Share to Platform Row */}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-1">Share to:</span>
                       <button
-                        onClick={openSchedulePicker}
-                        disabled={saving}
-                        className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors flex items-center gap-2 disabled:opacity-50"
+                        onClick={() => handleShareTo('linkedin')}
+                        className="px-3 py-1.5 bg-[#0A66C2] text-white rounded-lg text-xs font-bold hover:bg-[#004182] transition-colors flex items-center gap-2"
                       >
-                        <Calendar size={14} />
-                        <span>Schedule</span>
+                        <Linkedin size={14} />
+                        <span>LinkedIn</span>
+                        <ExternalLink size={12} />
                       </button>
-
-                      {showSchedulePicker && (
-                        <div className="absolute bottom-full left-0 mb-2 p-4 bg-white border border-slate-200 rounded-xl shadow-lg z-10 w-72">
-                          <h4 className="text-xs font-bold text-slate-700 uppercase tracking-widest mb-3">Schedule Post</h4>
-                          <div className="space-y-3">
-                            <div>
-                              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Date</label>
-                              <input
-                                type="date"
-                                value={scheduleDate}
-                                onChange={(e) => setScheduleDate(e.target.value)}
-                                min={new Date().toISOString().split('T')[0]}
-                                className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Time</label>
-                              <input
-                                type="time"
-                                value={scheduleTime}
-                                onChange={(e) => setScheduleTime(e.target.value)}
-                                className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
-                              />
-                            </div>
-                            <div className="flex gap-2 pt-1">
-                              <button
-                                onClick={handleScheduleConfirm}
-                                disabled={saving || !scheduleDate}
-                                className="flex-1 px-3 py-2 bg-brand text-white rounded-lg text-xs font-bold hover:bg-brand/90 disabled:opacity-50 flex items-center justify-center gap-2"
-                              >
-                                <Calendar size={14} />
-                                {saving ? 'Scheduling...' : 'Confirm'}
-                              </button>
-                              <button
-                                onClick={() => setShowSchedulePicker(false)}
-                                className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50"
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </div>
-                        </div>
+                      <button
+                        onClick={() => handleShareTo('facebook')}
+                        className="px-3 py-1.5 bg-[#1877F2] text-white rounded-lg text-xs font-bold hover:bg-[#0d65d9] transition-colors flex items-center gap-2"
+                      >
+                        <Users size={14} />
+                        <span>Facebook</span>
+                        <ExternalLink size={12} />
+                      </button>
+                      <button
+                        onClick={() => handleShareTo('twitter')}
+                        className="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition-colors flex items-center gap-2"
+                      >
+                        <Twitter size={14} />
+                        <span>X / Twitter</span>
+                        <ExternalLink size={12} />
+                      </button>
+                      {copied && (
+                        <span className="text-xs font-bold text-emerald-600 flex items-center gap-1 ml-1">
+                          <Check size={14} />
+                          Copied! Paste into your post.
+                        </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={handleSaveDraft}
-                        disabled={saving}
-                        className="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-700 disabled:opacity-50"
-                      >
-                        {saving ? 'Saving...' : 'Save Draft'}
-                      </button>
-                      <button
-                        onClick={handlePublish}
-                        disabled={saving}
-                        className="px-6 py-2 bg-brand text-white rounded-xl text-sm font-bold hover:bg-brand/90 transition-colors flex items-center gap-2 disabled:opacity-50"
-                      >
-                        <Send size={16} />
-                        <span>Publish Now</span>
-                      </button>
+
+                    {/* Actions Row */}
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-2 relative">
+                        <button
+                          onClick={openSchedulePicker}
+                          disabled={saving}
+                          className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors flex items-center gap-2 disabled:opacity-50"
+                        >
+                          <Calendar size={14} />
+                          <span>Schedule</span>
+                        </button>
+                        <button
+                          onClick={async () => {
+                            const shareText = `${editTitle}\n\n${editBody}`;
+                            try { await navigator.clipboard.writeText(shareText); } catch { /* ignore */ }
+                            setCopied(true);
+                            setTimeout(() => setCopied(false), 3000);
+                          }}
+                          className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors flex items-center gap-2"
+                        >
+                          {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                          <span>{copied ? 'Copied!' : 'Copy'}</span>
+                        </button>
+
+                        {showSchedulePicker && (
+                          <div className="absolute bottom-full left-0 mb-2 p-4 bg-white border border-slate-200 rounded-xl shadow-lg z-10 w-72">
+                            <h4 className="text-xs font-bold text-slate-700 uppercase tracking-widest mb-3">Schedule Post</h4>
+                            <div className="space-y-3">
+                              <div>
+                                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Date</label>
+                                <input
+                                  type="date"
+                                  value={scheduleDate}
+                                  onChange={(e) => setScheduleDate(e.target.value)}
+                                  min={new Date().toISOString().split('T')[0]}
+                                  className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Time</label>
+                                <input
+                                  type="time"
+                                  value={scheduleTime}
+                                  onChange={(e) => setScheduleTime(e.target.value)}
+                                  className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
+                                />
+                              </div>
+                              <div className="flex gap-2 pt-1">
+                                <button
+                                  onClick={handleScheduleConfirm}
+                                  disabled={saving || !scheduleDate}
+                                  className="flex-1 px-3 py-2 bg-brand text-white rounded-lg text-xs font-bold hover:bg-brand/90 disabled:opacity-50 flex items-center justify-center gap-2"
+                                >
+                                  <Calendar size={14} />
+                                  {saving ? 'Scheduling...' : 'Confirm'}
+                                </button>
+                                <button
+                                  onClick={() => setShowSchedulePicker(false)}
+                                  className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-50"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={handleSaveDraft}
+                          disabled={saving}
+                          className="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-700 disabled:opacity-50"
+                        >
+                          {saving ? 'Saving...' : 'Save Draft'}
+                        </button>
+                        <button
+                          onClick={handlePublish}
+                          disabled={saving}
+                          className="px-6 py-2 bg-brand text-white rounded-xl text-sm font-bold hover:bg-brand/90 transition-colors flex items-center gap-2 disabled:opacity-50"
+                        >
+                          <Send size={16} />
+                          <span>Mark Published</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

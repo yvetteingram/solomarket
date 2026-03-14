@@ -360,16 +360,16 @@ export const Settings = () => {
         <SectionCard title="Connected Channels" description="Where your content gets published.">
           <div className="space-y-4">
             {[
-              { name: 'LinkedIn', icon: Linkedin, status: 'Coming Soon', color: 'text-blue-600' },
-              { name: 'Twitter / X', icon: Twitter, status: 'Coming Soon', color: 'text-sky-500' },
-              { name: 'Instagram', icon: Camera, status: 'Coming Soon', color: 'text-pink-500' },
-              { name: 'Facebook', icon: Users, status: 'Coming Soon', color: 'text-blue-500' },
-              { name: 'YouTube', icon: Play, status: 'Coming Soon', color: 'text-red-500' },
-              { name: 'TikTok', icon: Video, status: 'Coming Soon', color: 'text-slate-900' },
-              { name: 'Pinterest', icon: MapPin, status: 'Coming Soon', color: 'text-red-600' },
-              { name: 'Threads', icon: MessageCircle, status: 'Coming Soon', color: 'text-slate-700' },
-              { name: 'Email (Mailchimp)', icon: Mail, status: 'Coming Soon', color: 'text-slate-400' },
-              { name: 'Personal Blog', icon: Globe, status: 'Coming Soon', color: 'text-slate-400' },
+              { name: 'LinkedIn', icon: Linkedin, status: 'Copy & Share', enabled: true, color: 'text-blue-600' },
+              { name: 'Twitter / X', icon: Twitter, status: 'Copy & Share', enabled: true, color: 'text-sky-500' },
+              { name: 'Facebook', icon: Users, status: 'Copy & Share', enabled: true, color: 'text-blue-500' },
+              { name: 'Instagram', icon: Camera, status: 'Coming Soon', enabled: false, color: 'text-pink-500' },
+              { name: 'YouTube', icon: Play, status: 'Coming Soon', enabled: false, color: 'text-red-500' },
+              { name: 'TikTok', icon: Video, status: 'Coming Soon', enabled: false, color: 'text-slate-900' },
+              { name: 'Pinterest', icon: MapPin, status: 'Coming Soon', enabled: false, color: 'text-red-600' },
+              { name: 'Threads', icon: MessageCircle, status: 'Coming Soon', enabled: false, color: 'text-slate-700' },
+              { name: 'Email (Mailchimp)', icon: Mail, status: 'Coming Soon', enabled: false, color: 'text-slate-400' },
+              { name: 'Personal Blog', icon: Globe, status: 'Coming Soon', enabled: false, color: 'text-slate-400' },
             ].map((channel) => (
               <div key={channel.name} className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl">
                 <div className="flex items-center gap-4">
@@ -378,16 +378,25 @@ export const Settings = () => {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-slate-900">{channel.name}</h4>
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    <p className={`text-[10px] font-bold uppercase tracking-wider ${channel.enabled ? 'text-emerald-500' : 'text-slate-400'}`}>
                       {channel.status}
                     </p>
                   </div>
                 </div>
-                <button className="px-4 py-1.5 rounded-lg text-xs font-bold transition-colors bg-slate-100 text-slate-400 cursor-not-allowed" disabled>
-                  Coming Soon
-                </button>
+                {channel.enabled ? (
+                  <span className="px-4 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-600">
+                    Active
+                  </span>
+                ) : (
+                  <span className="px-4 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-400">
+                    Coming Soon
+                  </span>
+                )}
               </div>
             ))}
+            <p className="text-xs text-slate-400 text-center pt-2">
+              Active channels use Copy & Share — content is copied to your clipboard and the platform opens in a new tab.
+            </p>
           </div>
         </SectionCard>
 
