@@ -106,9 +106,9 @@ export const Plans = () => {
 
       if (!response.ok) throw new Error('Failed to save plan');
       setPlan(generatedPlan);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to generate or save plan:', err);
-      setError('Failed to generate plan. Please try again.');
+      setError(err?.message || 'Failed to generate plan. Please try again.');
     } finally {
       setGenerating(false);
     }
@@ -130,6 +130,12 @@ export const Plans = () => {
           </button>
         }
       />
+
+      {error && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-medium">
+          {error}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-4">
