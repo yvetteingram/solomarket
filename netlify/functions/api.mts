@@ -194,6 +194,16 @@ async function handleDeleteProduct(userId: string, productId: string) {
   return json({ success: true });
 }
 
+async function handleDeletePlan(userId: string, planId: string) {
+  const { error } = await getSupabase()
+    .from("marketing_plans")
+    .delete()
+    .eq("id", planId)
+    .eq("user_id", userId);
+  if (error) throw error;
+  return json({ success: true });
+}
+
 async function handleGetPlans(userId: string) {
   const { data, error } = await getSupabase()
     .from("marketing_plans")
@@ -523,6 +533,8 @@ export default async (request: Request) => {
     // Plans
     if (path === "plans" && method === "GET") return await handleGetPlans(userId);
     if (path === "plans" && method === "POST") return await handleCreatePlan(userId, body);
+    const planMatch = path.match(/^plans\/(.+)$/);
+    if (planMatch && method === "DELETE") return await handleDeletePlan(userId, planMatch[1]);
 
     // Campaigns
     if (path === "campaigns" && method === "GET") return await handleGetCampaigns(userId);
