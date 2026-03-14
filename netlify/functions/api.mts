@@ -158,23 +158,21 @@ async function handleCreateProduct(userId: string, body: any) {
   const { name, description, product_type, price_cents } = body;
   if (!name) return json({ error: "Product name is required" }, 400);
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-
-  // Build insert object with only provided fields
-  const insert: Record<string, unknown> = {
-    user_id: userId,
-    name,
-    slug,
-  };
-  if (description) insert.description = description;
-  if (product_type) insert.product_type = product_type;
-  if (price_cents) {
-    insert.price_cents = price_cents;
-    insert.price = `$${(price_cents / 100).toFixed(2)}`;
-  }
+  const product_id = `prod_${slug}_${Date.now()}`;
 
   const { data, error } = await getSupabase()
     .from("products")
-    .insert(insert)
+    .insert({
+      user_id: userId,
+      product_id,
+      name,
+      slug,
+      description: description || null,
+      product_type: product_type || "digital",
+      price_cents: price_cents || 0,
+      price: price_cents ? `$${(price_cents / 100).toFixed(2)}` : null,
+      is_active: true,
+    })
     .select()
     .single();
   if (error) {
