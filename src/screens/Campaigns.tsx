@@ -72,6 +72,34 @@ export const Campaigns = () => {
     setIsDrawerOpen(true);
   };
 
+  const deleteCampaign = async (id: string) => {
+    if (!window.confirm('Delete this campaign? This cannot be undone.')) return;
+    try {
+      const res = await apiFetch(`/api/campaigns/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete');
+      setCampaigns(prev => prev.filter(c => c.id !== id));
+      setIsDrawerOpen(false);
+      setSelectedCampaign(null);
+    } catch (err) {
+      console.error('Failed to delete campaign:', err);
+    }
+  };
+
+  const updateCampaignStatus = async (id: string, status: string) => {
+    try {
+      const res = await apiFetch(`/api/campaigns/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status, progress: status === 'completed' ? 100 : undefined })
+      });
+      if (!res.ok) throw new Error('Failed to update');
+      const updated = await res.json();
+      setCampaigns(prev => prev.map(c => c.id === id ? updated : c));
+      setSelectedCampaign(updated);
+    } catch (err) {
+      console.error('Failed to update campaign:', err);
+    }
+  };
+
   const createCampaign = async (type: string) => {
     setCreating(true);
     try {
@@ -284,7 +312,7 @@ export const Campaigns = () => {
               </div>
             </div>
 
-            <div className="p-6 border-t border-slate-100 bg-slate-50/50">
+            <div className="p-6 border-t border-slate-100 bg-slate-50/50 space-y-3">
               <button
                 onClick={() => { setIsDrawerOpen(false); navigate('/content'); }}
                 className="w-full py-3 bg-brand text-white font-bold rounded-xl hover:bg-brand/90 transition-colors flex items-center justify-center gap-2"
@@ -292,6 +320,30 @@ export const Campaigns = () => {
                 <span>Generate Campaign Content</span>
                 <ChevronRight size={16} />
               </button>
+              <div className="flex gap-2">
+                {selectedCampaign.status === 'active' && (
+                  <button
+                    onClick={() => updateCampaignStatus(selectedCampaign.id, 'completed')}
+                    className="flex-1 py-2 bg-blue-50 text-blue-600 text-sm font-bold rounded-xl hover:bg-blue-100 transition-colors"
+                  >
+                    Mark Complete
+                  </button>
+                )}
+                {selectedCampaign.status === 'completed' && (
+                  <button
+                    onClick={() => updateCampaignStatus(selectedCampaign.id, 'active')}
+                    className="flex-1 py-2 bg-emerald-50 text-emerald-600 text-sm font-bold rounded-xl hover:bg-emerald-100 transition-colors"
+                  >
+                    Reactivate
+                  </button>
+                )}
+                <button
+                  onClick={() => deleteCampaign(selectedCampaign.id)}
+                  className="px-4 py-2 bg-red-50 text-red-500 text-sm font-bold rounded-xl hover:bg-red-100 transition-colors"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </>

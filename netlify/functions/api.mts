@@ -241,6 +241,16 @@ async function handleCreateCampaign(userId: string, body: any) {
   return json(data[0]);
 }
 
+async function handleDeleteCampaign(userId: string, id: string) {
+  const { error } = await getSupabase()
+    .from("marketing_campaigns")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", userId);
+  if (error) throw error;
+  return json({ success: true });
+}
+
 async function handlePatchCampaign(userId: string, id: string, body: any) {
   const { status, progress, name } = body;
   const updates: Record<string, unknown> = {};
@@ -510,6 +520,7 @@ export default async (request: Request) => {
     if (path === "campaigns" && method === "GET") return await handleGetCampaigns(userId);
     if (path === "campaigns" && method === "POST") return await handleCreateCampaign(userId, body);
     const campaignMatch = path.match(/^campaigns\/(.+)$/);
+    if (campaignMatch && method === "DELETE") return await handleDeleteCampaign(userId, campaignMatch[1]);
     if (campaignMatch && method === "PATCH") return await handlePatchCampaign(userId, campaignMatch[1], body);
 
     // Leads
