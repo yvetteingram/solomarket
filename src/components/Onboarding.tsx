@@ -30,6 +30,7 @@ export const Onboarding = ({ hasProducts, hasPlans, hasPosts }: OnboardingProps)
   const [productPrice, setProductPrice] = useState('');
   const [addingProduct, setAddingProduct] = useState(false);
   const [productAdded, setProductAdded] = useState(hasProducts);
+  const [productError, setProductError] = useState('');
 
   const firstName = user?.user_metadata?.full_name?.split(' ')[0] ||
     user?.email?.split('@')[0]?.split(/[\._-]/)[0] || 'there';
@@ -38,6 +39,7 @@ export const Onboarding = ({ hasProducts, hasPlans, hasPosts }: OnboardingProps)
   const handleAddProduct = async () => {
     if (!productName.trim()) return;
     setAddingProduct(true);
+    setProductError('');
     try {
       const res = await apiFetch('/api/products', {
         method: 'POST',
@@ -48,14 +50,17 @@ export const Onboarding = ({ hasProducts, hasPlans, hasPosts }: OnboardingProps)
           price_cents: productPrice ? Math.round(parseFloat(productPrice) * 100) : 0,
         }),
       });
-      if (!res.ok) throw new Error('Failed to add product');
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Server error ${res.status}`);
+      }
       setProductAdded(true);
       setShowProductForm(false);
       setProductName('');
       setProductDesc('');
       setProductPrice('');
-    } catch {
-      // keep form open on error
+    } catch (err: any) {
+      setProductError(err.message || 'Failed to add product. Please try again.');
     } finally {
       setAddingProduct(false);
     }
@@ -222,6 +227,9 @@ export const Onboarding = ({ hasProducts, hasPlans, hasPosts }: OnboardingProps)
                     className="px-3 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20"
                   />
                 </div>
+                {productError && (
+                  <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{productError}</p>
+                )}
                 <div className="flex gap-2 pt-1">
                   <button
                     onClick={handleAddProduct}

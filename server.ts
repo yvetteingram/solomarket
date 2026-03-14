@@ -152,18 +152,16 @@ async function startServer() {
       if (!name) { res.status(400).json({ error: 'Product name is required' }); return; }
       const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
       const supabase = getSupabase();
+      const insert: Record<string, unknown> = { user_id: req.userId!, name, slug };
+      if (description) insert.description = description;
+      if (product_type) insert.product_type = product_type;
+      if (price_cents) {
+        insert.price_cents = price_cents;
+        insert.price = `$${(price_cents / 100).toFixed(2)}`;
+      }
       const { data, error } = await supabase
         .from('products')
-        .insert({
-          user_id: req.userId!,
-          name,
-          slug,
-          description: description || '',
-          product_type: product_type || 'digital',
-          price_cents: price_cents || 0,
-          price: price_cents ? `$${(price_cents / 100).toFixed(2)}` : '$0.00',
-          is_active: true,
-        })
+        .insert(insert)
         .select()
         .single();
       if (error) throw error;
