@@ -181,7 +181,7 @@ export const Calendar = () => {
       />
 
       {/* Stats bar */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <div className="p-4 bg-white border border-slate-200 rounded-xl">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">This Month</span>
           <p className="text-2xl font-bold text-slate-900 mt-1">{thisMonthEvents}</p>
@@ -243,7 +243,7 @@ export const Calendar = () => {
               <div className="grid grid-cols-7">
                 {calendarDays.map((day, i) => {
                   if (day === null) {
-                    return <div key={`empty-${i}`} className="min-h-[100px] border-b border-r border-slate-50 bg-slate-50/30" />;
+                    return <div key={`empty-${i}`} className="min-h-[60px] sm:min-h-[100px] border-b border-r border-slate-50 bg-slate-50/30" />;
                   }
                   const dk = dateKey(day);
                   const dayEvents = eventsByDate[dk] || [];
@@ -254,7 +254,7 @@ export const Calendar = () => {
                     <button
                       key={dk}
                       onClick={() => setSelectedDate(isSelected ? null : dk)}
-                      className={`min-h-[100px] border-b border-r border-slate-50 p-1.5 text-left transition-colors hover:bg-brand/5 ${
+                      className={`min-h-[60px] sm:min-h-[100px] border-b border-r border-slate-50 p-1 sm:p-1.5 text-left transition-colors hover:bg-brand/5 ${
                         isSelected ? 'bg-brand/5 ring-1 ring-brand/20' : ''
                       }`}
                     >

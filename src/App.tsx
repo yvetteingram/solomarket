@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Menu } from 'lucide-react';
 import { AppSidebar } from './components/AppSidebar';
 import { Dashboard } from './screens/Dashboard';
 import { Plans } from './screens/Plans';
@@ -42,6 +43,7 @@ const ID_TO_ROUTE: Record<string, string> = {
 function AppContent() {
   const { user, loading } = useAuth();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -115,12 +117,29 @@ function AppContent() {
         onNavigate={handleNavigate}
         collapsed={sidebarCollapsed}
         onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+        mobileOpen={mobileMenuOpen}
+        onMobileToggle={() => setMobileMenuOpen(false)}
       />
 
+      {/* Mobile header */}
+      <div className="fixed top-0 left-0 right-0 h-14 bg-white border-b border-slate-200 flex items-center px-4 z-30 md:hidden">
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="p-2 hover:bg-slate-100 rounded-lg text-slate-600"
+        >
+          <Menu size={22} />
+        </button>
+        <div className="flex items-center gap-2 ml-2">
+          <div className="w-7 h-7 bg-brand rounded-lg flex items-center justify-center text-white font-bold text-sm">S</div>
+          <span className="font-bold text-base tracking-tight">SoloMarket</span>
+          <span className="text-[8px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700 px-1 py-0.5 rounded">Beta</span>
+        </div>
+      </div>
+
       <main
-        className={`flex-1 transition-all duration-300 p-8 ${
-          sidebarCollapsed ? 'ml-16' : 'ml-64'
-        }`}
+        className={`flex-1 transition-all duration-300 p-4 pt-18 md:p-8 ${
+          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
+        } ml-0`}
       >
         <Routes>
           <Route path="/" element={<Dashboard />} />

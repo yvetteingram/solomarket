@@ -572,7 +572,7 @@ export const ContentLab = () => {
                 />
               </div>
 
-              <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1">
+              <div className="space-y-2 max-h-[300px] md:max-h-[600px] overflow-y-auto pr-1">
                 {loading ? (
                   <div className="p-8 text-center text-slate-400 text-sm">Loading content...</div>
                 ) : filteredContent.length === 0 ? (
@@ -777,7 +777,7 @@ export const ContentLab = () => {
 
               {/* Repurposing Suggestions */}
               {selectedContent && (
-                <div className="mt-6 grid grid-cols-3 gap-4">
+                <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {[
                     { label: 'Turn into Email', icon: Mail },
                     { label: 'Instagram Caption', icon: Camera },

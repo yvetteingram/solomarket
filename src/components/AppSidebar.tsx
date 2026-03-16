@@ -44,9 +44,11 @@ interface AppSidebarProps {
   onNavigate: (item: string) => void;
   collapsed: boolean;
   onToggle: () => void;
+  mobileOpen: boolean;
+  onMobileToggle: () => void;
 }
 
-export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle }: AppSidebarProps) => {
+export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle, mobileOpen, onMobileToggle }: AppSidebarProps) => {
   const { user, signOut } = useAuth();
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackText, setFeedbackText] = useState('');
@@ -77,12 +79,23 @@ export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle }: AppS
     }, 2000);
   };
 
+  const handleNavClick = (id: string) => {
+    onNavigate(id);
+    onMobileToggle(); // close mobile menu on navigate
+  };
+
   return (
     <>
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 bg-slate-900/40 z-40 md:hidden" onClick={onMobileToggle} />
+      )}
+
       <aside
-        className={`fixed left-0 top-0 h-screen bg-white border-r border-slate-200 transition-all duration-300 z-50 flex flex-col ${
-          collapsed ? 'w-16' : 'w-64'
-        }`}
+        className={`fixed left-0 top-0 h-screen bg-white border-r border-slate-200 transition-all duration-300 z-50 flex flex-col
+          ${collapsed ? 'w-16' : 'w-64'}
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
+        `}
       >
         <div className="p-4 flex items-center justify-between border-b border-slate-100">
           {!collapsed && (
@@ -107,7 +120,7 @@ export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle }: AppS
               icon={item.icon}
               label={item.label}
               active={activeItem === item.id}
-              onClick={() => onNavigate(item.id)}
+              onClick={() => handleNavClick(item.id)}
               collapsed={collapsed}
             />
           ))}
