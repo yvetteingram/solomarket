@@ -415,7 +415,7 @@ export const ContentLab = () => {
             className="px-4 py-2 bg-brand text-white rounded-lg text-sm font-medium hover:bg-brand/90 transition-colors flex items-center gap-2 disabled:opacity-50"
           >
             <Plus size={16} />
-            <span>New Content Batch</span>
+            <span>Generate Content</span>
           </button>
         }
       />
@@ -648,7 +648,7 @@ export const ContentLab = () => {
                   <div className="p-4 border-t border-slate-100 bg-slate-50/50 space-y-3">
                     {/* Share to Platform Row */}
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-1">Share to:</span>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-1">Copy & open:</span>
                       <button
                         onClick={() => handleShareTo('linkedin')}
                         className="px-3 py-1.5 bg-[#0A66C2] text-white rounded-lg text-xs font-bold hover:bg-[#004182] transition-colors flex items-center gap-2"

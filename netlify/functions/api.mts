@@ -184,6 +184,27 @@ async function handleCreateProduct(userId: string, body: any) {
   return json(data, 201);
 }
 
+async function handleUpdateProduct(userId: string, productId: string, body: any) {
+  const { name, description, product_type, price_cents } = body;
+  const updates: Record<string, unknown> = {};
+  if (name !== undefined) updates.name = name;
+  if (description !== undefined) updates.description = description;
+  if (product_type !== undefined) updates.product_type = product_type;
+  if (price_cents !== undefined) {
+    updates.price_cents = price_cents;
+    updates.price = price_cents ? `$${(price_cents / 100).toFixed(2)}` : null;
+  }
+  const { data, error } = await getSupabase()
+    .from("products")
+    .update(updates)
+    .eq("id", productId)
+    .eq("user_id", userId)
+    .select()
+    .single();
+  if (error) throw error;
+  return json(data);
+}
+
 async function handleDeleteProduct(userId: string, productId: string) {
   const { error } = await getSupabase()
     .from("products")
@@ -528,6 +549,7 @@ export default async (request: Request) => {
     if (path === "products" && method === "GET") return await handleGetProducts(userId);
     if (path === "products" && method === "POST") return await handleCreateProduct(userId, body);
     const productMatch = path.match(/^products\/(.+)$/);
+    if (productMatch && method === "PATCH") return await handleUpdateProduct(userId, productMatch[1], body);
     if (productMatch && method === "DELETE") return await handleDeleteProduct(userId, productMatch[1]);
 
     // Plans

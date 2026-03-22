@@ -175,6 +175,32 @@ async function startServer() {
     }
   });
 
+  app.patch("/api/products/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const supabase = getSupabase();
+      const { name, description, product_type, price_cents } = req.body;
+      const updates: Record<string, unknown> = {};
+      if (name !== undefined) updates.name = name;
+      if (description !== undefined) updates.description = description;
+      if (product_type !== undefined) updates.product_type = product_type;
+      if (price_cents !== undefined) {
+        updates.price_cents = price_cents;
+        updates.price = price_cents ? `$${(price_cents / 100).toFixed(2)}` : null;
+      }
+      const { data, error } = await supabase
+        .from('products')
+        .update(updates)
+        .eq('id', req.params.id)
+        .eq('user_id', req.userId!)
+        .select()
+        .single();
+      if (error) throw error;
+      res.json(data);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update product' });
+    }
+  });
+
   app.delete("/api/products/:id", requireAuth, async (req: Request, res: Response) => {
     try {
       const supabase = getSupabase();

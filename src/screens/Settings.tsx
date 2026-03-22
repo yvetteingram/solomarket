@@ -14,7 +14,8 @@ import {
   Play,
   Video,
   MapPin,
-  MessageCircle
+  MessageCircle,
+  Pencil
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
@@ -45,6 +46,8 @@ export const Settings = () => {
   const [products, setProducts] = useState<{ id: string; name: string; description: string; product_type: string; price_cents: number }[]>([]);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [newProduct, setNewProduct] = useState({ name: '', description: '', product_type: 'digital', price: '' });
+  const [editingProductId, setEditingProductId] = useState<string | null>(null);
+  const [editProduct, setEditProduct] = useState({ name: '', description: '', product_type: 'digital', price: '' });
 
   useEffect(() => {
     apiFetch('/api/settings')
@@ -90,6 +93,37 @@ export const Settings = () => {
       setShowAddProduct(false);
     } catch {
       setError('Failed to add product. Please try again.');
+    }
+  };
+
+  const startEditProduct = (product: { id: string; name: string; description: string; product_type: string; price_cents: number }) => {
+    setEditingProductId(product.id);
+    setEditProduct({
+      name: product.name,
+      description: product.description || '',
+      product_type: product.product_type,
+      price: product.price_cents > 0 ? (product.price_cents / 100).toFixed(2) : ''
+    });
+  };
+
+  const handleUpdateProduct = async () => {
+    if (!editingProductId || !editProduct.name.trim()) return;
+    try {
+      const res = await apiFetch(`/api/products/${editingProductId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          name: editProduct.name.trim(),
+          description: editProduct.description.trim(),
+          product_type: editProduct.product_type,
+          price_cents: editProduct.price ? Math.round(parseFloat(editProduct.price) * 100) : 0,
+        }),
+      });
+      if (!res.ok) throw new Error('Failed to update product');
+      const updated = await res.json();
+      setProducts(prev => prev.map(p => p.id === editingProductId ? updated : p));
+      setEditingProductId(null);
+    } catch {
+      setError('Failed to update product. Please try again.');
     }
   };
 
@@ -216,24 +250,104 @@ export const Settings = () => {
             )}
 
             {products.map((product) => (
-              <div key={product.id} className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
-                    <Package size={18} />
+              <div key={product.id}>
+                {editingProductId === product.id ? (
+                  <div className="p-5 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Product Name *</label>
+                      <input
+                        type="text"
+                        value={editProduct.name}
+                        onChange={(e) => setEditProduct(p => ({ ...p, name: e.target.value }))}
+                        className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand/20"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Description</label>
+                      <textarea
+                        value={editProduct.description}
+                        onChange={(e) => setEditProduct(p => ({ ...p, description: e.target.value }))}
+                        className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand/20 h-20 resize-none"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Type</label>
+                        <select
+                          value={editProduct.product_type}
+                          onChange={(e) => setEditProduct(p => ({ ...p, product_type: e.target.value }))}
+                          className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand/20"
+                        >
+                          <option value="digital">Digital Product</option>
+                          <option value="course">Course</option>
+                          <option value="ebook">E-book</option>
+                          <option value="template">Template</option>
+                          <option value="saas">SaaS</option>
+                          <option value="service">Service</option>
+                          <option value="membership">Membership</option>
+                          <option value="other">Other</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Price (USD)</label>
+                        <input
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          value={editProduct.price}
+                          onChange={(e) => setEditProduct(p => ({ ...p, price: e.target.value }))}
+                          placeholder="0.00"
+                          className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-brand/20"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex gap-2 pt-1">
+                      <button
+                        onClick={handleUpdateProduct}
+                        disabled={!editProduct.name.trim()}
+                        className="px-5 py-2 bg-brand text-white rounded-xl text-sm font-bold hover:bg-brand/90 transition-colors disabled:opacity-50"
+                      >
+                        Save Changes
+                      </button>
+                      <button
+                        onClick={() => setEditingProductId(null)}
+                        className="px-5 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-900">{product.name}</h4>
-                    <p className="text-[10px] text-slate-400">
-                      {product.product_type} {product.price_cents > 0 ? `· $${(product.price_cents / 100).toFixed(2)}` : '· Free'}
-                    </p>
+                ) : (
+                  <div className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                        <Package size={18} />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-slate-900">{product.name}</h4>
+                        <p className="text-[10px] text-slate-400">
+                          {product.product_type} {product.price_cents > 0 ? `· $${(product.price_cents / 100).toFixed(2)}` : '· Free'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => startEditProduct(product)}
+                        className="p-2 text-slate-300 hover:text-brand transition-colors"
+                        title="Edit product"
+                      >
+                        <Pencil size={16} />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteProduct(product.id)}
+                        className="p-2 text-slate-300 hover:text-red-500 transition-colors"
+                        title="Delete product"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <button
-                  onClick={() => handleDeleteProduct(product.id)}
-                  className="p-2 text-slate-300 hover:text-red-500 transition-colors"
-                >
-                  <Trash2 size={16} />
-                </button>
+                )}
               </div>
             ))}
 
