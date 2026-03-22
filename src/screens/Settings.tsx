@@ -499,7 +499,7 @@ export const Settings = () => {
                 </div>
                 {channel.enabled ? (
                   <span className="px-4 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-600">
-                    Active
+                    Copy &amp; Share
                   </span>
                 ) : (
                   <span className="px-4 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-400">

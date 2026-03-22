@@ -15,6 +15,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { Auth } from './screens/Auth';
 import { LandingPage } from './screens/LandingPage';
 import { QuickStart } from './screens/QuickStart';
+import { AIAssistant } from './screens/AIAssistant';
 import { apiFetch } from './services/api';
 
 const ROUTE_TO_ID: Record<string, string> = {
@@ -26,6 +27,7 @@ const ROUTE_TO_ID: Record<string, string> = {
   '/leads': 'leads',
   '/analytics': 'analytics',
   '/settings': 'settings',
+  '/ai-assistant': 'ai-assistant',
   '/welcome': 'dashboard',
 };
 
@@ -37,6 +39,7 @@ const ID_TO_ROUTE: Record<string, string> = {
   'calendar': '/calendar',
   'leads': '/leads',
   'analytics': '/analytics',
+  'ai-assistant': '/ai-assistant',
   'settings': '/settings',
 };
 
@@ -152,6 +155,7 @@ function AppContent() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/leads" element={<Leads />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/ai-assistant" element={<AIAssistant />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/quick-start" element={<QuickStart />} />
           <Route path="*" element={<Navigate to="/" replace />} />

@@ -12,7 +12,8 @@ import {
   ChevronRight,
   LogOut,
   MessageSquareText,
-  X
+  X,
+  Bot
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -62,6 +63,7 @@ export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle, mobile
     { id: 'calendar', label: 'Calendar', icon: Calendar },
     { id: 'leads', label: 'Leads', icon: Users },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'ai-assistant', label: 'AI Assistant', icon: Bot },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
