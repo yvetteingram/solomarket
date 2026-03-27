@@ -1,19 +1,25 @@
 import { createClient } from "@supabase/supabase-js";
 
-// Lazy Supabase singleton (typed as any to skip schema inference — no generated types)
 let supabase: any = null;
 function getSupabase(): any {
   if (supabase) return supabase;
   const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
-    throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY env vars");
+    console.error(
+      "FATAL: Missing env vars. Ensure SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in Netlify."
+    );
+    throw new Error("Server configuration error. Please contact support.");
   }
-  supabase = createClient(url, key);
+  supabase = createClient(url, key, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
   return supabase;
 }
 
-// Auth helper — returns userId or null
 async function authenticate(request: Request): Promise<string | null> {
   const authHeader = request.headers.get("authorization");
   if (!authHeader?.startsWith("Bearer ")) return null;
@@ -27,7 +33,6 @@ async function authenticate(request: Request): Promise<string | null> {
   }
 }
 
-// JSON response helpers
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
@@ -38,8 +43,6 @@ function json(data: unknown, status = 200) {
 function unauthorized() {
   return json({ error: "Unauthorized" }, 401);
 }
-
-// ---- Route handlers ----
 
 async function handleHealth() {
   return json({ status: "ok" });
@@ -464,18 +467,34 @@ async function handleAnalyticsLeadSources(userId: string) {
 
 async function handleEnsureProfile(userId: string) {
   const sb = getSupabase();
-  const { data: existing } = await sb
-    .from("profiles")
-    .select("id")
-    .eq("id", userId)
-    .single();
 
-  if (!existing) {
-    const { error } = await sb.from("profiles").insert({ id: userId });
-    if (error && error.code !== "23505") throw error; // ignore duplicate key
+  try {
+    const { error } = await sb
+      .from("profiles")
+      .upsert(
+        {
+          id: userId,
+          full_name: "",
+          industry: "",
+          system_profile: {},
+          beta_access: true,
+        },
+        {
+          onConflict: "id",
+          ignoreDuplicates: true,
+        }
+      );
+
+    if (error && error.code !== "23505") {
+      console.error("ensure-profile error:", error);
+      return json({ error: "Failed to initialize user profile: " + error.message }, 500);
+    }
+
+    return json({ ok: true });
+  } catch (err: any) {
+    console.error("ensure-profile unexpected error:", err);
+    return json({ error: "Unexpected error initializing profile" }, 500);
   }
-
-  return json({ ok: true });
 }
 
 async function handleGetSettings(userId: string) {
@@ -534,19 +553,15 @@ async function handlePutSettings(userId: string, body: any) {
 export default async (request: Request) => {
   const url = new URL(request.url);
   const method = request.method;
-  // Strip /api/ prefix to get route path
   const path = url.pathname.replace(/^\/api\/?/, "");
 
-  // Public routes
   if (path === "health" && method === "GET") {
     return handleHealth();
   }
 
-  // All other routes require auth
   const userId = await authenticate(request);
   if (!userId) return unauthorized();
 
-  // Parse body for non-GET requests
   let body: any = null;
   if (method !== "GET") {
     try {
@@ -557,50 +572,41 @@ export default async (request: Request) => {
   }
 
   try {
-    // Dashboard
     if (path === "dashboard/summary" && method === "GET") return await handleDashboardSummary(userId);
     if (path === "dashboard/tasks" && method === "GET") return await handleDashboardTasks(userId);
 
-    // Products
     if (path === "products" && method === "GET") return await handleGetProducts(userId);
     if (path === "products" && method === "POST") return await handleCreateProduct(userId, body);
     const productMatch = path.match(/^products\/(.+)$/);
     if (productMatch && method === "PATCH") return await handleUpdateProduct(userId, productMatch[1], body);
     if (productMatch && method === "DELETE") return await handleDeleteProduct(userId, productMatch[1]);
 
-    // Plans
     if (path === "plans" && method === "GET") return await handleGetPlans(userId);
     if (path === "plans" && method === "POST") return await handleCreatePlan(userId, body);
     const planMatch = path.match(/^plans\/(.+)$/);
     if (planMatch && method === "DELETE") return await handleDeletePlan(userId, planMatch[1]);
 
-    // Campaigns
     if (path === "campaigns" && method === "GET") return await handleGetCampaigns(userId);
     if (path === "campaigns" && method === "POST") return await handleCreateCampaign(userId, body);
     const campaignMatch = path.match(/^campaigns\/(.+)$/);
     if (campaignMatch && method === "DELETE") return await handleDeleteCampaign(userId, campaignMatch[1]);
     if (campaignMatch && method === "PATCH") return await handlePatchCampaign(userId, campaignMatch[1], body);
 
-    // Leads
     if (path === "leads" && method === "GET") return await handleGetLeads(userId);
 
-    // Posts
     if (path === "posts" && method === "GET") return await handleGetPosts(userId);
     if (path === "posts" && method === "POST") return await handleCreatePost(userId, body);
     const postMatch = path.match(/^posts\/(.+)$/);
     if (postMatch && method === "DELETE") return await handleDeletePost(userId, postMatch[1]);
     if (postMatch && method === "PATCH") return await handlePatchPost(userId, postMatch[1], body);
 
-    // Analytics
     if (path === "analytics/summary" && method === "GET") return await handleAnalyticsSummary(userId);
     if (path === "analytics/top-content" && method === "GET") return await handleAnalyticsTopContent(userId);
     if (path === "analytics/campaign-performance" && method === "GET") return await handleAnalyticsCampaignPerformance(userId);
     if (path === "analytics/lead-sources" && method === "GET") return await handleAnalyticsLeadSources(userId);
 
-    // Profile bootstrap
     if (path === "ensure-profile" && method === "POST") return await handleEnsureProfile(userId);
 
-    // Settings
     if (path === "settings" && method === "GET") return await handleGetSettings(userId);
     if (path === "settings" && method === "PUT") return await handlePutSettings(userId, body);
 
