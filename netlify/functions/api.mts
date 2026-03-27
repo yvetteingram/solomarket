@@ -462,6 +462,22 @@ async function handleAnalyticsLeadSources(userId: string) {
   return json({ total, sources });
 }
 
+async function handleEnsureProfile(userId: string) {
+  const sb = getSupabase();
+  const { data: existing } = await sb
+    .from("profiles")
+    .select("id")
+    .eq("id", userId)
+    .single();
+
+  if (!existing) {
+    const { error } = await sb.from("profiles").insert({ id: userId });
+    if (error && error.code !== "23505") throw error; // ignore duplicate key
+  }
+
+  return json({ ok: true });
+}
+
 async function handleGetSettings(userId: string) {
   const { data, error } = await getSupabase()
     .from("profiles")
@@ -580,6 +596,9 @@ export default async (request: Request) => {
     if (path === "analytics/top-content" && method === "GET") return await handleAnalyticsTopContent(userId);
     if (path === "analytics/campaign-performance" && method === "GET") return await handleAnalyticsCampaignPerformance(userId);
     if (path === "analytics/lead-sources" && method === "GET") return await handleAnalyticsLeadSources(userId);
+
+    // Profile bootstrap
+    if (path === "ensure-profile" && method === "POST") return await handleEnsureProfile(userId);
 
     // Settings
     if (path === "settings" && method === "GET") return await handleGetSettings(userId);

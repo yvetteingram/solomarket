@@ -76,6 +76,31 @@ async function startServer() {
 
   // --- Protected routes (require auth) ---
 
+  // Ensure a profiles row exists for the authenticated user.
+  // Called after signup so the app doesn't depend on a DB trigger.
+  app.post("/api/ensure-profile", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const supabase = getSupabase();
+      const { data: existing } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', req.userId!)
+        .single();
+
+      if (!existing) {
+        const { error } = await supabase
+          .from('profiles')
+          .insert({ id: req.userId! });
+        if (error && error.code !== '23505') throw error; // ignore duplicate key
+      }
+
+      res.json({ ok: true });
+    } catch (error) {
+      console.error('ensure-profile error:', error);
+      res.status(500).json({ error: 'Failed to ensure profile' });
+    }
+  });
+
   app.get("/api/dashboard/summary", requireAuth, async (req: Request, res: Response) => {
     try {
       const supabase = getSupabase();

@@ -44,6 +44,15 @@ export function Auth() {
         if (error) throw error;
         // If Supabase returns a session, user is auto-confirmed and logged in
         if (data.session) {
+          // Create the profile row so the app doesn't depend on a DB trigger
+          try {
+            await fetch('/api/ensure-profile', {
+              method: 'POST',
+              headers: { Authorization: `Bearer ${data.session.access_token}` },
+            });
+          } catch (e) {
+            console.warn('ensure-profile call failed (non-fatal):', e);
+          }
           // Auth context will pick up the session automatically
           return;
         }
