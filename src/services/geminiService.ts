@@ -45,8 +45,14 @@ export const generateMarketingPlan = async (product: any): Promise<PlanWeek[]> =
 
   const text = response.choices[0]?.message?.content || "[]";
   const parsed = JSON.parse(text);
-  // Handle both { weeks: [...] } and direct array format
-  return Array.isArray(parsed) ? parsed : (parsed.weeks || parsed.plan || []);
+  if (Array.isArray(parsed)) return parsed;
+  // Try common wrapper keys the model might use
+  for (const key of ['weeks', 'plan', 'marketing_plan', 'marketingPlan', 'planWeeks', 'week_plans', 'monthly_plan', 'four_week_plan', 'schedule']) {
+    if (Array.isArray(parsed[key])) return parsed[key];
+  }
+  // Last resort: find any array value in the object
+  const firstArray = Object.values(parsed).find(v => Array.isArray(v));
+  return (firstArray as PlanWeek[]) || [];
 };
 
 export const generateImagePrompt = async (params: {

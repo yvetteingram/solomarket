@@ -248,7 +248,8 @@ async function startServer() {
       const { data, error } = await supabase
         .from('marketing_plans')
         .select('*, products(name)')
-        .eq('user_id', req.userId!);
+        .eq('user_id', req.userId!)
+        .order('created_at', { ascending: false });
       if (error) throw error;
       res.json(data);
     } catch (error) {
@@ -362,7 +363,8 @@ async function startServer() {
       const { data, error } = await supabase
         .from('marketing_posts')
         .select('*')
-        .eq('user_id', req.userId!);
+        .eq('user_id', req.userId!)
+        .order('created_at', { ascending: false });
       if (error) throw error;
       res.json(data);
     } catch (error) {
@@ -372,7 +374,7 @@ async function startServer() {
 
   app.post("/api/posts", requireAuth, async (req: Request, res: Response) => {
     try {
-      const { platform, title, content, status, campaign_id, scheduled_at } = req.body;
+      const { platform, title, content, status, campaign_id, scheduled_at, product_id } = req.body;
       if (!platform || !title || !content) {
         res.status(400).json({ error: 'platform, title, and content are required' });
         return;
@@ -389,6 +391,7 @@ async function startServer() {
           status: status || 'draft',
           campaign_id: campaign_id || null,
           scheduled_at: scheduled_at || null,
+          product_id: product_id || null,
         }])
         .select();
       if (error) throw error;

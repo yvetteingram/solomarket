@@ -32,6 +32,7 @@ export const Plans = () => {
   const navigate = useNavigate();
   const [generating, setGenerating] = useState(false);
   const [plan, setPlan] = useState<PlanWeek[] | null>(null);
+  const [activePlanId, setActivePlanId] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProductId, setSelectedProductId] = useState('');
   const [goal, setGoal] = useState('Lead Generation');
@@ -68,13 +69,17 @@ export const Plans = () => {
     apiFetch('/api/plans')
       .then(res => res.ok ? res.json() : [])
       .then(data => {
-        setSavedPlans(Array.isArray(data) ? data : []);
+        const plans = Array.isArray(data) ? data : [];
+        setSavedPlans(plans);
         // Show the most recent plan if we have one and none is currently displayed
-        if (Array.isArray(data) && data.length > 0 && !plan) {
-          const latest = data[0];
+        if (plans.length > 0 && !plan) {
+          const latest = plans[0];
           try {
             const weeks = typeof latest.plan_json === 'string' ? JSON.parse(latest.plan_json) : latest.plan_json;
-            if (Array.isArray(weeks) && weeks.length > 0) setPlan(weeks);
+            if (Array.isArray(weeks) && weeks.length > 0) {
+              setPlan(weeks);
+              setActivePlanId(latest.id);
+            }
           } catch { /* ignore */ }
         }
       })
@@ -136,7 +141,9 @@ export const Plans = () => {
       });
 
       if (!response.ok) throw new Error('Failed to save plan');
+      const saved = await response.json();
       setPlan(generatedPlan);
+      setActivePlanId(saved.id);
       fetchPlans();
     } catch (err: any) {
       console.error('Failed to generate or save plan:', err);
@@ -152,8 +159,17 @@ export const Plans = () => {
     try {
       const res = await apiFetch(`/api/plans/${planId}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Failed to delete plan');
-      setSavedPlans(prev => prev.filter(p => p.id !== planId));
+      const remaining = savedPlans.filter(p => p.id !== planId);
+      setSavedPlans(remaining);
+      if (remaining.length > 0) {
+        try {
+          const next = remaining[0];
+          const weeks = typeof next.plan_json === 'string' ? JSON.parse(next.plan_json) : next.plan_json;
+          if (Array.isArray(weeks)) { setPlan(weeks); setActivePlanId(next.id); return; }
+        } catch { /* ignore */ }
+      }
       setPlan(null);
+      setActivePlanId(null);
     } catch {
       setError('Failed to delete plan.');
     } finally {
@@ -414,6 +430,36 @@ export const Plans = () => {
 
           {plan && (
             <div className="space-y-6">
+              {/* Plan history selector */}
+              {savedPlans.length > 1 && (
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Saved Plans:</span>
+                  {savedPlans.map((p, i) => {
+                    const label = p.products?.name
+                      ? `${p.products.name} — ${new Date(p.created_at).toLocaleDateString()}`
+                      : `Plan ${savedPlans.length - i} — ${new Date(p.created_at).toLocaleDateString()}`;
+                    return (
+                      <button
+                        key={p.id}
+                        onClick={() => {
+                          try {
+                            const weeks = typeof p.plan_json === 'string' ? JSON.parse(p.plan_json) : p.plan_json;
+                            if (Array.isArray(weeks)) { setPlan(weeks); setActivePlanId(p.id); }
+                          } catch { /* ignore */ }
+                        }}
+                        className={`px-3 py-1 text-xs font-bold rounded-lg border transition-colors ${
+                          activePlanId === p.id
+                            ? 'bg-brand text-white border-brand'
+                            : 'bg-white text-slate-600 border-slate-200 hover:border-brand/40'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-emerald-50 p-4 rounded-xl border border-emerald-100">
                 <div className="flex items-center gap-3 text-emerald-700">
                   <CheckCircle2 size={20} />
@@ -434,9 +480,9 @@ export const Plans = () => {
                     <FileText size={14} />
                     <span>Generate Content</span>
                   </button>
-                  {savedPlans.length > 0 && (
+                  {activePlanId && (
                     <button
-                      onClick={() => handleDeletePlan(savedPlans[0].id)}
+                      onClick={() => handleDeletePlan(activePlanId)}
                       disabled={deletingPlanId !== null}
                       className="px-3 py-1.5 bg-white text-red-600 text-xs font-bold rounded-lg border border-red-200 hover:bg-red-50 transition-colors flex items-center gap-2 disabled:opacity-50"
                     >

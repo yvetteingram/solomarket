@@ -42,6 +42,7 @@ interface ContentItem {
   preview: string;
   status: 'Draft' | 'Scheduled' | 'Published';
   scheduledAt?: string;
+  productId?: string | null;
 }
 
 export const ContentLab = () => {
@@ -137,13 +138,14 @@ export const ContentLab = () => {
         setProducts(productsData);
         if (productsData.length > 0) setSelectedProductId(productsData[0].id);
 
-        const mappedPosts: ContentItem[] = postsData.map((post: { id: string; platform: string; title: string; content: string; status: string; scheduled_at?: string }) => ({
+        const mappedPosts: ContentItem[] = postsData.map((post: { id: string; platform: string; title: string; content: string; status: string; scheduled_at?: string; product_id?: string }) => ({
           id: post.id,
           type: post.platform as ContentItem['type'],
           title: post.title,
           preview: post.content,
           status: post.status === 'published' ? 'Published' : post.status === 'scheduled' ? 'Scheduled' : 'Draft',
-          scheduledAt: post.scheduled_at
+          scheduledAt: post.scheduled_at,
+          productId: post.product_id || null,
         }));
 
         setContent(mappedPosts);
@@ -203,24 +205,33 @@ export const ContentLab = () => {
   };
 
   const filteredContent = useMemo(() => {
-    if (!searchQuery.trim()) return content;
+    let items = content;
+    // Filter by selected product if any posts have product_id set
+    const hasProductTagged = content.some(c => c.productId);
+    if (hasProductTagged && selectedProductId) {
+      items = items.filter(c => !c.productId || c.productId === selectedProductId);
+    }
+    if (!searchQuery.trim()) return items;
     const q = searchQuery.toLowerCase();
-    return content.filter(item =>
+    return items.filter(item =>
       item.title.toLowerCase().includes(q) ||
       item.type.toLowerCase().includes(q) ||
       item.preview.toLowerCase().includes(q)
     );
-  }, [content, searchQuery]);
+  }, [content, searchQuery, selectedProductId]);
 
-  const handleGenerate = async () => {
+  const handleGenerate = async (overrideType?: string, overrideTopic?: string) => {
     const product = products.find(p => p.id === selectedProductId);
     if (!product) return;
+
+    const useType = overrideType || contentType;
+    const useTopic = overrideTopic || topic;
 
     setGenerating(true);
     try {
       const draft = await generateContentDraft({
-        type: contentType,
-        topic,
+        type: useType,
+        topic: useTopic,
         goal,
         product
       });
@@ -240,13 +251,14 @@ export const ContentLab = () => {
         'Threads Post': 'Threads',
       };
 
-      const platform = typeMap[contentType] || 'LinkedIn';
+      const platform = typeMap[useType] || 'LinkedIn';
 
       const response = await apiFetch('/api/posts', {
         method: 'POST',
         body: JSON.stringify({
           platform,
-          title: topic || `New ${contentType}`,
+          title: useTopic || `New ${useType}`,
+          product_id: selectedProductId || null,
           content: draft,
           status: 'draft'
         })
@@ -356,8 +368,11 @@ export const ContentLab = () => {
       'TikTok Script': 'TikTok Script',
       'YouTube Short': 'YouTube Shorts Script',
     };
-    setContentType(typeMap[targetType] || 'LinkedIn Post');
-    setTopic(`Repurpose: ${selectedContent.title}`);
+    const newType = typeMap[targetType] || 'LinkedIn Post';
+    const newTopic = `Repurpose: ${selectedContent.title}`;
+    setContentType(newType);
+    setTopic(newTopic);
+    handleGenerate(newType, newTopic);
   };
 
   const handleDelete = async () => {

@@ -289,30 +289,48 @@ export const Campaigns = () => {
               <div>
                 <h4 className="text-xs font-bold text-slate-900 uppercase tracking-widest mb-4">Suggested Next Steps</h4>
                 <div className="space-y-3">
-                  <button
-                    onClick={() => { setIsDrawerOpen(false); navigate('/content'); }}
-                    className="w-full flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl hover:border-brand/20 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-slate-50 rounded text-slate-400">
-                        <FileText size={16} />
-                      </div>
-                      <span className="text-sm font-medium text-slate-700">Create Campaign Content</span>
-                    </div>
-                    <ChevronRight size={16} className="text-slate-300" />
-                  </button>
-                  <button
-                    onClick={() => { setIsDrawerOpen(false); navigate('/leads'); }}
-                    className="w-full flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl hover:border-brand/20 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-slate-50 rounded text-slate-400">
-                        <Users size={16} />
-                      </div>
-                      <span className="text-sm font-medium text-slate-700">View Lead Pipeline</span>
-                    </div>
-                    <ChevronRight size={16} className="text-slate-300" />
-                  </button>
+                  {(() => {
+                    const type = selectedCampaign.type;
+                    const steps: Array<{ label: string; sub: string; icon: React.ElementType; path: string; state?: object }> =
+                      type === 'Product Launch' ? [
+                        { label: 'Write launch announcement', sub: 'Draft your launch post or email', icon: FileText, path: '/content', state: { topic: `${selectedCampaign.name} launch announcement` } },
+                        { label: 'Set up social posts', sub: 'Create LinkedIn + Twitter content', icon: TrendingUp, path: '/content', state: { topic: `${selectedCampaign.name} social campaign` } },
+                        { label: 'Check lead pipeline', sub: "See who's ready to buy", icon: Users, path: '/leads' },
+                      ] : type === 'Lead Generation' ? [
+                        { label: 'Create lead magnet content', sub: 'Write the freebie or guide copy', icon: FileText, path: '/content', state: { topic: `Lead magnet for ${selectedCampaign.name}` } },
+                        { label: 'Draft opt-in email', sub: 'Welcome email for new subscribers', icon: Target, path: '/content', state: { topic: 'Welcome email for new subscribers' } },
+                        { label: 'Track incoming leads', sub: 'Review and update your pipeline', icon: Users, path: '/leads' },
+                      ] : type === 'Authority Building' ? [
+                        { label: 'Write cornerstone content', sub: 'Blog outline or LinkedIn article', icon: FileText, path: '/content', state: { topic: `Expert guide: ${selectedCampaign.name}` } },
+                        { label: 'Plan a content series', sub: '4-week educational post series', icon: TrendingUp, path: '/content', state: { topic: `${selectedCampaign.name} educational series` } },
+                        { label: 'Engage warm leads', sub: 'Follow up with interested prospects', icon: Users, path: '/leads' },
+                      ] : type === 'Email Growth' ? [
+                        { label: 'Write opt-in incentive copy', sub: 'Describe what subscribers get', icon: FileText, path: '/content', state: { topic: `Email newsletter opt-in incentive` } },
+                        { label: 'Draft welcome sequence', sub: 'First 3 emails for new subscribers', icon: Target, path: '/content', state: { topic: 'Welcome email sequence — 3 parts' } },
+                        { label: 'Review subscriber leads', sub: 'See who signed up recently', icon: Users, path: '/leads' },
+                      ] : [
+                        { label: 'Create campaign content', sub: 'Generate posts or emails', icon: FileText, path: '/content' },
+                        { label: 'View lead pipeline', sub: 'Track your prospects', icon: Users, path: '/leads' },
+                      ];
+                    return steps.map((step, i) => (
+                      <button
+                        key={i}
+                        onClick={() => { setIsDrawerOpen(false); navigate(step.path, step.state ? { state: step.state } : undefined); }}
+                        className="w-full flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl hover:border-brand/20 transition-colors text-left"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-slate-50 rounded text-slate-400">
+                            <step.icon size={16} />
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-slate-700">{step.label}</p>
+                            <p className="text-[10px] text-slate-400">{step.sub}</p>
+                          </div>
+                        </div>
+                        <ChevronRight size={16} className="text-slate-300 flex-shrink-0" />
+                      </button>
+                    ));
+                  })()}
                 </div>
               </div>
             </div>
