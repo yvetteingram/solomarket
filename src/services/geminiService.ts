@@ -14,23 +14,32 @@ export const generateMarketingPlan = async (product: any): Promise<PlanWeek[]> =
   Product Type: ${product.product_type || product.product_category || 'General'}
   Price: ${priceDisplay}
 
+  CRITICAL RULES FOR SPECIFICITY — every action must include:
+  - REAL platform/community names (e.g. "r/Entrepreneur", "Indie Hackers", "Creator Economy Facebook Group", "Skool AI Automation Hub") — not vague phrases like "online communities"
+  - EXACT numbers (e.g. "offer a 20% launch discount", "DM 10 micro-influencers with 5k-20k followers", "post 3x per week")
+  - NAMED channels or tools where relevant (e.g. "Twitter/X", "LinkedIn newsletter", "Beehiiv", "ConvertKit", "ProductHunt")
+  - CONCRETE next steps (e.g. "write a cold outreach template offering a 30-day free trial", not "reach out to potential partners")
+
+  BAD example action: "Partner with writing communities to offer exclusive discounts"
+  GOOD example action: "Reach out to 3 communities (Indie Hackers, r/SideProject, and Creator Economy Skool group) with a 25% launch discount code valid for 7 days — DM the community admins first"
+
   The plan should focus on building authority and driving conversions.
   Return ONLY a valid JSON array of 4 weeks, where each week has:
   - week: number (1-4)
   - theme: string (the focus of the week)
-  - actions: string[] (3-4 specific marketing actions)
-  - contentPrompts: string[] (2-3 content ideas)
-  - conversionActivity: string (the primary call to action for that week)
+  - actions: string[] (3-4 specific marketing actions, each following the SPECIFICITY rules above)
+  - contentPrompts: string[] (2-3 content ideas with a named platform and angle, e.g. "LinkedIn post: behind-the-scenes of building [product name] — target founders and freelancers")
+  - conversionActivity: string (a concrete CTA with specific offer, platform, and deadline)
 
   Return ONLY the JSON array, no markdown, no code fences.`;
 
   const response = await groq.chat.completions.create({
     model: "llama-3.3-70b-versatile",
     messages: [
-      { role: "system", content: "You are a marketing strategist. Always respond with valid JSON only, no markdown formatting." },
+      { role: "system", content: "You are a senior marketing strategist who gives hyper-specific, actionable advice. Always name real platforms, communities, and exact numbers. Never use vague language. Always respond with valid JSON only, no markdown formatting." },
       { role: "user", content: prompt }
     ],
-    temperature: 0.7,
+    temperature: 0.5,
     response_format: { type: "json_object" },
   });
 
@@ -38,6 +47,80 @@ export const generateMarketingPlan = async (product: any): Promise<PlanWeek[]> =
   const parsed = JSON.parse(text);
   // Handle both { weeks: [...] } and direct array format
   return Array.isArray(parsed) ? parsed : (parsed.weeks || parsed.plan || []);
+};
+
+export const generateImagePrompt = async (params: {
+  contentType: string;
+  topic: string;
+  goal: string;
+}): Promise<string> => {
+  const prompt = `Write a concise image generation prompt for a social media visual.
+
+Content type: ${params.contentType}
+Topic: ${params.topic}
+Goal: ${params.goal}
+
+Rules:
+- Max 30 words
+- Describe a real, photorealistic scene or flat-design illustration that matches the topic
+- Professional, clean, suitable for ${params.contentType}
+- No text overlays, no logos, no people's faces
+- Return ONLY the image prompt string, nothing else`;
+
+  const response = await groq.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    messages: [
+      { role: 'system', content: 'You write concise, vivid image generation prompts. Return only the prompt text.' },
+      { role: 'user', content: prompt }
+    ],
+    temperature: 0.8,
+  });
+
+  return response.choices[0]?.message?.content?.trim() || `Professional ${params.contentType} visual for ${params.topic}`;
+};
+
+export const generateReengagementEmail = async (lead: {
+  email: string;
+  source: string;
+  stage: string;
+  notes?: string;
+  last_contacted?: string;
+}): Promise<{ subject: string; body: string }> => {
+  const daysSince = lead.last_contacted
+    ? Math.floor((Date.now() - new Date(lead.last_contacted).getTime()) / (1000 * 60 * 60 * 24))
+    : null;
+
+  const prompt = `Write a short, warm, personalized re-engagement email for a lead who has gone quiet.
+
+Lead info:
+- Email: ${lead.email}
+- How they found us: ${lead.source}
+- Stage in funnel: ${lead.stage}
+- Last contacted: ${daysSince !== null ? `${daysSince} days ago` : 'never'}
+- Notes: ${lead.notes || 'none'}
+
+Rules:
+- Keep it under 120 words
+- Sound human and genuine, NOT salesy
+- Reference their source/stage naturally if possible
+- Include ONE specific value reminder or soft offer
+- End with a low-friction CTA (reply, book a call, or try again)
+- Subject line must be under 50 chars, conversational
+
+Return ONLY valid JSON: { "subject": "...", "body": "..." }`;
+
+  const response = await groq.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    messages: [
+      { role: 'system', content: 'You are a friendly copywriter who writes short, genuine re-engagement emails. Always return valid JSON only.' },
+      { role: 'user', content: prompt }
+    ],
+    temperature: 0.7,
+    response_format: { type: 'json_object' },
+  });
+
+  const parsed = JSON.parse(response.choices[0]?.message?.content || '{}');
+  return { subject: parsed.subject || 'Checking in', body: parsed.body || '' };
 };
 
 export const generateContentDraft = async (params: {

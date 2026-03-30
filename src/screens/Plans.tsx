@@ -10,13 +10,23 @@ import {
   ChevronRight,
   Target as TargetIcon,
   Package,
-  Trash2
+  Trash2,
+  Megaphone
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
 import { PlanWeek, Product } from '../types';
 import { generateMarketingPlan } from '../services/geminiService';
 import { apiFetch } from '../services/api';
+
+const detectCampaignType = (action: string): string => {
+  const a = action.toLowerCase();
+  if (a.includes('email') || a.includes('newsletter') || a.includes('inbox')) return 'Email Growth';
+  if (a.includes('launch') || a.includes('product') || a.includes('release')) return 'Product Launch';
+  if (a.includes('lead') || a.includes('magnet') || a.includes('capture') || a.includes('opt-in')) return 'Lead Generation';
+  if (a.includes('authority') || a.includes('educate') || a.includes('teach') || a.includes('workshop')) return 'Authority Building';
+  return 'General';
+};
 
 export const Plans = () => {
   const navigate = useNavigate();
@@ -449,9 +459,16 @@ export const Plans = () => {
                         <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Key Actions</h4>
                         <ul className="space-y-2">
                           {week.actions.map((action, idx) => (
-                            <li key={idx} className="text-sm text-slate-700 flex items-start gap-2">
+                            <li key={idx} className="text-sm text-slate-700 flex items-start gap-2 group/action">
                               <ChevronRight size={14} className="mt-1 text-slate-300 flex-shrink-0" />
-                              <span>{action}</span>
+                              <span className="flex-1">{action}</span>
+                              <button
+                                onClick={() => navigate('/campaigns', { state: { name: action, type: detectCampaignType(action) } })}
+                                title="Create campaign from this action"
+                                className="opacity-0 group-hover/action:opacity-100 transition-opacity flex-shrink-0 p-1 rounded text-slate-400 hover:text-brand hover:bg-brand/10"
+                              >
+                                <Megaphone size={12} />
+                              </button>
                             </li>
                           ))}
                         </ul>
@@ -460,9 +477,16 @@ export const Plans = () => {
                         <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Content Prompts</h4>
                         <ul className="space-y-2">
                           {week.contentPrompts.map((prompt, idx) => (
-                            <li key={idx} className="text-sm text-slate-600 italic flex items-start gap-2">
+                            <li key={idx} className="text-sm text-slate-600 italic flex items-start gap-2 group/prompt">
                               <Sparkles size={14} className="mt-1 text-brand/40 flex-shrink-0" />
-                              <span>"{prompt}"</span>
+                              <span className="flex-1">"{prompt}"</span>
+                              <button
+                                onClick={() => navigate('/content', { state: { topic: prompt } })}
+                                title="Draft this content"
+                                className="opacity-0 group-hover/prompt:opacity-100 transition-opacity flex-shrink-0 p-1 rounded text-slate-400 hover:text-brand hover:bg-brand/10 not-italic"
+                              >
+                                <FileText size={12} />
+                              </button>
                             </li>
                           ))}
                         </ul>

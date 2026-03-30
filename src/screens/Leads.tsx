@@ -10,13 +10,27 @@ import {
   MessageSquare,
   User,
   Target,
-  CheckCircle2
+  CheckCircle2,
+  Sparkles,
+  Copy,
+  Check,
+  AlertCircle
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
 import { MetricCard } from '../components/MetricCard';
 import { Lead as LeadType } from '../types';
 import { apiFetch } from '../services/api';
+import { generateReengagementEmail } from '../services/geminiService';
+
+const INACTIVE_DAYS = 14;
+
+const isInactive = (lead: LeadType): boolean => {
+  if (!lead.last_contacted) return true;
+  const last = new Date(lead.last_contacted).getTime();
+  if (isNaN(last)) return true;
+  return (Date.now() - last) / (1000 * 60 * 60 * 24) > INACTIVE_DAYS;
+};
 
 type Lead = LeadType;
 
@@ -29,6 +43,9 @@ export const Leads = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [stageFilter, setStageFilter] = useState<string>('All');
+  const [reengageEmail, setReengageEmail] = useState<{ subject: string; body: string } | null>(null);
+  const [generatingEmail, setGeneratingEmail] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
 
   useEffect(() => {
     apiFetch('/api/leads')
@@ -58,15 +75,41 @@ export const Leads = () => {
         l.source.toLowerCase().includes(q)
       );
     }
-    if (stageFilter !== 'All') {
+    if (stageFilter === 'Inactive') {
+      result = result.filter(isInactive);
+    } else if (stageFilter !== 'All') {
       result = result.filter(l => l.stage === stageFilter);
     }
     return result;
   }, [leads, searchQuery, stageFilter]);
 
+  const inactiveLeads = useMemo(() => leads.filter(isInactive), [leads]);
+
   const openDetails = (lead: Lead) => {
     setSelectedLead(lead);
     setIsDrawerOpen(true);
+    setReengageEmail(null);
+    setEmailCopied(false);
+  };
+
+  const handleGenerateEmail = async () => {
+    if (!selectedLead) return;
+    setGeneratingEmail(true);
+    try {
+      const result = await generateReengagementEmail(selectedLead);
+      setReengageEmail(result);
+    } catch {
+      // silent fail
+    } finally {
+      setGeneratingEmail(false);
+    }
+  };
+
+  const handleCopyEmail = () => {
+    if (!reengageEmail) return;
+    navigator.clipboard.writeText(`Subject: ${reengageEmail.subject}\n\n${reengageEmail.body}`);
+    setEmailCopied(true);
+    setTimeout(() => setEmailCopied(false), 2000);
   };
 
   const getStageColor = (stage: string) => {
@@ -116,6 +159,24 @@ export const Leads = () => {
         <MetricCard label="Customers" value={leads.filter(l => l.stage === 'Customer').length} icon={CheckCircle2} />
       </div>
 
+      {/* Inactive Banner */}
+      {inactiveLeads.length > 0 && (
+        <div className="flex items-center justify-between p-4 mb-6 bg-amber-50 border border-amber-200 rounded-xl">
+          <div className="flex items-center gap-3 text-amber-700">
+            <AlertCircle size={18} className="flex-shrink-0" />
+            <span className="text-sm font-medium">
+              <span className="font-bold">{inactiveLeads.length} lead{inactiveLeads.length > 1 ? 's' : ''}</span> haven't been contacted in {INACTIVE_DAYS}+ days
+            </span>
+          </div>
+          <button
+            onClick={() => setStageFilter('Inactive')}
+            className="text-xs font-bold text-amber-700 hover:text-amber-900 underline underline-offset-2"
+          >
+            View all
+          </button>
+        </div>
+      )}
+
       {/* Filters & Search */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div className="relative flex-1 max-w-md">
@@ -138,6 +199,7 @@ export const Leads = () => {
             {stages.map(s => (
               <option key={s} value={s}>{s}</option>
             ))}
+            <option value="Inactive">Inactive ({INACTIVE_DAYS}+ days)</option>
           </select>
           <span className="text-xs text-slate-400 font-medium">Showing {filteredLeads.length} leads</span>
         </div>
@@ -180,8 +242,13 @@ export const Leads = () => {
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-xs">
-                        {getInitials(lead.email)}
+                      <div className="relative">
+                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-xs">
+                          {getInitials(lead.email)}
+                        </div>
+                        {isInactive(lead) && (
+                          <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-amber-400 rounded-full border-2 border-white" title="Inactive" />
+                        )}
                       </div>
                       <p className="text-sm font-bold text-slate-900">{lead.email}</p>
                     </div>
@@ -285,6 +352,55 @@ export const Leads = () => {
                   <span>Schedule</span>
                 </button>
               </div>
+
+              {/* AI Re-engage — shown for inactive leads */}
+              {isInactive(selectedLead) && (
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-bold text-amber-700 uppercase tracking-widest flex items-center gap-1.5">
+                      <AlertCircle size={12} />
+                      Inactive Lead
+                    </h4>
+                    <button
+                      onClick={handleGenerateEmail}
+                      disabled={generatingEmail}
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 text-white text-xs font-bold rounded-lg hover:bg-amber-600 transition-colors disabled:opacity-50"
+                    >
+                      {generatingEmail ? <Sparkles size={12} className="animate-pulse" /> : <Sparkles size={12} />}
+                      {generatingEmail ? 'Generating...' : 'AI Re-engage'}
+                    </button>
+                  </div>
+
+                  {reengageEmail && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-3">
+                      <div>
+                        <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Subject</span>
+                        <p className="text-sm font-bold text-slate-900 mt-0.5">{reengageEmail.subject}</p>
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Body</span>
+                        <p className="text-sm text-slate-700 mt-0.5 whitespace-pre-wrap leading-relaxed">{reengageEmail.body}</p>
+                      </div>
+                      <div className="flex gap-2 pt-1">
+                        <button
+                          onClick={handleCopyEmail}
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-amber-200 text-amber-700 text-xs font-bold rounded-lg hover:bg-amber-50 transition-colors"
+                        >
+                          {emailCopied ? <Check size={12} /> : <Copy size={12} />}
+                          {emailCopied ? 'Copied!' : 'Copy'}
+                        </button>
+                        <a
+                          href={`mailto:${selectedLead.email}?subject=${encodeURIComponent(reengageEmail.subject)}&body=${encodeURIComponent(reengageEmail.body)}`}
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 text-white text-xs font-bold rounded-lg hover:bg-amber-600 transition-colors"
+                        >
+                          <Mail size={12} />
+                          Send Now
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Details Grid */}
               <div className="space-y-4">

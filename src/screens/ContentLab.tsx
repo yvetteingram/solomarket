@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   Plus,
   Sparkles,
@@ -24,11 +25,13 @@ import {
   Package,
   ExternalLink,
   Copy,
-  Check
+  Check,
+  Image,
+  Download
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
-import { generateContentDraft } from '../services/geminiService';
+import { generateContentDraft, generateImagePrompt } from '../services/geminiService';
 import { apiFetch } from '../services/api';
 import { Product } from '../types';
 
@@ -42,11 +45,13 @@ interface ContentItem {
 }
 
 export const ContentLab = () => {
+  const location = useLocation();
+  const generatorRef = useRef<HTMLDivElement>(null);
   const [generating, setGenerating] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProductId, setSelectedProductId] = useState('');
   const [contentType, setContentType] = useState('LinkedIn Post');
-  const [topic, setTopic] = useState('');
+  const [topic, setTopic] = useState((location.state as any)?.topic || '');
   const [goal, setGoal] = useState('Educate');
   const [content, setContent] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -61,9 +66,19 @@ export const ContentLab = () => {
   const [scheduleTime, setScheduleTime] = useState('09:00');
   const [copied, setCopied] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
+  const [generatingImage, setGeneratingImage] = useState(false);
 
   // Latest plan theme for dynamic tip
   const [planTheme, setPlanTheme] = useState('');
+
+  // Scroll to + highlight the topic field when arriving from Plans
+  useEffect(() => {
+    if ((location.state as any)?.topic && generatorRef.current) {
+      generatorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      generatorRef.current.focus();
+    }
+  }, []);
 
   // Inline add-product state
   const [showAddProduct, setShowAddProduct] = useState(false);
@@ -157,6 +172,33 @@ export const ContentLab = () => {
     if (item) {
       setEditTitle(item.title);
       setEditBody(item.preview);
+    }
+    setGeneratedImageUrl(null);
+  };
+
+  const getImageDimensions = (type: string): { w: number; h: number } => {
+    if (['Instagram', 'Instagram Reel', 'TikTok', 'Threads'].includes(type)) return { w: 1080, h: 1080 };
+    if (['Pinterest'].includes(type)) return { w: 1000, h: 1500 };
+    return { w: 1200, h: 675 }; // LinkedIn, Twitter, Facebook, YouTube, Blog
+  };
+
+  const handleGenerateImage = async () => {
+    if (!selectedContent) return;
+    setGeneratingImage(true);
+    setGeneratedImageUrl(null);
+    try {
+      const prompt = await generateImagePrompt({
+        contentType: selectedContent.type,
+        topic: editTitle || selectedContent.title,
+        goal,
+      });
+      const { w, h } = getImageDimensions(selectedContent.type);
+      const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${w}&height=${h}&nologo=true&model=flux&seed=${Date.now()}`;
+      setGeneratedImageUrl(url);
+    } catch {
+      // silent fail
+    } finally {
+      setGeneratingImage(false);
     }
   };
 
@@ -515,9 +557,10 @@ export const ContentLab = () => {
               <div>
                 <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Topic / Theme</label>
                 <textarea
+                  ref={generatorRef}
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-brand/20 outline-none h-24 resize-none"
+                  className={`w-full px-3 py-2 rounded-lg border text-sm focus:ring-2 focus:ring-brand/20 outline-none h-24 resize-none transition-colors ${topic && (location.state as any)?.topic ? 'border-brand/40 bg-brand/5' : 'border-slate-200'}`}
                   placeholder="e.g. Why solopreneurs need a marketing OS..."
                 />
               </div>
@@ -637,12 +680,66 @@ export const ContentLab = () => {
                     </button>
                   </div>
 
-                  <div className="p-6">
+                  <div className="p-6 space-y-4">
                     <textarea
                       value={editBody}
                       onChange={(e) => setEditBody(e.target.value)}
                       className="w-full min-h-[300px] resize-none outline-none text-slate-700 leading-relaxed"
                     />
+
+                    {/* Image Generation */}
+                    <div className="border-t border-slate-100 pt-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                          <Image size={12} />
+                          Post Visual
+                        </span>
+                        <button
+                          onClick={handleGenerateImage}
+                          disabled={generatingImage}
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-brand text-white text-xs font-bold rounded-lg hover:bg-brand/90 transition-colors disabled:opacity-50"
+                        >
+                          {generatingImage ? <Sparkles size={12} className="animate-pulse" /> : <Image size={12} />}
+                          {generatingImage ? 'Generating...' : 'Generate Image'}
+                        </button>
+                      </div>
+
+                      {generatingImage && (
+                        <div className="w-full h-48 bg-slate-100 rounded-xl animate-pulse flex items-center justify-center text-slate-400 text-xs">
+                          Building your image...
+                        </div>
+                      )}
+
+                      {generatedImageUrl && !generatingImage && (
+                        <div className="relative group/img rounded-xl overflow-hidden border border-slate-200">
+                          <img
+                            src={generatedImageUrl}
+                            alt="Generated visual"
+                            className="w-full object-cover max-h-64"
+                            onError={() => setGeneratedImageUrl(null)}
+                          />
+                          <div className="absolute inset-0 bg-slate-900/0 group-hover/img:bg-slate-900/30 transition-all flex items-center justify-center gap-2 opacity-0 group-hover/img:opacity-100">
+                            <a
+                              href={generatedImageUrl}
+                              download="post-visual.jpg"
+                              target="_blank"
+                              rel="noreferrer"
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-slate-900 text-xs font-bold rounded-lg shadow hover:bg-slate-50 transition-colors"
+                            >
+                              <Download size={12} />
+                              Download
+                            </a>
+                            <button
+                              onClick={handleGenerateImage}
+                              className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-slate-900 text-xs font-bold rounded-lg shadow hover:bg-slate-50 transition-colors"
+                            >
+                              <Sparkles size={12} />
+                              Regenerate
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div className="p-4 border-t border-slate-100 bg-slate-50/50 space-y-3">

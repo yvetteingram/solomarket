@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Plus,
   Play,
@@ -43,6 +43,7 @@ const PlaybookCard = ({ title, description, icon: Icon, color, onClick }: Playbo
 
 export const Campaigns = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
@@ -51,6 +52,7 @@ export const Campaigns = () => {
   const [creating, setCreating] = useState(false);
 
   useEffect(() => {
+    const fromPlan = (location.state as any);
     apiFetch('/api/campaigns')
       .then(res => {
         if (!res.ok) throw new Error('Failed to load campaigns');
@@ -59,6 +61,9 @@ export const Campaigns = () => {
       .then(data => {
         setCampaigns(data);
         setLoading(false);
+        if (fromPlan?.name) {
+          createCampaign(fromPlan.type || 'General', fromPlan.name);
+        }
       })
       .catch(err => {
         console.error('Failed to fetch campaigns:', err);
@@ -100,14 +105,14 @@ export const Campaigns = () => {
     }
   };
 
-  const createCampaign = async (type: string) => {
+  const createCampaign = async (type: string, name?: string) => {
     setCreating(true);
     try {
       const res = await apiFetch('/api/campaigns', {
         method: 'POST',
         body: JSON.stringify({
           type,
-          name: `${type} Campaign`,
+          name: name || `${type} Campaign`,
           status: 'active',
           progress: 0
         })
