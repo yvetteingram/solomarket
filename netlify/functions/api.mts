@@ -607,6 +607,19 @@ export default async (request: Request) => {
 
     if (path === "ensure-profile" && method === "POST") return await handleEnsureProfile(userId);
 
+    if (path === "profile" && method === "GET") {
+      const { data, error } = await getSupabase()
+        .from("profiles")
+        .select("subscription_status, plan")
+        .eq("id", userId)
+        .single();
+      if (error && error.code !== "PGRST116") throw error;
+      return json({
+        subscription_status: data?.subscription_status || "inactive",
+        plan: data?.plan || "free",
+      });
+    }
+
     if (path === "settings" && method === "GET") return await handleGetSettings(userId);
     if (path === "settings" && method === "PUT") return await handlePutSettings(userId, body);
 
