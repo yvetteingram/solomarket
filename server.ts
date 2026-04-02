@@ -542,6 +542,136 @@ async function startServer() {
     }
   });
 
+  // Agency
+  app.get("/api/agency", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const supabase = getSupabase();
+      const { data, error } = await supabase
+        .from('agencies')
+        .select('*')
+        .eq('owner_user_id', req.userId!)
+        .single();
+      if (error && error.code !== 'PGRST116') throw error;
+      res.json(data || null);
+    } catch {
+      res.status(500).json({ error: 'Failed to fetch agency' });
+    }
+  });
+
+  app.post("/api/agency", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { name, client_limit } = req.body;
+      if (!name) { res.status(400).json({ error: 'name is required' }); return; }
+      const supabase = getSupabase();
+      // Upsert so calling twice is safe
+      const { data, error } = await supabase
+        .from('agencies')
+        .upsert({ owner_user_id: req.userId!, name, client_limit: client_limit || 3 }, { onConflict: 'owner_user_id' })
+        .select()
+        .single();
+      if (error) throw error;
+      res.status(201).json(data);
+    } catch {
+      res.status(500).json({ error: 'Failed to create agency' });
+    }
+  });
+
+  app.patch("/api/agency/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { name } = req.body;
+      const supabase = getSupabase();
+      const { data, error } = await supabase
+        .from('agencies')
+        .update({ name })
+        .eq('id', req.params.id)
+        .eq('owner_user_id', req.userId!)
+        .select()
+        .single();
+      if (error) throw error;
+      res.json(data);
+    } catch {
+      res.status(500).json({ error: 'Failed to update agency' });
+    }
+  });
+
+  // Client Workspaces
+  app.get("/api/workspaces", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const supabase = getSupabase();
+      // Get agency for this user
+      const { data: agency } = await supabase
+        .from('agencies')
+        .select('id')
+        .eq('owner_user_id', req.userId!)
+        .single();
+      if (!agency) { res.json([]); return; }
+      const { data, error } = await supabase
+        .from('client_workspaces')
+        .select('*')
+        .eq('agency_id', agency.id)
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      res.json(data || []);
+    } catch {
+      res.status(500).json({ error: 'Failed to fetch workspaces' });
+    }
+  });
+
+  app.post("/api/workspaces", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { agency_id, client_name, client_email, notes } = req.body;
+      if (!agency_id || !client_name) {
+        res.status(400).json({ error: 'agency_id and client_name are required' });
+        return;
+      }
+      const supabase = getSupabase();
+      const { data, error } = await supabase
+        .from('client_workspaces')
+        .insert({ agency_id, client_name, client_email: client_email || null, notes: notes || null })
+        .select()
+        .single();
+      if (error) throw error;
+      res.status(201).json(data);
+    } catch {
+      res.status(500).json({ error: 'Failed to create workspace' });
+    }
+  });
+
+  app.patch("/api/workspaces/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { client_name, client_email, notes } = req.body;
+      const updates: Record<string, unknown> = {};
+      if (client_name !== undefined) updates.client_name = client_name;
+      if (client_email !== undefined) updates.client_email = client_email;
+      if (notes !== undefined) updates.notes = notes;
+      const supabase = getSupabase();
+      const { data, error } = await supabase
+        .from('client_workspaces')
+        .update(updates)
+        .eq('id', req.params.id)
+        .select()
+        .single();
+      if (error) throw error;
+      res.json(data);
+    } catch {
+      res.status(500).json({ error: 'Failed to update workspace' });
+    }
+  });
+
+  app.delete("/api/workspaces/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const supabase = getSupabase();
+      const { error } = await supabase
+        .from('client_workspaces')
+        .delete()
+        .eq('id', req.params.id);
+      if (error) throw error;
+      res.json({ success: true });
+    } catch {
+      res.status(500).json({ error: 'Failed to delete workspace' });
+    }
+  });
+
   // Analytics
   app.get("/api/analytics/summary", requireAuth, async (req: Request, res: Response) => {
     try {

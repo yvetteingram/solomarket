@@ -118,6 +118,26 @@ export interface CampaignAsset {
   created_at: string;
 }
 
+export interface Agency {
+  id: string;
+  owner_user_id: string;
+  name: string;
+  client_limit: number;
+  subscription_plan: string;
+  created_at: string;
+}
+
+export interface ClientWorkspace {
+  id: string;
+  agency_id: string;
+  client_name: string;
+  client_email: string | null;
+  notes: string | null;
+  created_at: string;
+  campaign_count?: number;
+  lead_count?: number;
+}
+
 export interface UserSettings {
   id?: string;
   user_id: string;

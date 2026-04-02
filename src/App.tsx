@@ -7,6 +7,7 @@ import { Plans } from './screens/Plans';
 import { ContentLab } from './screens/ContentLab';
 import { Systems } from './screens/Systems';
 import { Marketplace } from './screens/Marketplace';
+import { Agency } from './screens/Agency';
 import { Leads } from './screens/Leads';
 import { Analytics } from './screens/Analytics';
 import { Settings } from './screens/Settings';
@@ -30,6 +31,7 @@ const ROUTE_TO_ID: Record<string, string> = {
   '/settings': 'settings',
   '/ai-assistant': 'ai-assistant',
   '/marketplace': 'marketplace',
+  '/agency': 'agency',
   '/welcome': 'dashboard',
 };
 
@@ -43,6 +45,7 @@ const ID_TO_ROUTE: Record<string, string> = {
   'analytics': '/analytics',
   'ai-assistant': '/ai-assistant',
   'marketplace': '/marketplace',
+  'agency': '/agency',
   'settings': '/settings',
 };
 
@@ -159,6 +162,7 @@ function AppContent() {
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/ai-assistant" element={<AIAssistant />} />
           <Route path="/marketplace" element={<Marketplace />} />
+          <Route path="/agency" element={<Agency />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/quick-start" element={<QuickStart />} />
           <Route path="*" element={<Navigate to="/" replace />} />
