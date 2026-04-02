@@ -129,6 +129,73 @@ Return ONLY valid JSON: { "subject": "...", "body": "..." }`;
   return { subject: parsed.subject || 'Checking in', body: parsed.body || '' };
 };
 
+export interface GeneratedAsset {
+  type: string;
+  title: string;
+  content: string;
+  order_index: number;
+}
+
+export interface GeneratedCampaign {
+  name: string;
+  description: string;
+  category: string;
+  outcome: string;
+  assets: GeneratedAsset[];
+}
+
+export const generateCampaignSystem = async (prompt: string): Promise<GeneratedCampaign> => {
+  const systemPrompt = `You are an expert marketing strategist for solopreneurs and freelancers. When given a business description and goal, generate a complete, ready-to-use marketing campaign system.
+
+Return ONLY valid JSON in this exact format — no markdown, no code fences:
+{
+  "name": "Short campaign name (4-6 words)",
+  "description": "One sentence describing what this campaign does",
+  "category": "One of: Lead Generation, Audience Building, Product Launch, Client Acquisition, Authority Building",
+  "outcome": "Expected result in specific terms (e.g. '5-10 qualified leads per month')",
+  "assets": [
+    { "type": "linkedin_post", "title": "Descriptive post title", "content": "Full ready-to-use post content", "order_index": 0 },
+    { "type": "linkedin_post", "title": "...", "content": "...", "order_index": 1 },
+    { "type": "linkedin_post", "title": "...", "content": "...", "order_index": 2 },
+    { "type": "outreach_script", "title": "...", "content": "...", "order_index": 3 },
+    { "type": "outreach_script", "title": "...", "content": "...", "order_index": 4 },
+    { "type": "email", "title": "...", "content": "...", "order_index": 5 },
+    { "type": "email", "title": "...", "content": "...", "order_index": 6 },
+    { "type": "lead_form", "title": "Lead Capture Form", "content": "JSON spec with headline, fields, and buttonText", "order_index": 7 }
+  ]
+}
+
+CONTENT RULES:
+- Write REAL, usable content — not placeholder descriptions
+- Use [BRACKETS] for things the user must personalize (e.g. [Your Name], [Your Service], [Price])
+- LinkedIn posts: 150-400 words, hook opening, 3-5 bullet points or numbered steps, engagement CTA
+- Outreach scripts: DM/email message, value-first, no hard pitch, under 100 words
+- Emails: subject line on first line as "Subject: ...", 150-300 words, clear CTA
+- Lead form: JSON with headline, subheadline, fields array, buttonText, thankYouMessage
+- Match the tone and niche to the user's specific business type`;
+
+  const response = await groq.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: `Create a complete marketing campaign system for this business: ${prompt}` },
+    ],
+    temperature: 0.7,
+    response_format: { type: 'json_object' },
+  });
+
+  const text = response.choices[0]?.message?.content || '{}';
+  const parsed = JSON.parse(text);
+
+  return {
+    name: parsed.name || 'Custom AI Campaign',
+    description: parsed.description || '',
+    category: parsed.category || 'Custom',
+    outcome: parsed.outcome || 'Measurable growth',
+    assets: Array.isArray(parsed.assets) ? parsed.assets : [],
+  };
+};
+
 export const generateContentDraft = async (params: {
   type: string;
   topic: string;

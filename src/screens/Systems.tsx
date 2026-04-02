@@ -5,8 +5,9 @@ import {
   Download, CheckCircle2, ChevronRight, X, Loader2,
   Play, Pause, Trash2, BarChart3, Zap, FileText,
   Mail, MessageSquare, ClipboardList, Globe, Users,
-  ArrowRight, ChevronDown, ChevronUp
+  ArrowRight, ChevronDown, ChevronUp, Sparkles, Wand2
 } from 'lucide-react';
+import { generateCampaignSystem } from '../services/geminiService';
 import { apiFetch } from '../services/api';
 import { Campaign, CampaignAsset, CampaignTemplate, Product } from '../types';
 import {
@@ -497,6 +498,12 @@ export function Systems() {
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
   const [successId, setSuccessId] = useState<string | null>(null);
 
+  // AI generator state
+  const [aiModalOpen, setAiModalOpen] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState('');
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+
   const fetchCampaigns = useCallback(async () => {
     const res = await apiFetch('/api/campaigns');
     if (res.ok) setCampaigns(await res.json());
@@ -545,6 +552,58 @@ export function Systems() {
     await apiFetch(`/api/campaigns/${id}`, { method: 'DELETE' });
     setSelectedCampaign(null);
     setCampaigns(prev => prev.filter(c => c.id !== id));
+  };
+
+  const handleAIGenerate = async () => {
+    if (!aiPrompt.trim()) return;
+    setAiGenerating(true);
+    setAiError(null);
+    try {
+      const generated = await generateCampaignSystem(aiPrompt.trim());
+
+      // Create the campaign record
+      const campaignRes = await apiFetch('/api/campaigns', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: generated.name,
+          type: `ai-${Date.now()}`,
+          status: 'active',
+          progress: 0,
+          product_id: null,
+        }),
+      });
+
+      if (!campaignRes.ok) throw new Error('Failed to create campaign');
+      const campaign = await campaignRes.json();
+
+      // Save all generated assets
+      await Promise.all(
+        generated.assets.map(asset =>
+          apiFetch('/api/campaign-assets', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              campaign_id: campaign.id,
+              asset_type: asset.type,
+              title: asset.title,
+              content: asset.content,
+              order_index: asset.order_index,
+            }),
+          }).catch(() => null)
+        )
+      );
+
+      setAiModalOpen(false);
+      setAiPrompt('');
+      setSuccessId(campaign.id);
+      setTimeout(() => setSuccessId(null), 4000);
+      await fetchCampaigns();
+    } catch (err: any) {
+      setAiError(err.message || 'Generation failed — please try again.');
+    } finally {
+      setAiGenerating(false);
+    }
   };
 
   const handleUpdateStatus = async (id: string, status: Campaign['status']) => {
@@ -641,6 +700,31 @@ export function Systems() {
               onView={openDrawer}
             />
           ))}
+
+          {/* AI Generate Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-violet-600 to-indigo-600 rounded-2xl p-6 flex flex-col text-white cursor-pointer hover:shadow-xl hover:shadow-violet-200 transition-all"
+            onClick={() => setAiModalOpen(true)}
+          >
+            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+              <Sparkles size={24} className="text-white" />
+            </div>
+            <h3 className="font-bold text-base mb-1">Generate Custom System</h3>
+            <p className="text-sm text-violet-100 leading-relaxed mb-4 flex-1">
+              Describe your business and goal — AI builds a complete marketing system tailored to you.
+            </p>
+            <div className="flex flex-wrap gap-1.5 mb-5">
+              {['3 posts', '2 scripts', '2 emails', '1 lead form'].map(a => (
+                <span key={a} className="text-[11px] bg-white/15 text-white px-2 py-0.5 rounded-md">{a}</span>
+              ))}
+            </div>
+            <div className="flex items-center gap-2 bg-white text-violet-700 font-bold rounded-xl px-4 py-2.5 text-sm w-full justify-center hover:bg-violet-50 transition-colors">
+              <Wand2 size={15} />
+              Generate with AI
+            </div>
+          </motion.div>
         </div>
       </div>
 
@@ -654,6 +738,111 @@ export function Systems() {
             onClose={() => !installing && setInstallTarget(null)}
             installing={installing}
           />
+        )}
+      </AnimatePresence>
+
+      {/* AI Generate Modal */}
+      <AnimatePresence>
+        {aiModalOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[80]"
+              onClick={() => !aiGenerating && setAiModalOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 16 }}
+              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white rounded-2xl shadow-2xl z-[90] p-6"
+            >
+              <div className="flex items-start justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-violet-600 to-indigo-600 rounded-xl flex items-center justify-center">
+                    <Sparkles size={20} className="text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-slate-900">Generate Custom System</h3>
+                    <p className="text-xs text-slate-500">AI builds a full campaign tailored to your business</p>
+                  </div>
+                </div>
+                <button onClick={() => setAiModalOpen(false)} disabled={aiGenerating} className="p-1 hover:bg-slate-100 rounded-full text-slate-400">
+                  <X size={18} />
+                </button>
+              </div>
+
+              <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                Describe your business and goal
+              </label>
+              <textarea
+                value={aiPrompt}
+                onChange={e => setAiPrompt(e.target.value)}
+                disabled={aiGenerating}
+                rows={4}
+                placeholder={"e.g. I'm a freelance UX designer looking to attract 3-5 new client inquiries per month using LinkedIn content and cold outreach"}
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-700 resize-none outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 disabled:bg-slate-50 mb-2"
+              />
+              <p className="text-xs text-slate-400 mb-5">
+                Be specific: mention your role, target client, and what success looks like.
+              </p>
+
+              {/* Example prompts */}
+              <div className="flex flex-wrap gap-2 mb-5">
+                {[
+                  "Freelance copywriter attracting B2B SaaS clients",
+                  "Online course creator growing email list",
+                  "Marketing consultant launching a new service",
+                ].map(example => (
+                  <button
+                    key={example}
+                    onClick={() => setAiPrompt(example)}
+                    disabled={aiGenerating}
+                    className="text-[11px] px-2.5 py-1 bg-violet-50 text-violet-700 rounded-lg border border-violet-200 hover:bg-violet-100 transition-colors disabled:opacity-50"
+                  >
+                    {example}
+                  </button>
+                ))}
+              </div>
+
+              {aiError && (
+                <div className="flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 mb-4">
+                  <X size={14} className="flex-shrink-0" />
+                  {aiError}
+                </div>
+              )}
+
+              {aiGenerating && (
+                <div className="flex items-center gap-3 px-4 py-3 bg-violet-50 rounded-xl mb-4">
+                  <Loader2 size={16} className="animate-spin text-violet-600 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-violet-800">Generating your campaign system…</p>
+                    <p className="text-xs text-violet-500">Creating posts, scripts, and emails tailored to your business</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setAiModalOpen(false)}
+                  disabled={aiGenerating}
+                  className="flex-1 px-4 py-2.5 text-sm font-medium text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleAIGenerate}
+                  disabled={aiGenerating || !aiPrompt.trim()}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-bold rounded-xl hover:opacity-90 transition-all disabled:opacity-50"
+                >
+                  {aiGenerating ? (
+                    <><Loader2 size={15} className="animate-spin" /> Generating…</>
+                  ) : (
+                    <><Wand2 size={15} /> Generate System</>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
