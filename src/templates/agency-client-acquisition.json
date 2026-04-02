@@ -1,0 +1,83 @@
+{
+  "id": "agency-client-acquisition",
+  "name": "Agency Client Acquisition",
+  "description": "Attract and close high-ticket agency clients using authority content and a systematic outreach process",
+  "category": "Client Acquisition",
+  "outcome": "2–4 high-ticket clients per quarter",
+  "color": "indigo",
+  "estimatedDuration": "30 days",
+  "assetSummary": ["5 authority posts", "3 outreach scripts", "1 case study template", "2 proposal follow-ups"],
+  "automation": [
+    { "trigger": "Lead engages with content", "action": "Send connection request with value message", "followUp": "Follow up in 3 days if no response" },
+    { "trigger": "Discovery call booked", "action": "Send call prep + case study", "followUp": "Send proposal within 48h of call" },
+    { "trigger": "Proposal sent", "action": "Follow up in 3 days if no response", "followUp": "Final follow-up at 7 days" }
+  ],
+  "assets": [
+    {
+      "type": "linkedin_post",
+      "title": "Authority Post #1 — Industry Insight",
+      "order_index": 0,
+      "content": "Unpopular opinion: most [your industry] agencies are solving the wrong problem.\n\nClients don't hire agencies for [what agencies think they want].\n\nThey hire agencies because they're overwhelmed, behind, and need someone to own results — not just execute tasks.\n\nHere's the difference between agencies that grow and agencies that churn:\n\nGrowing agencies lead with:\n→ A clear point of view\n→ A defined process with predictable outcomes\n→ Transparent communication\n→ ROI-focused reporting\n\nStrugglers lead with:\n→ \"We do everything\"\n→ Vague deliverables\n→ Monthly reports no one reads\n→ Reactive account management\n\nThe agencies winning right now aren't the ones with the most services. They're the ones clients trust most.\n\nWhat does that trust look like in your agency?\n\n[Drop your answer below — I'm curious what you've found.]"
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Authority Post #2 — Framework/Process",
+      "order_index": 1,
+      "content": "We used this exact framework to get [Client Type] from [Before State] to [After State] in [Timeframe].\n\nHere's how it works:\n\nPHASE 1: AUDIT ([timeframe])\n→ [What you assess]\n→ [What you identify]\n→ [What you document]\n\nPHASE 2: STRATEGY ([timeframe])\n→ [What you build]\n→ [Key decisions made]\n→ [What the client approves]\n\nPHASE 3: EXECUTION ([timeframe])\n→ [What you do]\n→ [How you measure progress]\n→ [How you iterate]\n\nPHASE 4: OPTIMIZATION (ongoing)\n→ [How you review]\n→ [How you improve]\n→ [What you report]\n\nResult: [Specific outcome clients can expect]\n\nThis same framework works for [type of client] in [industries you serve].\n\nIf you're dealing with [the core problem] and want to see if this would work for your business, DM me \"FRAMEWORK\" and I'll send you a breakdown specific to your situation."
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Authority Post #3 — Contrarian Take",
+      "order_index": 2,
+      "content": "Stop optimizing for [vanity metric]. It's costing you real results.\n\nI know that's not what most [industry] agencies say. But here's what we've learned after working with [X]+ clients:\n\nThe clients obsessed with [vanity metric] almost always underperform the ones focused on [real metric].\n\nHere's why:\n\n[Vanity metric] looks good in reports. [Real metric] pays salaries.\n\n[Vanity metric] is easy to game. [Real metric] is hard to fake.\n\n[Vanity metric] grows with budget. [Real metric] grows with strategy.\n\nWe had a client 2 years ago who [example of vanity metric success that failed].\n\nWe shifted their focus to [real metric] and [what happened instead].\n\nFor [type of business], the 3 metrics that actually matter are:\n1. [Metric 1] — because [reason]\n2. [Metric 2] — because [reason]\n3. [Metric 3] — because [reason]\n\nIs your agency or your clients tracking these?\n\nDrop a ✓ below if you want a breakdown of how to set these up."
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Authority Post #4 — Case Study",
+      "order_index": 3,
+      "content": "[CLIENT TYPE] came to us with a specific problem:\n\n[DESCRIBE THE SITUATION — be specific, make it recognizable]\n\nThey had:\n• [Pain point 1]\n• [Pain point 2]\n• [What they had already tried]\n\nIn [TIMEFRAME], here's what we achieved:\n\n📈 [Metric 1]: [Before] → [After]\n📈 [Metric 2]: [Before] → [After]\n💰 [Revenue/ROI outcome]\n\nHere's what we did (the exact playbook):\n\nStep 1: [What you diagnosed first]\nStep 2: [The core strategy change]\nStep 3: [The execution approach]\nStep 4: [How you measured and iterated]\n\nThe key insight: [The non-obvious thing that made the difference]\n\n\"[CLIENT QUOTE about working with you — focus on experience and outcome]\"\n— [Client Name, Title, Company]\n\nIf you're a [target client] dealing with [the same problem], I'd like to show you how we'd approach your situation.\n\nDM me or comment \"CASE STUDY\" and I'll send the full breakdown."
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Authority Post #5 — Thought Leadership",
+      "order_index": 4,
+      "content": "In [X] years of working with [client types], here's the pattern I keep seeing:\n\nThe businesses that scale aren't the ones with the biggest budgets.\n\nThey're the ones with the clearest [SYSTEMS / STRATEGY / POSITIONING].\n\nHere's what separates them:\n\n1. They know exactly who they serve (and who they don't)\nThey're not trying to help everyone. Their messaging speaks to [specific person] with [specific problem].\n\n2. They have a documented process for [key business function]\nThey're not reinventing the wheel every client engagement. They have a repeatable system.\n\n3. They invest in [key capability] early\nMost wait until they need it. Winners build it before they need it.\n\n4. They measure the right things\nNot [vanity metric] — [real metric that drives decisions].\n\n5. They get help earlier than feels necessary\nThe instinct is to DIY until you're overwhelmed. The smart move is to bring in help before the chaos.\n\nWhich of these is the gap in your business right now?\n\nAnswer below — I'll give you one specific next step based on your answer."
+    },
+    {
+      "type": "outreach_script",
+      "title": "Cold Outreach — Value-First Connection",
+      "order_index": 5,
+      "content": "Hi [Name],\n\nI came across [their company/content/recent news] and [specific genuine observation — not flattery].\n\nWe work with [type of company they are] to [outcome you deliver] — typically [specific result in timeframe].\n\nI'm not reaching out to pitch you. I'm reaching out because [specific reason relevant to them — recent change, growth signal, industry trend].\n\nI put together a short breakdown of [relevant insight or quick audit] for companies like yours. Happy to share it with no strings attached.\n\nWould that be useful?\n\n[Your name]\n[Agency Name]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Follow-Up After Engagement",
+      "order_index": 6,
+      "content": "Hey [Name],\n\nI noticed you [liked my post / commented / visited our site] — figured I'd reach out directly.\n\nQuick context: [Agency Name] works specifically with [client type] to [outcome].\n\nIn the last [timeframe], we've helped clients like [client example] achieve [specific result].\n\nI'm not going to do a full pitch here — but I am curious: is [the core problem you solve] something that's on your radar right now?\n\nIf yes, a 15-minute call might be worth it. I'll come with [specific value — a quick audit, 3 recommendations, a case study].\n\nIf now's not the right time, no worries at all.\n\n[Your name]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Referral Request Script",
+      "order_index": 7,
+      "content": "Hey [Name],\n\nHope things are going well on your end.\n\nI wanted to reach out because we're opening up [X] new client spots in [month/quarter] and I'd rather fill them with referrals than cold outreach.\n\nWe work best with [ideal client description] who need [outcome you deliver].\n\nDo you know anyone in your network who might be a good fit?\n\nIf you make a successful introduction, I'll [referral incentive — discount on their next project / commission / etc.].\n\nIf no one comes to mind right away, no worries at all. Just thought I'd ask before opening it up publicly.\n\nEither way, let's catch up soon.\n\n[Your name]"
+    },
+    {
+      "type": "landing_page_copy",
+      "title": "Case Study Template",
+      "order_index": 8,
+      "content": "CASE STUDY: [Client Name / Type] — [Outcome in headline form]\n\nTHE CLIENT:\n[Company type, size, industry — be specific enough to be recognizable but respect NDA if needed]\n\nTHE CHALLENGE:\n[Client Name] came to [Agency Name] in [month/year] facing [specific situation].\n\nSpecifically, they were dealing with:\n• [Challenge 1 — be quantitative where possible]\n• [Challenge 2]\n• [Challenge 3]\n\nThey had already tried [previous approaches] but found that [why those approaches fell short].\n\nTHE APPROACH:\nAfter an initial audit, we identified [root cause or key opportunity].\n\nOur strategy was built around three pillars:\n\n1. [Pillar 1]\n[What this involved and why this approach]\n\n2. [Pillar 2]\n[What this involved and why this approach]\n\n3. [Pillar 3]\n[What this involved and why this approach]\n\nTHE EXECUTION:\n[Month 1]: [What happened]\n[Month 2]: [What happened]\n[Month 3]: [Results started to emerge]\n\nTHE RESULTS (After [X] months):\n📊 [Metric 1]: [Before number] → [After number] ([% change])\n📊 [Metric 2]: [Before] → [After]\n📊 [Metric 3]: [Before] → [After]\n💰 ROI: [How much they made / saved vs. what they invested]\n\nCLIENT TESTIMONIAL:\n\"[Detailed quote covering: the problem, the experience working together, and the outcome. 2-4 sentences.]\"\n— [Name, Title, Company]\n\nKEY TAKEAWAY:\n[The single most important insight from this engagement — what made the difference]\n\nIS THIS RELEVANT TO YOUR BUSINESS?\nIf you're a [target client] dealing with [similar challenge], [Agency Name] might be able to help.\n\n[CTA: Book a Free Strategy Call]"
+    },
+    {
+      "type": "email",
+      "title": "Post-Proposal Follow-Up #1 (Day 3)",
+      "order_index": 9,
+      "content": "Subject: Re: [Project Name] Proposal\n\nHey [Name],\n\nJust following up on the proposal I sent [X] days ago.\n\nI know you're busy, so I'll keep this short:\n\nDo you have any questions about what I sent over? I'm happy to jump on a quick call to walk through it or adjust anything.\n\nA few things worth noting:\n\n→ Our [start date] availability is still open — but we do have [other client/project] starting [date] so I want to make sure we have enough runway to give your project the attention it deserves.\n\n→ If the scope or budget needs adjustment, let's talk. I'd rather find a version that works than lose a good fit over details.\n\nWhat questions do you have?\n\n[Your name]"
+    },
+    {
+      "type": "email",
+      "title": "Post-Proposal Follow-Up #2 (Day 7)",
+      "order_index": 10,
+      "content": "Subject: Last follow-up on [Project Name]\n\nHey [Name],\n\nI don't want to keep filling up your inbox, so this will be my last follow-up on the proposal.\n\nI understand if the timing isn't right, priorities shifted, or you went in a different direction — all completely valid.\n\nIf that's the case, no hard feelings. Just let me know so I can adjust my availability.\n\nIf you're still interested but something is holding it up — budget, timing, internal approvals — reply and tell me. There's usually a version that works.\n\nEither way, it was genuinely good to learn about what [Company] is building. I'll keep an eye on your work.\n\n[Your name]\n\nP.S. If the timing just isn't right now but might be in [Q2/next quarter], I'm happy to revisit. Just flag it and I'll reach out then."
+    }
+  ]
+}

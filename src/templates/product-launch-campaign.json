@@ -1,0 +1,77 @@
+{
+  "id": "product-launch-campaign",
+  "name": "Product Launch Campaign",
+  "description": "Launch a digital product with a full pre-launch, launch day, and post-launch sequence",
+  "category": "Product Launch",
+  "outcome": "50–200 sales in launch week",
+  "color": "orange",
+  "estimatedDuration": "21 days",
+  "assetSummary": ["5 launch posts", "4-email launch sequence", "1 landing page copy", "1 countdown post"],
+  "automation": [
+    { "trigger": "Lead joins waitlist", "action": "Add to launch email sequence", "followUp": "Send pre-launch email 3 days before launch" },
+    { "trigger": "Launch day", "action": "Send launch email to full list", "followUp": "Send last-chance email on day 3" },
+    { "trigger": "Purchase completed", "action": "Send delivery email", "followUp": "Request testimonial on day 7" }
+  ],
+  "assets": [
+    {
+      "type": "landing_page_copy",
+      "title": "Product Landing Page",
+      "order_index": 0,
+      "content": "HEADLINE:\n[Achieve Specific Outcome] in [Timeframe] — Even If [Common Objection]\n\nSUBHEADLINE:\n[Product Name] is a [format: course/template/tool/guide] that helps [target audience] [achieve outcome] without [pain point].\n\nTHE PROBLEM (Agitate):\nYou already know you need to [desired outcome].\n\nThe problem isn't motivation. It's that:\n• [Pain point 1]\n• [Pain point 2]\n• [Pain point 3]\n\nYou've probably already tried [common solution] and it didn't work because [reason].\n\nTHE SOLUTION:\n[Product Name] gives you [what it is] so you can [outcome] — without [the hard part].\n\nWHAT'S INSIDE:\n✓ [Module/Section 1] — [what they learn/get]\n✓ [Module/Section 2] — [what they learn/get]\n✓ [Module/Section 3] — [what they learn/get]\n✓ [Bonus] — [value of bonus]\n\nWHO THIS IS FOR:\n→ [Ideal customer 1]\n→ [Ideal customer 2]\n→ [Ideal customer 3]\n\nWHO THIS IS NOT FOR:\n→ [Exclusion 1]\n→ [Exclusion 2]\n\nTESTIMONIALS:\n\"[Testimonial 1]\"\n— [Name, Role]\n\n\"[Testimonial 2]\"\n— [Name, Role]\n\nPRICING:\nLaunch Price: $[XX] (Regular price: $[XX])\nOffer expires: [Date]\n\n[BUY NOW BUTTON]\n\nGUARANTEE:\n[Your guarantee — e.g., 30-day money-back guarantee]\n\nFAQ:\nQ: [Common question 1]\nA: [Answer]\n\nQ: [Common question 2]\nA: [Answer]\n\nQ: [Common question 3]\nA: [Answer]"
+    },
+    {
+      "type": "email",
+      "title": "Pre-Launch Email — Build Anticipation",
+      "order_index": 1,
+      "content": "Subject: Something I've been working on (launches [Day])\n\nHey [First Name],\n\nI've been working on something for the past [timeframe] and I'm finally ready to share it.\n\n[SHORT ORIGIN STORY — why you built this]\n\nThe problem I kept seeing was [the specific problem].\n\nI tried [existing solutions] and they all fell short because [reason].\n\nSo I built [Product Name].\n\n[2-3 sentences on what it is and what it does]\n\nIt launches [DATE] at [TIME].\n\nBefore then, I'm sharing it with my list first — and at a special launch price that won't be available after [DATE].\n\nI'll send you all the details on launch day.\n\nFor now, I just want to know: is [the core problem] something you're dealing with?\n\nHit reply and let me know. I'm reading every response.\n\n[Your name]\n\nP.S. If you know someone dealing with [problem], forward this to them. They'll thank you."
+    },
+    {
+      "type": "email",
+      "title": "Launch Day Email",
+      "order_index": 2,
+      "content": "Subject: It's live — [Product Name]\n\nHey [First Name],\n\nToday's the day. [Product Name] is officially live.\n\n[LINK TO SALES PAGE]\n\nHere's a quick recap of what you get:\n\n✓ [Key deliverable 1]\n✓ [Key deliverable 2]\n✓ [Key deliverable 3]\n✓ [Bonus]\n\nLaunch price: $[XX] (goes up to $[XX] on [DATE])\n\nThis is for you if:\n→ You're a [ideal customer description]\n→ You want to [specific outcome]\n→ You're ready to [commitment required]\n\nNot sure if it's right for you? Here's what [Customer Name] said after going through it:\n\n\"[Testimonial]\"\n\n[BUTTON: Get [Product Name] — $XX]\n\nQuestions? Just reply to this email. I'm here.\n\n[Your name]\n\nP.S. The launch price disappears at [specific time/date]. After that, it goes back to $[full price]."
+    },
+    {
+      "type": "email",
+      "title": "Mid-Launch Email — Objection Handling",
+      "order_index": 3,
+      "content": "Subject: The #1 question I'm getting about [Product Name]\n\nHey [First Name],\n\n[Product Name] has been live for [X] days and I've gotten a ton of responses.\n\nThe most common question:\n\n\"[Most common objection or question]\"\n\nGreat question. Here's the honest answer:\n\n[DIRECT ANSWER — be specific and reassuring]\n\nA few others I've heard:\n\n\"Is this for me if [scenario]?\"\n→ [Answer]\n\n\"What if [concern]?\"\n→ [Answer]\n\n\"How long does it take to [achieve result]?\"\n→ [Answer]\n\nIf you're still on the fence, here's what I'd say:\n\n[CLOSE THE OBJECTION — restate the value, remind of the guarantee, create urgency]\n\nThe launch price closes [DATE/TIME].\n\n[LINK: Get [Product Name] now]\n\n[Your name]"
+    },
+    {
+      "type": "email",
+      "title": "Last-Chance Email",
+      "order_index": 4,
+      "content": "Subject: Last chance — price goes up tonight\n\nHey [First Name],\n\nQuick heads up: [Product Name] launch pricing ends tonight at [TIME].\n\nAfter that, the price goes from $[XX] to $[XX].\n\n[LINK TO SALES PAGE]\n\nIf you've been thinking about it, now is the time.\n\nHere's what you're getting:\n\n[SHORT BULLETS — 3-4 key deliverables]\n\n+ [Guarantee statement]\n\nAnd here's the thing:\n\n[ONE LAST COMPELLING REASON — results, transformation, or urgency angle]\n\nDoor closes at [TIME] tonight.\n\n[BUTTON: Get Access Before Price Increases]\n\nTalk soon,\n[Your name]\n\nP.S. If you missed out and the price has already gone up, reply to this email. I'll see what I can do."
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Launch Announcement Post",
+      "order_index": 5,
+      "content": "After [timeframe] of work, it's finally here.\n\nIntroducing: [PRODUCT NAME]\n\n[One sentence on what it is]\n\nI built this because [origin story in 2-3 sentences].\n\nHere's what's inside:\n\n→ [Key feature/module 1]\n→ [Key feature/module 2]\n→ [Key feature/module 3]\n→ [Bonus]\n\nWho it's for:\n✓ [Ideal customer 1]\n✓ [Ideal customer 2]\n✓ [Ideal customer 3]\n\nLaunch pricing: $[XX] through [DATE]\n\n[LINK TO SALES PAGE]\n\nIf you know someone who would benefit from this, please share. It would mean the world."
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Behind-the-Scenes Post",
+      "order_index": 6,
+      "content": "I've been building something in public for the last [timeframe].\n\nHere's what the process actually looked like:\n\nWeek 1: [What happened — the messy start]\nWeek 2: [The struggle or pivot]\nWeek 3: [The breakthrough]\nWeek [X]: [Where you landed]\n\nThe hardest part was [honest answer].\n\nThe most surprising thing I learned was [genuine insight].\n\nIf I could go back and do it differently, I would have [one thing].\n\n[PRODUCT NAME] launches [DATE].\n\nLink in bio (or comment \"LAUNCH\" and I'll send it to you directly)."
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Social Proof Post",
+      "order_index": 7,
+      "content": "Before I launched [PRODUCT NAME], I gave early access to [X] people.\n\nHere's what they said:\n\n\"[Testimonial 1 — specific result or transformation]\"\n— [Name, Role]\n\n\"[Testimonial 2]\"\n— [Name, Role]\n\n\"[Testimonial 3]\"\n— [Name, Role]\n\nThis isn't for everyone. It's specifically for [ideal customer].\n\nLaunch price: $[XX] — available until [DATE].\n\n[LINK]"
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Countdown Post",
+      "order_index": 8,
+      "content": "⏱ [X] hours left at launch pricing.\n\n[PRODUCT NAME] goes from $[XX] → $[XX] tonight.\n\nQuick reminder of what you get:\n✓ [Benefit 1]\n✓ [Benefit 2]\n✓ [Benefit 3]\n✓ [Guarantee]\n\nThis is for you if [ideal customer description + specific outcome].\n\n[LINK — get it before price increases]\n\nAfter tonight: full price, no exceptions."
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Post-Launch Reflection",
+      "order_index": 9,
+      "content": "The launch is over. Here are the real numbers:\n\n📦 Units sold: [X]\n💰 Revenue: $[XX]\n📧 Emails sent: [X]\n⭐ Avg. rating from early users: [X]/5\n\nWhat worked:\n✓ [What drove the most sales]\n✓ [What surprised me]\n✓ [What I'd do again]\n\nWhat didn't:\n✗ [Honest miss]\n✗ [What I'd change]\n\nBiggest lesson: [Your key takeaway]\n\nThanks to everyone who bought and gave feedback. Building in public is scary but it's the only way I know how to grow.\n\n[PRODUCT NAME] is still available at [current price]: [LINK]"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "id": "linkedin-lead-engine",
+  "name": "LinkedIn Lead Engine",
+  "description": "Generate consistent inbound leads using LinkedIn content and strategic outreach",
+  "category": "Lead Generation",
+  "outcome": "5–15 qualified leads per month",
+  "color": "blue",
+  "estimatedDuration": "30 days",
+  "assetSummary": ["7 LinkedIn posts", "3 outreach scripts", "1 lead capture form", "2 follow-up messages"],
+  "automation": [
+    { "trigger": "Lead submits form", "action": "Add to CRM as Lead", "followUp": "Send welcome email within 24h" },
+    { "trigger": "New connection accepts", "action": "Send outreach script #2", "followUp": "Follow up in 3 days if no reply" }
+  ],
+  "assets": [
+    {
+      "type": "linkedin_post",
+      "title": "Authority Hook Post",
+      "order_index": 0,
+      "content": "Most people think getting clients on LinkedIn requires a massive following.\n\nThey're wrong.\n\nI've seen solopreneurs land $5k clients with fewer than 500 connections.\n\nHere's the 3-step system:\n\n1. Post content that solves ONE specific problem your ideal client has\n2. Comment strategically on posts your ideal clients are already reading\n3. Send connection requests with a value-first message (not a pitch)\n\nThe secret isn't volume. It's precision.\n\n→ What's the #1 problem your ideal client is trying to solve right now?\n\nDrop it in the comments — I'll give you a specific tip for your niche."
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Value / How-To Post",
+      "order_index": 1,
+      "content": "Here's my exact process for [YOUR SERVICE] in 5 steps:\n\nStep 1: [Identify the core problem]\nMost clients come to me struggling with [SPECIFIC PAIN POINT]. The first thing I do is...\n\nStep 2: [Your diagnostic approach]\nBefore recommending anything, I ask these 3 questions:\n- [Question 1]\n- [Question 2]\n- [Question 3]\n\nStep 3: [Your method/framework]\nThis is where most [professionals in your field] get it wrong. Instead of [common approach], I...\n\nStep 4: [Implementation]\nThe actual execution phase takes [timeframe]. During this time, clients typically see...\n\nStep 5: [Results + maintenance]\nOnce [outcome is achieved], the key to maintaining it is...\n\nThis process has helped [X] clients achieve [specific result].\n\nWant me to walk you through how this would apply to your business? DM me \"SYSTEM\" and I'll send you a free 10-minute audit."
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Personal Story Post",
+      "order_index": 2,
+      "content": "6 months ago, I almost quit.\n\n[DESCRIBE YOUR LOW POINT — be specific and honest]\n\nI was working 60-hour weeks, undercharging, and wondering if this whole solopreneur thing was a mistake.\n\nThen I did one thing that changed everything:\n\n[THE TURNING POINT — your key insight or decision]\n\nWithin [timeframe], [specific measurable result].\n\nHere's what I learned:\n\n1. [Lesson 1]\n2. [Lesson 2]\n3. [Lesson 3]\n\nIf you're in the [struggling phase] right now — keep going.\n\nThe thing that looks like failure is often just the last step before the breakthrough.\n\n→ What's the hardest lesson your business has taught you? Share below."
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Quick Tips Post",
+      "order_index": 3,
+      "content": "5 things I wish someone had told me about [YOUR NICHE/SERVICE] earlier:\n\n1. [Counterintuitive tip]\nEveryone says [common advice]. The reality is [your truth].\n\n2. [Time-saving tip]\nStop spending hours on [common time sink]. Instead, [faster approach].\n\n3. [Mindset tip]\n[Common belief] is holding most [your audience] back. The shift that changed everything for me:\n[New perspective]\n\n4. [Technical/tactical tip]\n[Specific tactic] works 3x better than [what most people do].\n\n5. [Relationship tip]\nThe fastest path to [desired outcome] isn't [what people think]. It's [actual answer].\n\nSave this post for when you need it.\n\n→ Which one hits home for you?"
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Engagement Question Post",
+      "order_index": 4,
+      "content": "Quick question for [YOUR IDEAL CLIENT TYPE]:\n\nWhat's your biggest challenge with [CORE PROBLEM YOU SOLVE] right now?\n\nA) [Challenge option 1]\nB) [Challenge option 2]\nC) [Challenge option 3]\nD) Something else (drop it in comments)\n\nI'm asking because I'm putting together a [free resource/training/guide] specifically for [your audience] and I want to make sure it actually addresses what you're dealing with — not what I think you're dealing with.\n\nTakes 10 seconds to answer. I read every reply.\n\n(And yes, I'll share the results + what I'm building once I have enough responses.)"
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Social Proof Post",
+      "order_index": 5,
+      "content": "[CLIENT NAME or 'A client'] came to me [timeframe] ago with a specific problem:\n\n[DESCRIBE THEIR SITUATION — be specific]\n- [Pain point 1]\n- [Pain point 2]\n- [What they had already tried]\n\nHere's what we did:\n\nFirst, we [Step 1 — your approach]\nThen, [Step 2]\nFinally, [Step 3]\n\nThe result after [timeframe]:\n✓ [Specific measurable outcome 1]\n✓ [Specific measurable outcome 2]\n✓ [Qualitative win — how they feel now]\n\n[Client quote: \"Working with [your name] was... The biggest thing I got was...\"\n— [Client first name], [their role/industry]]\n\nIf you're dealing with [the problem you solved], I have [X] spots open this month.\n\nDM me \"[KEYWORD]\" to see if we're a fit."
+    },
+    {
+      "type": "linkedin_post",
+      "title": "Direct CTA Post",
+      "order_index": 6,
+      "content": "I'm opening 3 spots this month for [YOUR SERVICE].\n\nThis is for you if:\n✓ You're a [ideal client description]\n✓ You're struggling with [specific problem]\n✓ You're ready to [desired outcome] without [common objection/obstacle]\n\nThis is NOT for you if:\n✗ You're looking for [thing you don't offer]\n✗ You want [unrealistic expectation]\n✗ You're not ready to [commitment required]\n\nWhat you get:\n• [Deliverable 1]\n• [Deliverable 2]\n• [Deliverable 3]\n• [Outcome/guarantee]\n\nInvestment: [Your price or \"DM me for details\"]\nTimeline: [How long it takes]\n\nTo apply, DM me the word \"[KEYWORD]\" and answer these 2 questions:\n1. What are you working on right now?\n2. What's the #1 thing stopping you from [desired outcome]?\n\n3 spots. First come, first qualified."
+    },
+    {
+      "type": "outreach_script",
+      "title": "Connection Request Message",
+      "order_index": 7,
+      "content": "Hi [First Name],\n\nI came across your profile while looking at [mutual connection / shared group / their content].\n\nI work with [your ideal client type] who want to [outcome you deliver] — noticed you're doing [something specific about their work].\n\nWould love to connect and follow your work.\n\n[Your name]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Follow-Up After Connection",
+      "order_index": 8,
+      "content": "Hey [First Name], thanks for connecting!\n\nI noticed [something specific from their profile/content — NOT generic]. [1 genuine observation or compliment.]\n\nI put together a [free resource — checklist/guide/video] specifically for [their role/niche] on [topic relevant to them].\n\nNo pitch — just wanted to give back to people doing interesting work in this space.\n\nWant me to send it over?\n\n[Your name]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Value-First Pitch Message",
+      "order_index": 9,
+      "content": "Hey [First Name],\n\nBased on [something you know about them — their content, company, role], I'm guessing [specific challenge they're likely facing] is on your radar.\n\nI recently helped [similar client type] solve exactly this by [your approach in one sentence]. They went from [before state] to [after state] in [timeframe].\n\nI have a simple framework I use — happy to share it with you on a 15-minute call, no strings attached. You'd walk away with [specific value they get from the call].\n\nWorth a quick chat?\n\n[Your name]"
+    },
+    {
+      "type": "lead_form",
+      "title": "Lead Capture Form",
+      "order_index": 10,
+      "content": "{\n  \"headline\": \"[Your Lead Magnet Title]\",\n  \"subheadline\": \"[What they get + for who]\",\n  \"fields\": [\n    { \"label\": \"First Name\", \"type\": \"text\", \"required\": true },\n    { \"label\": \"Email Address\", \"type\": \"email\", \"required\": true },\n    { \"label\": \"What's your biggest challenge with [topic]?\", \"type\": \"select\", \"required\": true, \"options\": [\"[Option 1]\", \"[Option 2]\", \"[Option 3]\", \"Other\"] }\n  ],\n  \"buttonText\": \"Send Me The [Resource]\",\n  \"thankYouMessage\": \"Check your inbox! Your [resource] is on its way. While you wait, connect with me on LinkedIn.\"\n}"
+    },
+    {
+      "type": "follow_up",
+      "title": "Immediate Follow-Up (Same Day)",
+      "order_index": 11,
+      "content": "Subject: Here's your [resource], [First Name]\n\nHey [First Name],\n\nWelcome! Your [resource] is attached/linked below.\n\n[LINK OR ATTACHMENT]\n\nQuick tip before you dive in: the section on [most valuable part] is where most people find their biggest \"aha\" moment. Start there.\n\nOne question while I have you:\n\nWhat made you download this today? What's going on in your business right now?\n\nHit reply — I read every message and you might get a personalized tip in return.\n\nTalk soon,\n[Your name]\n\nP.S. I'll be sending you [what comes next — a tip, a follow-up, etc.] in a few days. Keep an eye out."
+    },
+    {
+      "type": "follow_up",
+      "title": "3-Day Follow-Up",
+      "order_index": 12,
+      "content": "Subject: Did you get a chance to look at it?\n\nHey [First Name],\n\nJust checking in — did you get a chance to go through the [resource]?\n\nIf you did, I'd love to know: what was your biggest takeaway?\n\nIf you haven't had time yet, no worries — here's the one thing I'd focus on first:\n\n[YOUR #1 TIP OR KEY INSIGHT]\n\nAlso — I've been thinking about what you're probably dealing with if you downloaded this, and I put together a [short video / quick audit / checklist] that goes one level deeper.\n\nWant me to send that over too?\n\n[Your name]"
+    }
+  ]
+}

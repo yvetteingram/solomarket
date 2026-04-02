@@ -1,0 +1,64 @@
+{
+  "id": "freelancer-lead-funnel",
+  "name": "Freelancer Lead Funnel",
+  "description": "Attract and convert high-quality freelance clients with a professional service funnel",
+  "category": "Client Acquisition",
+  "outcome": "2–5 new client inquiries per month",
+  "color": "green",
+  "estimatedDuration": "14 days",
+  "assetSummary": ["1 service page copy", "1 lead capture form", "3 qualification questions", "3-email follow-up sequence"],
+  "automation": [
+    { "trigger": "Inquiry form submitted", "action": "Send confirmation + qualification email", "followUp": "Send booking link if qualified after 24h" },
+    { "trigger": "Discovery call booked", "action": "Send call prep email", "followUp": "Send proposal follow-up within 48h of call" }
+  ],
+  "assets": [
+    {
+      "type": "landing_page_copy",
+      "title": "Service / Work With Me Page",
+      "order_index": 0,
+      "content": "HEADLINE:\n[Specific Outcome] for [Ideal Client Type]\n\nSUBHEADLINE:\nI help [client type] [achieve outcome] without [pain point] — so you can [higher-level benefit].\n\nIS THIS YOU?\n→ You're a [ideal client description]\n→ You need [what they need] but [the constraint — time, skill, bandwidth]\n→ You've tried [DIY approach or other options] but it's not working\n→ You're ready to [commit to professional help]\n\nHERE'S HOW I CAN HELP:\n\n[SERVICE 1 NAME]\n[1-2 sentence description. Who it's for. What they walk away with.]\nStarting at $[price] | [Timeframe]\n\n[SERVICE 2 NAME]\n[1-2 sentence description.]\nStarting at $[price] | [Timeframe]\n\n[SERVICE 3 — Retainer/Ongoing]\n[Description.]\n$[price]/month | Minimum [X] months\n\nWHAT CLIENTS SAY:\n\"[Testimonial focused on outcome and experience]\"\n— [Name, Company/Role]\n\n\"[Second testimonial]\"\n— [Name, Company/Role]\n\nRECENT WORK:\n[Project 1] — [client type] — [outcome achieved]\n[Project 2] — [client type] — [outcome achieved]\n[Project 3] — [client type] — [outcome achieved]\n\nABOUT ME:\n[2-3 sentences: your background, your specific expertise, why clients choose you over alternatives]\n\nHOW IT WORKS:\n1. Fill out the inquiry form below\n2. I'll review your project and respond within [timeframe]\n3. If we're a fit, we'll book a free [X]-minute discovery call\n4. I'll send a proposal within [timeframe] of our call\n\n[CTA BUTTON: Start Your Project]\n\nFAQ:\nQ: How long does a project take?\nA: [Answer]\n\nQ: Do you take on rush projects?\nA: [Answer]\n\nQ: What's your availability?\nA: [Answer]"
+    },
+    {
+      "type": "lead_form",
+      "title": "Project Inquiry Form",
+      "order_index": 1,
+      "content": "{\n  \"headline\": \"Tell Me About Your Project\",\n  \"subheadline\": \"Fill this out and I'll get back to you within 1 business day.\",\n  \"fields\": [\n    { \"label\": \"Your Name\", \"type\": \"text\", \"required\": true },\n    { \"label\": \"Email Address\", \"type\": \"email\", \"required\": true },\n    { \"label\": \"Company or Website\", \"type\": \"text\", \"required\": false },\n    { \"label\": \"What service are you interested in?\", \"type\": \"select\", \"required\": true, \"options\": [\"[Service 1]\", \"[Service 2]\", \"[Service 3]\", \"Not sure yet\"] },\n    { \"label\": \"Describe your project\", \"type\": \"textarea\", \"required\": true, \"placeholder\": \"Tell me what you're working on, what you need, and what success looks like for you.\" },\n    { \"label\": \"What's your timeline?\", \"type\": \"select\", \"required\": true, \"options\": [\"ASAP\", \"Within 1 month\", \"1–3 months\", \"Just exploring\"] },\n    { \"label\": \"What's your approximate budget?\", \"type\": \"select\", \"required\": false, \"options\": [\"Under $500\", \"$500–$1,500\", \"$1,500–$5,000\", \"$5,000+\", \"Let's discuss\"] }\n  ],\n  \"buttonText\": \"Submit My Project\",\n  \"thankYouMessage\": \"Got it! I'll review your project and get back to you within 1 business day. Check your inbox for a confirmation.\"\n}"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Qualification Question #1 — Budget & Timeline",
+      "order_index": 2,
+      "content": "Hey [Name],\n\nThanks for reaching out about [their project description].\n\nBefore I put together any recommendations, I have a couple of quick questions to make sure I'm the right fit:\n\n1. What's your timeline for getting started? (ASAP / next 2–4 weeks / flexible)\n\n2. Do you have a budget range in mind? Even a rough number helps me recommend the right approach.\n\n3. Have you worked with a [your service type] before, or is this your first time?\n\nOnce I know this, I'll either set up a quick call or send over some initial thoughts directly.\n\n[Your name]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Qualification Question #2 — Deeper Discovery",
+      "order_index": 3,
+      "content": "Thanks for the details, [Name]!\n\nA few more questions to help me give you the most useful response:\n\n1. What's your primary goal with this project? (For example: [option A], [option B], or [option C])\n\n2. What does success look like 90 days from now? What would have to be true for you to consider this a win?\n\n3. What's the biggest obstacle you're running into right now — is it [option A], [option B], or something else?\n\nThese help me come to the call with something actually useful rather than generic suggestions.\n\n[Your name]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Qualification Question #3 — Decision & Fit",
+      "order_index": 4,
+      "content": "Last question before I send the calendar link:\n\nWho's involved in making the final decision on this project? Just you, or are others involved?\n\nAnd — just so I can prepare the right proposal — are you comparing a few options right now, or are you specifically looking for someone who [your unique approach or positioning]?\n\nNo judgment either way. I just want to make the discovery call as useful as possible for both of us.\n\nIf everything sounds aligned, here's my calendar: [LINK]\n\nLooking forward to it.\n\n[Your name]"
+    },
+    {
+      "type": "email",
+      "title": "Post-Inquiry Confirmation Email",
+      "order_index": 5,
+      "content": "Subject: Got your project inquiry — here's what happens next\n\nHi [Name],\n\nThanks for reaching out about [their project].\n\nI've received your inquiry and I'm reviewing it now. You'll hear back from me within [timeframe] with either:\n\na) A few follow-up questions (if I need to understand your project better), or\nb) A calendar link to book a free [X]-minute discovery call\n\nWhile you wait, here are a few things that might be useful:\n\n→ [Link to portfolio or case study]\n→ [Link to FAQ or process page]\n→ [Link to testimonials]\n\nIf your project is urgent, feel free to reply directly to this email.\n\nTalk soon,\n[Your name]\n[Your title / website]"
+    },
+    {
+      "type": "email",
+      "title": "Discovery Call Prep Email",
+      "order_index": 6,
+      "content": "Subject: Your call with [Your Name] — [date/time]\n\nHey [Name],\n\nLooking forward to our call [day] at [time].\n\nHere's the call link: [ZOOM/CALENDAR LINK]\n\nTo make the most of our [X] minutes together, it helps if you come prepared with:\n\n1. A clear description of your project and what you're trying to achieve\n2. Any examples of work you love (competitors, inspirations, benchmarks)\n3. Your honest budget range\n4. Your timeline and any hard deadlines\n\nI'll use our time to:\n→ Understand your project and goals\n→ Share my initial approach\n→ Answer any questions you have\n→ Discuss fit and next steps\n\nNo pressure. If we're not the right fit, I'll tell you — and I'll point you to someone who might be.\n\nSee you [day],\n[Your name]"
+    },
+    {
+      "type": "email",
+      "title": "Post-Call Follow-Up / Proposal",
+      "order_index": 7,
+      "content": "Subject: Great talking — here's what I'm proposing\n\nHey [Name],\n\nGreat call today. Based on our conversation, here's what I'm proposing:\n\nPROJECT OVERVIEW:\n[1-2 sentences summarizing their need and goal — prove you listened]\n\nMY APPROACH:\n[How you'll solve their problem — your process in 3-4 bullet points]\n\nDELIVERABLES:\n• [Deliverable 1]\n• [Deliverable 2]\n• [Deliverable 3]\n\nTIMELINE:\n• Project start: [Date]\n• [Milestone 1]: [Date]\n• Final delivery: [Date]\n\nINVESTMENT:\n$[Amount] — [payment structure: 50% upfront, 50% on delivery — or monthly]\n\nNEXT STEPS:\nIf this looks good to you, reply with \"Yes\" or \"Let's start\" and I'll send over the contract.\n\nIf you have questions or want to adjust anything, just reply.\n\nProposal is valid for [X] days.\n\n[Your name]\n\nP.S. [Optional: reinforce value or address a potential objection from the call]"
+    }
+  ]
+}

@@ -82,6 +82,42 @@ export interface DashboardSummary {
   focus: string;
 }
 
+export interface TemplateAsset {
+  type: string;
+  title: string;
+  content: string;
+  order_index: number;
+}
+
+export interface AutomationRule {
+  trigger: string;
+  action: string;
+  followUp: string;
+}
+
+export interface CampaignTemplate {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  outcome: string;
+  color: string;
+  estimatedDuration: string;
+  assetSummary: string[];
+  assets: TemplateAsset[];
+  automation: AutomationRule[];
+}
+
+export interface CampaignAsset {
+  id: string;
+  campaign_id: string;
+  asset_type: string;
+  title: string;
+  content: string;
+  order_index: number;
+  created_at: string;
+}
+
 export interface UserSettings {
   id?: string;
   user_id: string;

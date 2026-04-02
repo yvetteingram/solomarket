@@ -1,0 +1,76 @@
+{
+  "id": "newsletter-growth-engine",
+  "name": "Newsletter Growth Engine",
+  "description": "Build and monetize an email audience with a proven signup funnel and welcome sequence",
+  "category": "Audience Building",
+  "outcome": "100–500 new subscribers per month",
+  "color": "purple",
+  "estimatedDuration": "30 days",
+  "assetSummary": ["1 signup page copy", "3-email welcome sequence", "5 content prompts", "1 nurture email"],
+  "automation": [
+    { "trigger": "Subscriber joins list", "action": "Send Welcome Email #1 immediately", "followUp": "Send Email #2 on day 3, Email #3 on day 7" },
+    { "trigger": "Welcome sequence complete", "action": "Move to nurture sequence", "followUp": "Send weekly value email every Tuesday" }
+  ],
+  "assets": [
+    {
+      "type": "landing_page_copy",
+      "title": "Newsletter Signup Page",
+      "order_index": 0,
+      "content": "HEADLINE:\n[Benefit-driven outcome] in [timeframe] — delivered to your inbox every [frequency]\n\nSUBHEADLINE:\nJoin [X]+ [your audience type] who get [what you send] every [day] to [achieve outcome].\n\nBULLET POINTS (What they get):\n• [Specific value 1] — so you can [outcome]\n• [Specific value 2] — without [pain/obstacle]\n• [Specific value 3] — even if [common objection]\n• [Bonus value 4]\n\nSOCIAL PROOF:\n\"[Short testimonial about the newsletter's value.]\"\n— [Name], [Role]\n\nCTA BUTTON: Join [number] readers — It's free\n\nFINE PRINT:\nNo spam. Unsubscribe anytime. Your email is safe with me.\n\n---\nABOUT THE AUTHOR (sidebar or below fold):\n[Your name] is a [your role] who helps [audience] achieve [outcome]. Every [frequency], [your name] shares [what makes your newsletter unique]."
+    },
+    {
+      "type": "email",
+      "title": "Welcome Email #1 — The Promise",
+      "order_index": 1,
+      "content": "Subject: Welcome — here's what to expect\n\nHey [First Name],\n\nYou're in. Welcome to [Newsletter Name].\n\nEvery [frequency], you'll get [what you deliver] — [the core promise in one sentence].\n\nHere's what makes this different from every other newsletter in your inbox:\n\n[YOUR UNIQUE ANGLE — be specific about what you cover and how you cover it]\n\nI started this because [your origin story — 2-3 sentences max].\n\nWhat you'll get from here:\n→ [Benefit 1]\n→ [Benefit 2]\n→ [Benefit 3]\n\nQuick favor: reply to this email and tell me — what's the #1 thing you're hoping to learn or solve?\n\nI read every reply. And knowing this helps me make the newsletter more useful for you.\n\nMore soon,\n[Your name]\n\nP.S. While you wait for the next issue, here's the most popular thing I've ever shared: [link to best content]"
+    },
+    {
+      "type": "email",
+      "title": "Welcome Email #2 — The Best Of",
+      "order_index": 2,
+      "content": "Subject: My best stuff, all in one place\n\nHey [First Name],\n\nBefore I send you the next issue, I wanted to share my most useful resources with you.\n\nThink of this as your orientation guide.\n\n📌 Most popular: [Title]\n[Link] — [One sentence on why this is valuable]\n\n📌 Most shared: [Title]\n[Link] — [One sentence on why this resonates]\n\n📌 Most practical: [Title]\n[Link] — [One sentence on the takeaway]\n\n📌 My origin story: [Title]\n[Link] — [Why this one matters]\n\nIf you only have 10 minutes, start with [the most important one].\n\nNext issue comes out [day]. I'll be covering [topic preview — build anticipation].\n\nTalk soon,\n[Your name]"
+    },
+    {
+      "type": "email",
+      "title": "Welcome Email #3 — The Invitation",
+      "order_index": 3,
+      "content": "Subject: One more thing\n\nHey [First Name],\n\nThis is the last email in the welcome series — from here, you'll just get the regular [frequency] newsletter.\n\nBefore I go, I want to ask:\n\nAre you dealing with any of these right now?\n\n□ [Problem 1 your audience faces]\n□ [Problem 2]\n□ [Problem 3]\n□ [Problem 4]\n\nIf any of those hit home, I'd love to chat for 15 minutes.\n\nNo pitch. Just a conversation to understand what you're working on and see if I can point you in the right direction.\n\n[LINK TO CALENDAR or \"Just reply to this email\"]\n\nIf now isn't the right time, no worries — just keep an eye on your inbox. I'll be sharing [upcoming topic] next [day].\n\nThanks for being here,\n[Your name]\n\nP.S. If you know someone who would benefit from this newsletter, forward it to them. The best compliment you can give me is a referral."
+    },
+    {
+      "type": "email",
+      "title": "Nurture Email — Weekly Value",
+      "order_index": 4,
+      "content": "Subject: [Specific insight or tip — make it concrete]\n\nHey [First Name],\n\n[OPENING HOOK — a surprising stat, bold claim, or personal story in 1-3 sentences]\n\n[MAIN CONTENT — 200-400 words]\n\nThis week I want to share [topic].\n\n[Your insight, story, or lesson]\n\nHere's what this means for you:\n\n[Practical takeaway 1]\n[Practical takeaway 2]\n[Practical takeaway 3]\n\n[CALL TO ACTION — one of the following:]\n→ Hit reply and tell me: [relevant question]\n→ Here's the tool/resource I mentioned: [link]\n→ If you want to go deeper on this, I put together [resource]: [link]\n\nUntil next [day],\n[Your name]\n\n---\n[Newsletter Name] | [Your tagline]\nYou're receiving this because you signed up at [website].\n[Unsubscribe] | [View in browser]"
+    },
+    {
+      "type": "social_post",
+      "title": "Content Prompt #1 — Newsletter Teaser",
+      "order_index": 5,
+      "content": "This week in [Newsletter Name]:\n\n→ [Teaser for main article — make them curious]\n→ [Teaser for secondary content]\n→ [Bonus tip or resource]\n\nIf you're not subscribed yet, you're missing out.\n\n[LINK TO SIGNUP]\n\nFree. [Frequency]. No fluff."
+    },
+    {
+      "type": "social_post",
+      "title": "Content Prompt #2 — Milestone Post",
+      "order_index": 6,
+      "content": "[X] people now read [Newsletter Name] every [frequency].\n\nWhen I started, I had [small number] subscribers and zero idea what I was doing.\n\nHere's what I've learned about growing an audience from scratch:\n\n1. [Lesson 1]\n2. [Lesson 2]\n3. [Lesson 3]\n\nIf you're not on the list yet, here's what you're getting:\n\n[What the newsletter covers in 2-3 bullets]\n\n[LINK TO SIGNUP] — it's free."
+    },
+    {
+      "type": "social_post",
+      "title": "Content Prompt #3 — Value Preview",
+      "order_index": 7,
+      "content": "Here's a sneak peek from this week's [Newsletter Name]:\n\n\"[PULL QUOTE from your newsletter — the most insightful or useful line]\"\n\nThe full breakdown (including [what else is in the issue]) is in the newsletter.\n\nJoin [X]+ readers: [SIGNUP LINK]\n\nFree to subscribe. Takes 30 seconds."
+    },
+    {
+      "type": "social_post",
+      "title": "Content Prompt #4 — Social Proof",
+      "order_index": 8,
+      "content": "Got this reply from a subscriber last week:\n\n\"[REAL SUBSCRIBER REPLY or testimonial about the newsletter]\"\n— [Name], [Role]\n\nThis is exactly why I write [Newsletter Name].\n\nIf you want [the outcome your newsletter delivers], join [X]+ readers:\n\n[SIGNUP LINK]\n\nFree. Unsubscribe anytime."
+    },
+    {
+      "type": "social_post",
+      "title": "Content Prompt #5 — Direct Ask",
+      "order_index": 9,
+      "content": "Every [day], I send one email to [X]+ [audience type].\n\nIt covers [topic 1], [topic 2], and [topic 3].\n\nIt's free. It's [frequency]. And it takes [X] minutes to read.\n\nThe last issue covered: [recent topic — link if public]\n\nJoin here: [SIGNUP LINK]\n\n(Unsubscribe anytime — no hard feelings)"
+    }
+  ]
+}

@@ -5,7 +5,7 @@ import { AppSidebar } from './components/AppSidebar';
 import { Dashboard } from './screens/Dashboard';
 import { Plans } from './screens/Plans';
 import { ContentLab } from './screens/ContentLab';
-import { Campaigns } from './screens/Campaigns';
+import { Systems } from './screens/Systems';
 import { Leads } from './screens/Leads';
 import { Analytics } from './screens/Analytics';
 import { Settings } from './screens/Settings';
@@ -149,7 +149,7 @@ function AppContent() {
             <Onboarding hasProducts={hasProducts} hasPlans={hasPlans} hasPosts={hasPosts} />
           } />
           <Route path="/plans" element={<Plans />} />
-          <Route path="/campaigns" element={<Campaigns />} />
+          <Route path="/campaigns" element={<Systems />} />
           <Route path="/content" element={<ContentLab />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/leads" element={<Leads />} />

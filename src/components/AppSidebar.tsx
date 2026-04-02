@@ -58,7 +58,7 @@ export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle, mobile
   const items = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'plans', label: 'Plans', icon: Target },
-    { id: 'campaigns', label: 'Campaigns', icon: Megaphone },
+    { id: 'campaigns', label: 'Systems', icon: Megaphone },
     { id: 'content', label: 'Content Lab', icon: FlaskConical },
     { id: 'calendar', label: 'Calendar', icon: Calendar },
     { id: 'leads', label: 'Leads', icon: Users },

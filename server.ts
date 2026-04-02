@@ -490,6 +490,58 @@ async function startServer() {
     }
   });
 
+  // Campaign Assets
+  app.get("/api/campaign-assets", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { campaign_id } = req.query;
+      if (!campaign_id) { res.status(400).json({ error: 'campaign_id required' }); return; }
+      const supabase = getSupabase();
+      const { data, error } = await supabase
+        .from('campaign_assets')
+        .select('*')
+        .eq('campaign_id', campaign_id as string)
+        .order('order_index', { ascending: true });
+      if (error) throw error;
+      res.json(data || []);
+    } catch {
+      res.status(500).json({ error: 'Failed to fetch campaign assets' });
+    }
+  });
+
+  app.post("/api/campaign-assets", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const { campaign_id, asset_type, title, content, order_index } = req.body;
+      if (!campaign_id || !asset_type || !title) {
+        res.status(400).json({ error: 'campaign_id, asset_type, and title are required' });
+        return;
+      }
+      const supabase = getSupabase();
+      const { data, error } = await supabase
+        .from('campaign_assets')
+        .insert({ campaign_id, asset_type, title, content: content || '', order_index: order_index ?? 0 })
+        .select()
+        .single();
+      if (error) throw error;
+      res.status(201).json(data);
+    } catch {
+      res.status(500).json({ error: 'Failed to create campaign asset' });
+    }
+  });
+
+  app.delete("/api/campaign-assets/:id", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const supabase = getSupabase();
+      const { error } = await supabase
+        .from('campaign_assets')
+        .delete()
+        .eq('id', req.params.id);
+      if (error) throw error;
+      res.json({ success: true });
+    } catch {
+      res.status(500).json({ error: 'Failed to delete campaign asset' });
+    }
+  });
+
   // Analytics
   app.get("/api/analytics/summary", requireAuth, async (req: Request, res: Response) => {
     try {
