@@ -76,9 +76,6 @@ export function QuickStart() {
               S
             </div>
             <span className="font-bold text-2xl tracking-tight text-slate-900">SoloMarket</span>
-            <span className="text-[9px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-md">
-              Beta
-            </span>
           </div>
 
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold uppercase tracking-widest mb-5">
@@ -87,7 +84,7 @@ export function QuickStart() {
           </div>
 
           <h1 className="text-3xl font-bold text-slate-900 mb-3">
-            Welcome to the Beta
+            Welcome to SoloMarket
           </h1>
           <p className="text-slate-500 max-w-lg mx-auto leading-relaxed">
             SoloMarket is your AI-powered marketing OS. Here's how to get the most out of it in just a few minutes.
@@ -123,31 +120,25 @@ export function QuickStart() {
         </div>
 
         {/* Tips */}
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 mb-10">
-          <h3 className="font-bold text-amber-800 mb-3">Beta Tester Tips</h3>
-          <ul className="space-y-2 text-sm text-amber-700">
+        <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 mb-10">
+          <h3 className="font-bold text-emerald-800 mb-3">Pro Tips</h3>
+          <ul className="space-y-2 text-sm text-emerald-700">
             <li className="flex items-start gap-2">
-              <span className="mt-1.5 w-1.5 h-1.5 bg-amber-500 rounded-full flex-shrink-0" />
-              <span>
-                Use the <strong>Send Feedback</strong> button in the sidebar anytime — we read every message.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-1.5 w-1.5 h-1.5 bg-amber-500 rounded-full flex-shrink-0" />
+              <span className="mt-1.5 w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0" />
               <span>
                 Start with <strong>Plans</strong> to generate a strategy, then move to <strong>Content Lab</strong> to create posts from it.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="mt-1.5 w-1.5 h-1.5 bg-amber-500 rounded-full flex-shrink-0" />
+              <span className="mt-1.5 w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0" />
               <span>
                 Your <strong>Dashboard</strong> updates automatically as you create plans, content, and campaigns.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="mt-1.5 w-1.5 h-1.5 bg-amber-500 rounded-full flex-shrink-0" />
+              <span className="mt-1.5 w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0" />
               <span>
-                If something breaks or feels off, that's exactly what we need to know — don't hesitate to report it.
+                Head to <strong>Settings</strong> first to set your brand voice — it makes all AI output more personalized.
               </span>
             </li>
           </ul>
@@ -163,9 +154,6 @@ export function QuickStart() {
             Go to SoloMarket
             <ArrowRight size={18} />
           </button>
-          <p className="text-xs text-slate-400 mt-3">
-            Need an invite code? Email <a href="mailto:ketorah.digital@gmail.com" className="text-emerald-600 hover:underline">ketorah.digital@gmail.com</a>
-          </p>
         </div>
       </div>
     </div>

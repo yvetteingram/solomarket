@@ -75,9 +75,6 @@ export function LandingPage() {
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-base">S</div>
             <span className="font-bold text-xl tracking-tight text-slate-900">SoloMarket</span>
-            <span className="hidden sm:inline-flex items-center px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-[10px] font-bold uppercase tracking-widest ml-1">
-              Beta
-            </span>
           </div>
           {/* Desktop */}
           <div className="hidden sm:flex items-center gap-3">
@@ -91,7 +88,7 @@ export function LandingPage() {
               onClick={() => navigate('/signup')}
               className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition-all shadow-sm shadow-emerald-200"
             >
-              Join the Free Beta
+              Get Started Free
             </button>
           </div>
           {/* Mobile hamburger */}
@@ -109,7 +106,7 @@ export function LandingPage() {
               onClick={() => navigate('/signup')}
               className="block w-full px-3 py-2.5 bg-emerald-600 text-white text-sm font-semibold rounded-xl text-center"
             >
-              Join the Free Beta
+              Get Started Free
             </button>
           </div>
         )}
@@ -121,7 +118,7 @@ export function LandingPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-sm font-medium mb-6">
               <Rocket className="w-4 h-4" />
-              Free during beta — join now
+              AI-powered marketing for solopreneurs
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight tracking-tight mb-6">
               The Marketing OS<br />
@@ -136,7 +133,7 @@ export function LandingPage() {
                 onClick={() => navigate('/signup')}
                 className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg rounded-2xl transition-all shadow-lg shadow-emerald-200 flex items-center justify-center gap-2"
               >
-                Join the Free Beta
+                Get Started Free
                 <ArrowRight className="w-5 h-5" />
               </button>
               <p className="text-sm text-slate-400">No credit card required</p>
@@ -297,21 +294,21 @@ export function LandingPage() {
             <blockquote className="text-xl sm:text-2xl font-medium text-slate-800 italic mb-4 leading-relaxed">
               "I finally feel like I have a marketing strategy — not just random posts and hope."
             </blockquote>
-            <p className="text-slate-400 text-sm mb-12">— Early beta tester</p>
+            <p className="text-slate-400 text-sm mb-12">— SoloMarket user</p>
 
             <div className="bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-white">
               <h2 className="text-2xl sm:text-3xl font-bold mb-4">Ready to take control of your marketing?</h2>
               <p className="text-emerald-100 mb-8 max-w-lg mx-auto">
-                Join the free beta and get lifetime access to founder pricing when we launch.
+                Start for free and grow your business with AI-powered marketing tools built for solopreneurs.
               </p>
               <button
                 onClick={() => navigate('/signup')}
                 className="px-8 py-4 bg-white text-emerald-700 font-bold text-lg rounded-2xl hover:bg-emerald-50 transition-all shadow-lg flex items-center gap-2 mx-auto"
               >
-                Join the Free Beta
+                Get Started Free
                 <ArrowRight className="w-5 h-5" />
               </button>
-              <p className="text-emerald-200 text-xs mt-4">Invite code required — spots are limited</p>
+              <p className="text-emerald-200 text-xs mt-4">No credit card required</p>
             </div>
           </motion.div>
         </div>

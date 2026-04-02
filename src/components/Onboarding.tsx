@@ -113,9 +113,9 @@ export const Onboarding = ({ hasProducts, hasPlans, hasPosts }: OnboardingProps)
   return (
     <div className="max-w-3xl mx-auto">
       <div className="text-center mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
           <Sparkles size={14} />
-          <span>Welcome to the Beta</span>
+          <span>Let's Get Started</span>
         </div>
         <h1 className="text-3xl font-bold text-slate-900 mb-2">
           Hey {capitalizedName}, let's get you set up

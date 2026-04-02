@@ -135,7 +135,6 @@ function AppContent() {
         <div className="flex items-center gap-2 ml-2">
           <div className="w-7 h-7 bg-brand rounded-lg flex items-center justify-center text-white font-bold text-sm">S</div>
           <span className="font-bold text-base tracking-tight">SoloMarket</span>
-          <span className="text-[8px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700 px-1 py-0.5 rounded">Beta</span>
         </div>
       </div>
 

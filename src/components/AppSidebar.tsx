@@ -70,7 +70,7 @@ export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle, mobile
   const handleSendFeedback = () => {
     if (!feedbackText.trim()) return;
     // Open mailto with prefilled subject and body
-    const subject = encodeURIComponent('SoloMarket Beta Feedback');
+    const subject = encodeURIComponent('SoloMarket Feedback');
     const body = encodeURIComponent(`Feedback from ${user?.email || 'user'}:\n\n${feedbackText}`);
     window.open(`mailto:ketorah.digital@gmail.com?subject=${subject}&body=${body}`, '_blank');
     setFeedbackText('');
@@ -104,7 +104,6 @@ export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle, mobile
             <button onClick={() => onNavigate('dashboard')} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-white font-bold">S</div>
               <span className="font-bold text-lg tracking-tight">SoloMarket</span>
-              <span className="text-[9px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-md">Beta</span>
             </button>
           )}
           <button
@@ -146,7 +145,7 @@ export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle, mobile
               </div>
               <div className="flex flex-col overflow-hidden">
                 <span className="text-xs font-medium text-slate-900 truncate">{user?.email}</span>
-                <span className="text-[10px] text-amber-600 font-bold">Beta Tester</span>
+                <span className="text-[10px] text-slate-400 font-medium">Free Plan</span>
               </div>
             </div>
           )}
