@@ -38,6 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+        if (session) fetchPlan(session.access_token);
       }).catch(err => {
         console.error('Auth session error:', err);
         setLoading(false);
