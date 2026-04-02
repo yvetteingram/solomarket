@@ -52,7 +52,7 @@ interface AppSidebarProps {
 }
 
 export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle, mobileOpen, onMobileToggle }: AppSidebarProps) => {
-  const { user, signOut } = useAuth();
+  const { user, plan, signOut } = useAuth();
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackText, setFeedbackText] = useState('');
   const [feedbackSent, setFeedbackSent] = useState(false);
@@ -149,7 +149,7 @@ export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle, mobile
               </div>
               <div className="flex flex-col overflow-hidden">
                 <span className="text-xs font-medium text-slate-900 truncate">{user?.email}</span>
-                <span className="text-[10px] text-slate-400 font-medium">Free Plan</span>
+                <span className="text-[10px] text-slate-400 font-medium capitalize">{plan === 'free' ? 'Free Plan' : `${plan} Plan`}</span>
               </div>
             </div>
           )}

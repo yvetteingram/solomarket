@@ -6,6 +6,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  plan: string;
   signOut: () => Promise<void>;
 }
 
@@ -16,6 +17,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [plan, setPlan] = useState<string>('free');
+
+  const fetchPlan = async (token: string) => {
+    try {
+      const res = await fetch('/api/profile', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setPlan(data.plan || 'free');
+      }
+    } catch {}
+  };
 
   useEffect(() => {
     try {
@@ -35,12 +49,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(session?.user ?? null);
         setLoading(false);
 
-        // Ensure a profile row exists for newly signed-up users
-        if (event === 'SIGNED_IN' && session) {
-          fetch('/api/ensure-profile', {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${session.access_token}` },
-          }).catch(() => {}); // fire-and-forget, non-blocking
+        if (session) {
+          fetchPlan(session.access_token);
+          if (event === 'SIGNED_IN') {
+            fetch('/api/ensure-profile', {
+              method: 'POST',
+              headers: { Authorization: `Bearer ${session.access_token}` },
+            }).catch(() => {});
+          }
+        } else {
+          setPlan('free');
         }
       });
 
@@ -87,7 +105,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, plan, signOut }}>
       {children}
     </AuthContext.Provider>
   );

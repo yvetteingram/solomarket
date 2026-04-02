@@ -101,6 +101,25 @@ async function startServer() {
     }
   });
 
+  app.get("/api/profile", requireAuth, async (req: Request, res: Response) => {
+    try {
+      const supabase = getSupabase();
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('subscription_status, plan')
+        .eq('id', req.userId!)
+        .single();
+      if (error && error.code !== 'PGRST116') throw error;
+      res.json({
+        subscription_status: data?.subscription_status || 'inactive',
+        plan: data?.plan || 'free',
+      });
+    } catch (error) {
+      console.error('profile error:', error);
+      res.status(500).json({ error: 'Failed to fetch profile' });
+    }
+  });
+
   app.get("/api/dashboard/summary", requireAuth, async (req: Request, res: Response) => {
     try {
       const supabase = getSupabase();
