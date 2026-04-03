@@ -20,7 +20,7 @@ const PLANS = [
     color: 'border-slate-200',
     badgeColor: 'bg-slate-100 text-slate-700',
     ctaColor: 'bg-slate-900 hover:bg-slate-800 text-white',
-    gumroadUrl: 'https://solomarket.gumroad.com/l/starter',
+    gumroadUrl: 'https://ketorahdigital.gumroad.com/l/starter',
     features: [
       '1 active campaign system',
       '500 leads',
@@ -41,7 +41,7 @@ const PLANS = [
     badgeColor: 'bg-emerald-600 text-white',
     ctaColor: 'bg-emerald-600 hover:bg-emerald-700 text-white',
     highlighted: true,
-    gumroadUrl: 'https://solomarket.gumroad.com/l/growth',
+    gumroadUrl: 'https://ketorahdigital.gumroad.com/l/growth',
     features: [
       'Unlimited campaign systems',
       '5,000 leads',
@@ -62,7 +62,7 @@ const PLANS = [
     color: 'border-indigo-300',
     badgeColor: 'bg-indigo-600 text-white',
     ctaColor: 'bg-indigo-600 hover:bg-indigo-700 text-white',
-    gumroadUrl: 'https://solomarket.gumroad.com/l/agency',
+    gumroadUrl: 'https://ketorahdigital.gumroad.com/l/agency',
     features: [
       '10 client workspaces',
       'Unlimited campaigns',
@@ -86,7 +86,7 @@ const MARKETPLACE_ITEMS = [
     icon: '🎥',
     color: 'bg-red-500',
     assets: ['5 video scripts', '10 video descriptions', '3 community posts', '1 channel trailer script'],
-    gumroadUrl: 'https://solomarket.gumroad.com/l/youtube-authority',
+    gumroadUrl: 'https://ketorahdigital.gumroad.com/l/youtube-authority',
   },
   {
     id: 'email-monetization',
@@ -97,7 +97,7 @@ const MARKETPLACE_ITEMS = [
     icon: '💰',
     color: 'bg-amber-500',
     assets: ['7 promotional emails', '3 sales sequences', '2 re-engagement campaigns', '1 flash sale template'],
-    gumroadUrl: 'https://solomarket.gumroad.com/l/email-monetization',
+    gumroadUrl: 'https://ketorahdigital.gumroad.com/l/email-monetization',
   },
   {
     id: 'cold-email-system',
@@ -108,7 +108,7 @@ const MARKETPLACE_ITEMS = [
     icon: '📬',
     color: 'bg-blue-500',
     assets: ['5-step cold email sequence', '3 follow-up scripts', '2 breakup emails', '1 referral ask template'],
-    gumroadUrl: 'https://solomarket.gumroad.com/l/cold-email-system',
+    gumroadUrl: 'https://ketorahdigital.gumroad.com/l/cold-email-system',
   },
   {
     id: 'consulting-accelerator',
@@ -119,7 +119,7 @@ const MARKETPLACE_ITEMS = [
     icon: '🤝',
     color: 'bg-purple-500',
     assets: ['2 proposal templates', '5 follow-up scripts', '1 pricing positioning guide', '3 case study templates'],
-    gumroadUrl: 'https://solomarket.gumroad.com/l/consulting-accelerator',
+    gumroadUrl: 'https://ketorahdigital.gumroad.com/l/consulting-accelerator',
   },
   {
     id: 'course-launch-blueprint',
@@ -130,7 +130,7 @@ const MARKETPLACE_ITEMS = [
     icon: '🎓',
     color: 'bg-orange-500',
     assets: ['10-email launch sequence', '6 social posts', '1 webinar invite sequence', '1 cart-close campaign'],
-    gumroadUrl: 'https://solomarket.gumroad.com/l/course-launch',
+    gumroadUrl: 'https://ketorahdigital.gumroad.com/l/course-launch',
   },
   {
     id: 'instagram-growth',
@@ -141,7 +141,7 @@ const MARKETPLACE_ITEMS = [
     icon: '📸',
     color: 'bg-pink-500',
     assets: ['10 reel scripts', '5 carousel captions', '3 story sequences', '1 collab outreach script'],
-    gumroadUrl: 'https://solomarket.gumroad.com/l/instagram-growth',
+    gumroadUrl: 'https://ketorahdigital.gumroad.com/l/instagram-growth',
   },
   {
     id: 'podcast-growth',
@@ -152,7 +152,7 @@ const MARKETPLACE_ITEMS = [
     icon: '🎙️',
     color: 'bg-teal-500',
     assets: ['5 episode show notes', '3 guest outreach scripts', '5 promotional posts', '1 listener survey template'],
-    gumroadUrl: 'https://solomarket.gumroad.com/l/podcast-growth',
+    gumroadUrl: 'https://ketorahdigital.gumroad.com/l/podcast-growth',
   },
   {
     id: 'speaking-visibility',
@@ -163,7 +163,7 @@ const MARKETPLACE_ITEMS = [
     icon: '🎤',
     color: 'bg-indigo-500',
     assets: ['1 speaker bio template', '3 podcast pitch scripts', '2 conference pitch templates', '1 press kit template'],
-    gumroadUrl: 'https://solomarket.gumroad.com/l/speaking-visibility',
+    gumroadUrl: 'https://ketorahdigital.gumroad.com/l/speaking-visibility',
   },
 ];
 
