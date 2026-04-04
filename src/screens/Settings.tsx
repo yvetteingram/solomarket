@@ -15,7 +15,13 @@ import {
   Video,
   MapPin,
   MessageCircle,
-  Pencil
+  Pencil,
+  Zap,
+  Crown,
+  Building2,
+  ExternalLink,
+  ArrowRight,
+  CheckCircle2,
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
@@ -29,8 +35,111 @@ interface UserSettings {
   target_audience: string;
 }
 
+// ── Plan config ──────────────────────────────────────────────────────────────
+const PLAN_CONFIG = {
+  free: {
+    label: 'Free',
+    icon: Zap,
+    color: 'bg-slate-100 text-slate-600',
+    upgrades: [
+      { name: 'Starter', price: '$29/mo', url: 'https://ketorahdigital.gumroad.com/l/starter', color: 'bg-slate-900 hover:bg-slate-800 text-white' },
+      { name: 'Growth', price: '$59/mo', url: 'https://ketorahdigital.gumroad.com/l/growth', color: 'bg-emerald-600 hover:bg-emerald-700 text-white' },
+      { name: 'Agency', price: '$249/mo', url: 'https://ketorahdigital.gumroad.com/l/agency', color: 'bg-indigo-600 hover:bg-indigo-700 text-white' },
+    ],
+  },
+  starter: {
+    label: 'Starter',
+    icon: Zap,
+    color: 'bg-slate-100 text-slate-700',
+    upgrades: [
+      { name: 'Growth', price: '$59/mo', url: 'https://ketorahdigital.gumroad.com/l/growth', color: 'bg-emerald-600 hover:bg-emerald-700 text-white' },
+      { name: 'Agency', price: '$249/mo', url: 'https://ketorahdigital.gumroad.com/l/agency', color: 'bg-indigo-600 hover:bg-indigo-700 text-white' },
+    ],
+  },
+  growth: {
+    label: 'Growth',
+    icon: Crown,
+    color: 'bg-emerald-100 text-emerald-700',
+    upgrades: [
+      { name: 'Agency', price: '$249/mo', url: 'https://ketorahdigital.gumroad.com/l/agency', color: 'bg-indigo-600 hover:bg-indigo-700 text-white' },
+    ],
+  },
+  agency: {
+    label: 'Agency',
+    icon: Building2,
+    color: 'bg-indigo-100 text-indigo-700',
+    upgrades: [],
+  },
+};
+
+const BillingSection = ({ plan }: { plan: string }) => {
+  const key = (plan in PLAN_CONFIG ? plan : 'free') as keyof typeof PLAN_CONFIG;
+  const config = PLAN_CONFIG[key];
+  const PlanIcon = config.icon;
+
+  return (
+    <SectionCard title="Subscription & Billing" description="Your current plan and upgrade options.">
+      <div className="flex items-center gap-3 mb-6">
+        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-bold ${config.color}`}>
+          <PlanIcon size={15} />
+          {config.label} Plan
+        </div>
+        {plan !== 'free' && (
+          <span className="flex items-center gap-1 text-xs text-emerald-600 font-semibold">
+            <CheckCircle2 size={13} />
+            Active
+          </span>
+        )}
+      </div>
+
+      {config.upgrades.length > 0 && (
+        <div className="space-y-2 mb-5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+            {plan === 'free' ? 'Choose a plan' : 'Upgrade to'}
+          </p>
+          {config.upgrades.map(u => (
+            <a
+              key={u.name}
+              href={u.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center justify-between w-full px-4 py-3 rounded-xl font-bold text-sm transition-all ${u.color}`}
+            >
+              <span>{u.name} — {u.price}</span>
+              <ArrowRight size={15} />
+            </a>
+          ))}
+        </div>
+      )}
+
+      {plan === 'agency' && (
+        <p className="text-sm text-slate-500 mb-5">You're on the highest plan — all features unlocked.</p>
+      )}
+
+      {plan !== 'free' && (
+        <>
+          <a
+            href="https://app.gumroad.com/subscriptions"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-600 transition-colors"
+          >
+            <ExternalLink size={12} />
+            Manage or cancel subscription on Gumroad
+          </a>
+          {config.upgrades.length > 0 && (
+            <p className="text-[11px] text-slate-400 mt-3">
+              To upgrade: cancel your current plan on Gumroad, then purchase the new plan above.
+            </p>
+          )}
+        </>
+      )}
+    </SectionCard>
+  );
+}
+
 export const Settings = () => {
-  const { user, signOut } = useAuth();
+  const { user, plan, signOut } = useAuth();
   const [settings, setSettings] = useState<UserSettings>({
     full_name: '',
     primary_product: '',
@@ -237,6 +346,9 @@ export const Settings = () => {
             </div>
           </div>
         </SectionCard>
+
+        {/* Subscription & Billing */}
+        <BillingSection plan={plan} />
 
         {/* Your Products */}
         <SectionCard title="Your Products" description="Add the products you want to market. These appear in Plans and Content Lab.">
