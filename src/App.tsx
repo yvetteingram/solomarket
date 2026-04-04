@@ -47,6 +47,7 @@ const ID_TO_ROUTE: Record<string, string> = {
   'marketplace': '/marketplace',
   'agency': '/agency',
   'settings': '/settings',
+  'quick-start': '/quick-start',
 };
 
 function AppContent() {

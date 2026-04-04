@@ -15,7 +15,8 @@ import {
   X,
   Bot,
   ShoppingBag,
-  Building2
+  Building2,
+  Rocket,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -69,6 +70,7 @@ export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle, mobile
     { id: 'marketplace', label: 'Marketplace', icon: ShoppingBag },
     { id: 'agency', label: 'Agency', icon: Building2 },
     { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'quick-start', label: 'Quick Start', icon: Rocket },
   ];
 
   const handleSendFeedback = () => {
