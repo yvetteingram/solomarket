@@ -16,7 +16,8 @@ import {
   Play,
   Video,
   MapPin,
-  MessageCircle
+  MessageCircle,
+  Trash2
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { apiFetch } from '../services/api';
@@ -80,6 +81,21 @@ export const Calendar = () => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const handleDelete = async (ev: CalendarEvent) => {
+    if (!confirm(`Delete "${ev.title}"?`)) return;
+    setDeletingId(ev.id);
+    const endpoint = ev.type === 'campaign' ? `/api/campaigns/${ev.id}` : `/api/posts/${ev.id}`;
+    try {
+      const res = await apiFetch(endpoint, { method: 'DELETE' });
+      if (res.ok) {
+        setEvents(prev => prev.filter(e => e.id !== ev.id));
+      }
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -310,9 +326,20 @@ export const Calendar = () => {
                               {ev.type === 'campaign' ? 'Campaign' : ev.subtype}
                             </span>
                           </div>
-                          <div className="flex items-center gap-1">
-                            {getStatusIcon(ev.status)}
-                            <span className="text-[10px] font-bold capitalize">{ev.status}</span>
+                          <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1">
+                              {getStatusIcon(ev.status)}
+                              <span className="text-[10px] font-bold capitalize">{ev.status}</span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(ev)}
+                              disabled={deletingId === ev.id}
+                              className="p-1 rounded hover:bg-red-100 text-slate-400 hover:text-red-500 transition-colors"
+                              title="Delete"
+                            >
+                              <Trash2 size={13} />
+                            </button>
                           </div>
                         </div>
                         <p className="text-sm font-semibold mt-1">{ev.title}</p>
