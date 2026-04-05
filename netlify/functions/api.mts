@@ -209,11 +209,10 @@ async function handleUpdateProduct(userId: string, productId: string, body: any)
 }
 
 async function handleDeleteProduct(userId: string, productId: string) {
-  const { error } = await getSupabase()
-    .from("products")
-    .delete()
-    .eq("id", productId)
-    .eq("user_id", userId);
+  const sb = getSupabase();
+  // Nullify product_id on linked plans so the FK constraint doesn't block deletion
+  await sb.from("marketing_plans").update({ product_id: null }).eq("product_id", productId).eq("user_id", userId);
+  const { error } = await sb.from("products").delete().eq("id", productId).eq("user_id", userId);
   if (error) throw error;
   return json({ success: true });
 }
