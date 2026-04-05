@@ -186,7 +186,7 @@ export const Settings = () => {
       .then(res => res.ok ? res.json() : [])
       .then(data => setProducts(Array.isArray(data) ? data : []))
       .catch(() => {});
-  }, [user]);
+  }, [user?.id]);
 
   const handleAddProduct = async () => {
     if (!newProduct.name.trim()) return;
@@ -261,6 +261,8 @@ export const Settings = () => {
         body: JSON.stringify(settings)
       });
       if (!res.ok) throw new Error('Failed to save');
+      const saved_data = await res.json();
+      setSettings(prev => ({ ...prev, ...saved_data }));
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch {
