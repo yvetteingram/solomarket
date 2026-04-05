@@ -1,4 +1,5 @@
 import { CampaignTemplate } from '../types';
+import { apiFetch } from './api';
 
 import linkedInLeadEngine from '../templates/linkedin-lead-engine.json';
 import newsletterGrowthEngine from '../templates/newsletter-growth-engine.json';
@@ -35,7 +36,7 @@ export async function installCampaign(
   productId?: string | null
 ): Promise<{ campaignId: string }> {
   // 1. Create the campaign record
-  const campaignRes = await fetch('/api/campaigns', {
+  const campaignRes = await apiFetch('/api/campaigns', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -56,9 +57,8 @@ export async function installCampaign(
 
   // 2. Save all template assets
   const assetPromises = template.assets.map((asset) =>
-    fetch('/api/campaign-assets', {
+    apiFetch('/api/campaign-assets', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         campaign_id: campaign.id,
         asset_type: asset.type,
