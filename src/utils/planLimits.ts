@@ -11,7 +11,14 @@ const LIMITS: Record<string, PlanLimits> = {
   agency:  { campaigns: Infinity, aiDraftsPerMonth: Infinity, leads: Infinity },
 };
 
-export function getPlanLimits(plan: string): PlanLimits {
+const ADMIN_EMAILS = ['ketorah.digital@gmail.com'];
+
+export function isAdmin(email?: string | null): boolean {
+  return !!email && ADMIN_EMAILS.includes(email);
+}
+
+export function getPlanLimits(plan: string, email?: string | null): PlanLimits {
+  if (isAdmin(email)) return LIMITS.agency; // admins always get unlimited
   return LIMITS[plan] ?? LIMITS.free;
 }
 

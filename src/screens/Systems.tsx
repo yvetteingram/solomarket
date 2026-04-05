@@ -544,13 +544,13 @@ export function Systems() {
     }
   };
 
-  const { plan } = useAuth();
+  const { plan, user } = useAuth();
 
   const handleInstallConfirm = async (productId: string | null) => {
     if (!installTarget) return;
 
     // Plan gate: Starter/free users limited to 1 active campaign
-    const limits = getPlanLimits(plan);
+    const limits = getPlanLimits(plan, user?.email);
     if (campaigns.length >= limits.campaigns) {
       setInstallError(
         `Your ${plan === 'starter' ? 'Starter' : 'current'} plan allows ${limits.campaigns} campaign system${limits.campaigns === 1 ? '' : 's'}. ` +

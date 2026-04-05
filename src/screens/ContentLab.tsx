@@ -228,7 +228,7 @@ export const ContentLab = () => {
     if (!product) return;
 
     // Plan gate: check monthly AI draft limit
-    const limits = getPlanLimits(plan);
+    const limits = getPlanLimits(plan, user?.email);
     if (limits.aiDraftsPerMonth !== Infinity && user) {
       const used = getAiDraftsUsed(user.id);
       if (used >= limits.aiDraftsPerMonth) {
