@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Save,
   Linkedin,
   Twitter,
-  Mail,
   Globe,
   LogOut,
   Plus,
@@ -27,12 +26,14 @@ import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
 import { useAuth } from '../context/AuthContext';
 import { apiFetch } from '../services/api';
+import { supabase } from '../services/supabase';
 
 interface UserSettings {
   full_name: string;
   primary_product: string;
   brand_voice: string;
   target_audience: string;
+  avatar_url: string;
 }
 
 // ── Plan config ──────────────────────────────────────────────────────────────
@@ -144,8 +145,11 @@ export const Settings = () => {
     full_name: '',
     primary_product: '',
     brand_voice: '',
-    target_audience: ''
+    target_audience: '',
+    avatar_url: ''
   });
+  const [avatarUploading, setAvatarUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -166,7 +170,8 @@ export const Settings = () => {
           full_name: data.full_name || user?.user_metadata?.full_name || '',
           primary_product: data.primary_product || '',
           brand_voice: data.brand_voice || '',
-          target_audience: data.target_audience || ''
+          target_audience: data.target_audience || '',
+          avatar_url: data.avatar_url || ''
         });
       })
       .catch(() => {
@@ -269,6 +274,26 @@ export const Settings = () => {
     setSettings(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user || !supabase) return;
+    setAvatarUploading(true);
+    try {
+      const ext = file.name.split('.').pop();
+      const path = `${user.id}/avatar.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(path, file, { upsert: true });
+      if (uploadError) throw uploadError;
+      const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(path);
+      updateField('avatar_url', urlData.publicUrl);
+    } catch {
+      setError('Failed to upload avatar. Make sure the avatars bucket exists in Supabase Storage.');
+    } finally {
+      setAvatarUploading(false);
+    }
+  };
+
   const initials = (settings.full_name || user?.email || 'U')
     .split(/[\s@]/)
     .slice(0, 2)
@@ -317,11 +342,45 @@ export const Settings = () => {
         {/* Profile Section */}
         <SectionCard title="Profile & Account" description="Your personal information and subscription.">
           <div className="flex items-center gap-6 mb-8">
-            <div className="w-20 h-20 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 text-2xl font-bold">
-              {initials}
+            <div className="relative group">
+              {settings.avatar_url ? (
+                <img
+                  src={settings.avatar_url}
+                  alt="Avatar"
+                  className="w-20 h-20 rounded-2xl object-cover"
+                />
+              ) : (
+                <div className="w-20 h-20 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 text-2xl font-bold">
+                  {initials}
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={avatarUploading}
+                title="Change avatar"
+                className="absolute inset-0 rounded-2xl bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
+              >
+                <Camera size={20} />
+              </button>
             </div>
             <div>
-              <p className="text-xs text-slate-400 mt-1">Avatar support coming soon.</p>
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={avatarUploading}
+                className="text-sm font-semibold text-brand hover:text-brand/80 transition-colors disabled:opacity-50"
+              >
+                {avatarUploading ? 'Uploading...' : 'Upload photo'}
+              </button>
+              <p className="text-xs text-slate-400 mt-1">JPG, PNG or GIF · max 2MB</p>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleAvatarChange}
+              />
             </div>
           </div>
 
@@ -589,13 +648,12 @@ export const Settings = () => {
               { name: 'LinkedIn', icon: Linkedin, status: 'Copy & Share', enabled: true, color: 'text-blue-600' },
               { name: 'Twitter / X', icon: Twitter, status: 'Copy & Share', enabled: true, color: 'text-sky-500' },
               { name: 'Facebook', icon: Users, status: 'Copy & Share', enabled: true, color: 'text-blue-500' },
-              { name: 'Instagram', icon: Camera, status: 'Coming Soon', enabled: false, color: 'text-pink-500' },
-              { name: 'YouTube', icon: Play, status: 'Coming Soon', enabled: false, color: 'text-red-500' },
-              { name: 'TikTok', icon: Video, status: 'Coming Soon', enabled: false, color: 'text-slate-900' },
-              { name: 'Pinterest', icon: MapPin, status: 'Coming Soon', enabled: false, color: 'text-red-600' },
-              { name: 'Threads', icon: MessageCircle, status: 'Coming Soon', enabled: false, color: 'text-slate-700' },
-              { name: 'Email (Mailchimp)', icon: Mail, status: 'Coming Soon', enabled: false, color: 'text-slate-400' },
-              { name: 'Personal Blog', icon: Globe, status: 'Coming Soon', enabled: false, color: 'text-slate-400' },
+              { name: 'Instagram', icon: Camera, status: 'Copy & Share', enabled: true, color: 'text-pink-500' },
+              { name: 'YouTube', icon: Play, status: 'Copy & Share', enabled: true, color: 'text-red-500' },
+              { name: 'TikTok', icon: Video, status: 'Copy & Share', enabled: true, color: 'text-slate-900' },
+              { name: 'Pinterest', icon: MapPin, status: 'Copy & Share', enabled: true, color: 'text-red-600' },
+              { name: 'Threads', icon: MessageCircle, status: 'Copy & Share', enabled: true, color: 'text-slate-700' },
+              { name: 'Substack', icon: Globe, status: 'Copy & Share', enabled: true, color: 'text-orange-500' },
             ].map((channel) => (
               <div key={channel.name} className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl">
                 <div className="flex items-center gap-4">

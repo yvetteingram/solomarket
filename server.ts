@@ -813,7 +813,8 @@ async function startServer() {
         industry: data?.industry || '',
         primary_product: sp.primary_product || '',
         brand_voice: sp.brand_voice || '',
-        target_audience: sp.target_audience || ''
+        target_audience: sp.target_audience || '',
+        avatar_url: sp.avatar_url || ''
       });
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch settings' });
@@ -822,7 +823,7 @@ async function startServer() {
 
   app.put("/api/settings", requireAuth, async (req: Request, res: Response) => {
     try {
-      const { full_name, primary_product, brand_voice, target_audience } = req.body;
+      const { full_name, primary_product, brand_voice, target_audience, avatar_url } = req.body;
 
       const supabase = getSupabase();
 
@@ -838,7 +839,8 @@ async function startServer() {
         ...currentProfile,
         primary_product,
         brand_voice,
-        target_audience
+        target_audience,
+        avatar_url
       };
 
       const { data, error } = await supabase
@@ -859,7 +861,8 @@ async function startServer() {
         industry: data?.industry || '',
         primary_product: sp.primary_product || '',
         brand_voice: sp.brand_voice || '',
-        target_audience: sp.target_audience || ''
+        target_audience: sp.target_audience || '',
+        avatar_url: sp.avatar_url || ''
       });
     } catch (error) {
       res.status(500).json({ error: 'Failed to save settings' });
