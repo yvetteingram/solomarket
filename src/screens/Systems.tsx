@@ -209,12 +209,14 @@ function InstallModal({
   onConfirm,
   onClose,
   installing,
+  error,
 }: {
   template: CampaignTemplate;
   products: Product[];
   onConfirm: (productId: string | null) => void;
   onClose: () => void;
   installing: boolean;
+  error?: string | null;
 }) {
   const [selectedProduct, setSelectedProduct] = useState<string>('');
   const colors = TEMPLATE_COLORS[template.color] ?? TEMPLATE_COLORS.blue;
@@ -279,6 +281,13 @@ function InstallModal({
           <BarChart3 size={14} className={colors.text} />
           <span className={`text-xs font-semibold ${colors.text}`}>Expected outcome: {template.outcome}</span>
         </div>
+
+        {/* Error */}
+        {error && (
+          <div className="mb-4 px-4 py-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600 font-medium">
+            {error}
+          </div>
+        )}
 
         {/* Actions */}
         <div className="flex gap-3">
@@ -495,6 +504,7 @@ export function Systems() {
   const [loading, setLoading] = useState(true);
   const [installTarget, setInstallTarget] = useState<CampaignTemplate | null>(null);
   const [installing, setInstalling] = useState(false);
+  const [installError, setInstallError] = useState<string | null>(null);
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
   const [successId, setSuccessId] = useState<string | null>(null);
 
@@ -535,14 +545,16 @@ export function Systems() {
   const handleInstallConfirm = async (productId: string | null) => {
     if (!installTarget) return;
     setInstalling(true);
+    setInstallError(null);
     try {
       const { campaignId } = await installCampaign(installTarget, productId);
       setInstallTarget(null);
+      setInstallError(null);
       setSuccessId(campaignId);
       await fetchCampaigns();
       setTimeout(() => setSuccessId(null), 3000);
     } catch (err) {
-      console.error('Install failed:', err);
+      setInstallError(err instanceof Error ? err.message : 'Install failed. Please try again.');
     } finally {
       setInstalling(false);
     }
@@ -735,8 +747,9 @@ export function Systems() {
             template={installTarget}
             products={products}
             onConfirm={handleInstallConfirm}
-            onClose={() => !installing && setInstallTarget(null)}
+            onClose={() => { if (!installing) { setInstallTarget(null); setInstallError(null); } }}
             installing={installing}
+            error={installError}
           />
         )}
       </AnimatePresence>
