@@ -10,6 +10,8 @@ import {
 import { generateCampaignSystem } from '../services/geminiService';
 import { apiFetch } from '../services/api';
 import { Campaign, CampaignAsset, CampaignTemplate, Product } from '../types';
+import { useAuth } from '../context/AuthContext';
+import { getPlanLimits } from '../utils/planLimits';
 import {
   CAMPAIGN_TEMPLATES,
   TEMPLATE_COLORS,
@@ -542,8 +544,21 @@ export function Systems() {
     }
   };
 
+  const { plan } = useAuth();
+
   const handleInstallConfirm = async (productId: string | null) => {
     if (!installTarget) return;
+
+    // Plan gate: Starter/free users limited to 1 active campaign
+    const limits = getPlanLimits(plan);
+    if (campaigns.length >= limits.campaigns) {
+      setInstallError(
+        `Your ${plan === 'starter' ? 'Starter' : 'current'} plan allows ${limits.campaigns} campaign system${limits.campaigns === 1 ? '' : 's'}. ` +
+        `Upgrade to Growth to unlock unlimited systems.`
+      );
+      return;
+    }
+
     setInstalling(true);
     setInstallError(null);
     try {

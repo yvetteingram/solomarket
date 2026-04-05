@@ -34,6 +34,8 @@ import { SectionCard } from '../components/SectionCard';
 import { generateContentDraft, generateImagePrompt } from '../services/geminiService';
 import { apiFetch } from '../services/api';
 import { Product } from '../types';
+import { useAuth } from '../context/AuthContext';
+import { getPlanLimits, getAiDraftsUsed, incrementAiDrafts } from '../utils/planLimits';
 
 interface ContentItem {
   id: string;
@@ -47,6 +49,7 @@ interface ContentItem {
 
 export const ContentLab = () => {
   const location = useLocation();
+  const { plan, user } = useAuth();
   const generatorRef = useRef<HTMLDivElement>(null);
   const [generating, setGenerating] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
@@ -224,6 +227,19 @@ export const ContentLab = () => {
     const product = products.find(p => p.id === selectedProductId);
     if (!product) return;
 
+    // Plan gate: check monthly AI draft limit
+    const limits = getPlanLimits(plan);
+    if (limits.aiDraftsPerMonth !== Infinity && user) {
+      const used = getAiDraftsUsed(user.id);
+      if (used >= limits.aiDraftsPerMonth) {
+        setError(
+          `You've used all ${limits.aiDraftsPerMonth} AI drafts for this month on your ${plan === 'starter' ? 'Starter' : 'current'} plan. ` +
+          `Upgrade to Growth for unlimited AI content drafts.`
+        );
+        return;
+      }
+    }
+
     const useType = overrideType || contentType;
     const useTopic = overrideTopic || topic;
 
@@ -277,6 +293,8 @@ export const ContentLab = () => {
 
       setContent([newItem, ...content]);
       handleSelect(newItem.id);
+      // Track draft usage for plan limits
+      if (user) incrementAiDrafts(user.id);
     } catch (error) {
       console.error('Failed to generate draft:', error);
     } finally {
