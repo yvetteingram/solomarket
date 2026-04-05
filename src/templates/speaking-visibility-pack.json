@@ -1,0 +1,49 @@
+{
+  "id": "speaking-visibility-pack",
+  "name": "Speaking & Visibility Pack",
+  "description": "Land speaking gigs, build authority, and turn every stage into a lead generation machine",
+  "category": "Authority Building",
+  "outcome": "3–5 speaking opportunities and 10+ inbound leads in 90 days",
+  "color": "indigo",
+  "estimatedDuration": "90 days",
+  "price": 29,
+  "gumroadUrl": "https://ketorahdigital.gumroad.com/l/speaking-visibility",
+  "accessColumn": "solomarket_speaking_access",
+  "assetSummary": ["Speaker bio template", "Talk topic positioning guide", "Event outreach email sequence", "Post-speaking follow-up", "Speaker one-sheet copy", "LinkedIn visibility posts"],
+  "automation": [
+    { "trigger": "Speaking gig confirmed", "action": "Share announcement on LinkedIn + add to speaker portfolio", "followUp": "Post recap content within 48h of the event" },
+    { "trigger": "Event completed", "action": "Send follow-up email sequence to audience", "followUp": "Request testimonial from event organizer within 7 days" }
+  ],
+  "assets": [
+    {
+      "type": "landing_page_copy",
+      "title": "Speaker Bio Template",
+      "order_index": 0,
+      "content": "SPEAKER BIO (3 versions — short, medium, full)\n\n---\nSHORT BIO (50 words — for event programs and social intros)\n[Your Name] is a [title/role] who helps [audience] [achieve outcome]. [One notable credential or result]. [Your name] speaks on [your core topic] and has [one proof point — keynotes delivered, clients helped, etc.].\n\n---\nMEDIUM BIO (100 words — for event websites and booking pages)\n[Your Name] is the [founder/creator/host] of [your brand/company], where [he/she/they] help[s] [audience] [achieve specific outcome] through [your method or approach].\n\n[Before state or credibility story in 1–2 sentences — what problem you solved for yourself that made you qualified to speak on this.]\n\n[Your Name]'s work has [specific impact — number of clients, revenue generated, community built]. [He/She/They] speak[s] on [topic 1], [topic 2], and [topic 3].\n\nTo book [Your Name] for your next event: [email or booking link]\n\n---\nFULL BIO (200+ words — for your speaker page)\n[Expand the medium bio with:\n• Your origin story (1 paragraph)\n• Your signature framework or method (1 paragraph)\n• Notable speaking credits or media features\n• Who you serve and the transformation you create\n• Personal detail (humanizes you)\n• Clear booking CTA]\n\n---\nSPEAKER PAGE HEADLINE OPTIONS:\n• \"[Your name]: Helping [audience] [outcome] through [method]\"\n• \"[Topic] Speaker & [Your Title] | [One proof point]\"\n• \"Hire [Your Name] to inspire your audience to [desired outcome]\""
+    },
+    {
+      "type": "landing_page_copy",
+      "title": "Talk Topic Positioning Guide",
+      "order_index": 1,
+      "content": "TALK TOPIC POSITIONING GUIDE\n\nYOUR SIGNATURE TALK FRAMEWORK\n\nStep 1 — Identify your talk topics (you need 2–3)\nYour talks should sit at the intersection of:\n• What you know deeply (expertise)\n• What your audience urgently wants (demand)\n• What makes you distinct (differentiation)\n\nStep 2 — Name your talk using one of these formulas:\n• \"The [X] Framework for [Desired Outcome]\"\n• \"Why [Common Belief] Is Wrong (And What to Do Instead)\"\n• \"From [Before State] to [After State]: The [Method] That Changed Everything\"\n• \"[Number] [Things] Every [Audience] Needs to Know About [Topic]\"\n\nStep 3 — Write your talk description (150 words)\nUse this template:\n\"In this [keynote/workshop/talk], [First Name] shares [THE ONE THING the audience will walk away with].\n\nDesigned for [audience type], this session tackles [the specific problem they face] — and delivers a practical, [unique adjective] roadmap to [outcome].\n\nAttendees will leave with:\n✓ [Takeaway 1]\n✓ [Takeaway 2]\n✓ [Takeaway 3]\n\nThis talk is perfect for [event type — conferences, corporate trainings, virtual summits, podcasts].\" \n\nStep 4 — Format options to offer event organizers:\n• 20-minute keynote\n• 45-minute keynote with Q&A\n• 90-minute workshop\n• Virtual webinar\n• Podcast guest appearance\n\nAlways offer multiple formats — makes it easier for organizers to say yes."
+    },
+    {
+      "type": "outreach_script",
+      "title": "Event Organizer Outreach Email",
+      "order_index": 2,
+      "content": "Subject: Speaker idea for [Event Name] — [Your Topic]\n\nHey [Organizer Name],\n\nI've been following [Event Name] for [timeframe] — [specific thing you admire about the event, their community, or a past speaker].\n\nI'd love to be considered as a speaker for [upcoming event / next cohort / your virtual summit].\n\nI speak on [YOUR TOPIC] — specifically [the unique angle or problem you address]. My signature talk, \"[TALK TITLE]\", helps [audience type] [achieve specific outcome].\n\nIt's been delivered to [audience at X events / X people / X community] and the feedback consistently comes back around [specific result or theme from feedback].\n\nWhat makes my approach different: [1–2 sentences on your unique angle, method, or story].\n\nI've attached a brief one-sheet and would love to send a short video intro if that's helpful.\n\nIf [Event Name] has a speaker application process, I'm happy to go through it — just point me in the right direction.\n\nEither way, what you're building for [their community] is genuinely valuable work. Thank you for it.\n\n[Your Name]\n[Title] | [Website]\n[Phone if appropriate]"
+    },
+    {
+      "type": "email",
+      "title": "Post-Speaking Follow-Up Sequence",
+      "order_index": 3,
+      "content": "EMAIL 1 — SAME DAY (to event list or collected emails)\nSubject: Thank you for being in the room\n\nHey [First Name],\n\nIf we met at [EVENT NAME] today — thank you. Being in that room with [description of audience] is exactly why I do this work.\n\nI promised I'd share [the resource / framework / tool] I mentioned in my talk. Here it is:\n[LINK OR ATTACHMENT]\n\nOne thing I'd love to know: what was your biggest takeaway from the session?\n\nHit reply — I read everything.\n\n[Your Name]\n\n---\nEMAIL 2 — 3 DAYS LATER\nSubject: The one thing most people miss after a workshop\n\nHey [First Name],\n\nAfter [EVENT NAME], I always see the same pattern:\n\nPeople leave with great ideas — and then life happens.\n\nThe insight fades. The action steps don't get taken.\n\nSo here's the one thing that separates the people who see results from those who don't:\n[YOUR CORE LESSON — 2–3 sentences]\n\nIf you want to go deeper on [topic], I've put together [a free resource / a training / a process] specifically for people at exactly where you are right now.\n\n[LINK + CTA]\n\nTalk soon,\n[Your Name]\n\n---\nEMAIL 3 — 7 DAYS LATER\nSubject: Are you still thinking about [key concept from your talk]?\n\nHey [First Name],\n\nA week out from [EVENT NAME] — I'm curious: did you take any action on [the thing you shared]?\n\nIf yes — amazing. I'd love to hear about it.\n\nIf not — no judgment. Here's the smallest possible first step you can take today:\n[THE MICRO-ACTION — something that takes under 10 minutes]\n\nAnd if you're ready to move faster, I work with [your audience type] on exactly this. [LINK to your offer or booking page].\n\n[Your Name]"
+    },
+    {
+      "type": "social_post",
+      "title": "LinkedIn Visibility Posts (3 Templates)",
+      "order_index": 4,
+      "content": "LINKEDIN POST 1 — SPEAKING ANNOUNCEMENT\n\n🎤 Excited to announce: I'll be speaking at [EVENT NAME] on [DATE].\n\nMy topic: [TALK TITLE]\n\nI'll be covering:\n→ [Point 1]\n→ [Point 2]\n→ [Point 3]\n\nThis one is for [audience type] who want [desired outcome].\n\n[If tickets available:] Tickets are [free/available] at [link]. Come say hi — I'll be around before and after.\n\n[If virtual:] Register at [link] — it's free.\n\n---\nLINKEDIN POST 2 — POST-EVENT RECAP\n\nJust got off the stage at [EVENT NAME] and I'm still buzzing.\n\n[What made it memorable — the audience, a specific moment, a question that stopped you cold]\n\nOne thing I shared that I think more people need to hear:\n\n[YOUR KEY INSIGHT — 3–5 sentences, the real substance]\n\nIf you missed the session and want the [slides / framework / resource] — drop a comment below and I'll send it your way.\n\nThank you to [organizer name / organization] for the invitation. The work you're doing for [community] matters.\n\n---\nLINKEDIN POST 3 — AUTHORITY BUILDER (no event needed)\n\nI've spoken to [number] [audience type] about [topic] in the last [timeframe].\n\nThe question they ask most often: [THE QUESTION]\n\nHere's what I tell them:\n\n[YOUR ANSWER — substance, 3–5 sentences]\n\nIf this is something you're dealing with — I'm happy to think it through with you. DM me or book a quick call: [LINK]"
+    }
+  ]
+}

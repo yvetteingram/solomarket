@@ -106,13 +106,21 @@ async function startServer() {
       const supabase = getSupabase();
       const { data, error } = await supabase
         .from('profiles')
-        .select('subscription_status, plan')
+        .select('subscription_status, plan, solomarket_youtube_access, solomarket_email_monetization_access, solomarket_cold_email_access, solomarket_consulting_access, solomarket_course_launch_access, solomarket_instagram_access, solomarket_podcast_access, solomarket_speaking_access')
         .eq('id', req.userId!)
         .single();
       if (error && error.code !== 'PGRST116') throw error;
       res.json({
         subscription_status: data?.subscription_status || 'inactive',
         plan: data?.plan || 'free',
+        solomarket_youtube_access: data?.solomarket_youtube_access || false,
+        solomarket_email_monetization_access: data?.solomarket_email_monetization_access || false,
+        solomarket_cold_email_access: data?.solomarket_cold_email_access || false,
+        solomarket_consulting_access: data?.solomarket_consulting_access || false,
+        solomarket_course_launch_access: data?.solomarket_course_launch_access || false,
+        solomarket_instagram_access: data?.solomarket_instagram_access || false,
+        solomarket_podcast_access: data?.solomarket_podcast_access || false,
+        solomarket_speaking_access: data?.solomarket_speaking_access || false,
       });
     } catch (error) {
       console.error('profile error:', error);

@@ -1,0 +1,61 @@
+{
+  "id": "instagram-growth-engine",
+  "name": "Instagram Growth Engine",
+  "description": "A 30-day Instagram content system to grow followers, increase engagement, and drive traffic to your offer",
+  "category": "Social Media",
+  "outcome": "500+ new followers and 3–8 DM leads in 30 days",
+  "color": "purple",
+  "estimatedDuration": "30 days",
+  "price": 29,
+  "gumroadUrl": "https://ketorahdigital.gumroad.com/l/instagram-growth",
+  "accessColumn": "solomarket_instagram_access",
+  "assetSummary": ["Bio optimization copy", "20 caption templates", "Reel script framework", "Story sequence (5 slides)", "Hashtag strategy doc", "DM outreach script"],
+  "automation": [
+    { "trigger": "Post published", "action": "Share to Stories with sticker CTA", "followUp": "Reply to every comment within 1 hour to boost reach" },
+    { "trigger": "New follower", "action": "Send welcome DM within 24h", "followUp": "Follow up with value piece if no reply in 3 days" }
+  ],
+  "assets": [
+    {
+      "type": "landing_page_copy",
+      "title": "Bio Optimization Copy",
+      "order_index": 0,
+      "content": "INSTAGRAM BIO FORMULA\n\nLine 1 — WHO YOU HELP (keyword-rich for search)\n\"[Job title or niche keyword] for [audience]\"\nExample: \"Marketing Systems for Solopreneurs\"\n\nLine 2 — WHAT YOU DO / THE RESULT\n\"I help [audience] [achieve outcome] without [pain]\"\nExample: \"Helping coaches get clients without ads or cold calls\"\n\nLine 3 — PROOF OR CREDIBILITY\n\"[Specific number] [result] | [Credential or social proof]\"\nExample: \"50+ clients served | Featured in Forbes\"\n\nLine 4 — CTA WITH LINK\n\"👇 [Action word] [what they get]\"\nExample: \"👇 Grab the free client toolkit\"\n\n---\nYOUR OPTIMIZED BIO:\n[Line 1]: _______________________________\n[Line 2]: _______________________________\n[Line 3]: _______________________________\n[Line 4]: _______________________________\n\n---\nPROFILE PHOTO TIPS:\n• Use a clear headshot (not a logo) — faces get 38% more engagement\n• Smile, professional but approachable\n• High contrast against Instagram's white background\n• Consistent with your other platform photos for brand recognition"
+    },
+    {
+      "type": "social_post",
+      "title": "Caption Template — Hook + Value Post",
+      "order_index": 1,
+      "content": "CAPTION TEMPLATE 1: THE VALUE DROP\n(Use for educational content — performs best for saves)\n\n[LINE 1 — SCROLL-STOPPING HOOK]\nOptions:\n• \"[Number] things nobody tells you about [topic]:\"\n• \"Stop doing [common mistake]. Do this instead:\"\n• \"The [topic] advice I wish I had [timeframe] ago:\"\n\n[LINES 2–8 — THE VALUE]\nKeep each point short (1–2 lines max)\n• Point 1: [Tip or insight]\n• Point 2: [Tip or insight]\n• Point 3: [Tip or insight]\n(Add 3–7 points depending on content depth)\n\n[LAST 2–3 LINES — ENGAGEMENT CTA]\n\"Save this for when you need it.\"\n\"Which one surprised you most? Drop it below 👇\"\n\"Follow for more [your niche] strategies every week.\"\n\n---\nHASHTAGS (place in first comment or at bottom):\nMix: 3 niche hashtags + 3 medium hashtags + 3 broad hashtags\nExample for solopreneurs: #solopreneur #businesstips #onlinebusiness #marketingstrategy #entrepreneurmindset #contentmarketing #digitalmarketing #smallbusiness #businessowner"
+    },
+    {
+      "type": "social_post",
+      "title": "Caption Template — Story + Offer Post",
+      "order_index": 2,
+      "content": "CAPTION TEMPLATE 2: THE STORY SELL\n(Use when promoting your offer — feels personal, converts well)\n\n[LINE 1 — PERSONAL HOOK]\n\"[Time] ago, I was [relatable struggle].\"\nExample: \"18 months ago, I was posting every day and getting zero clients from Instagram.\"\n\n[LINES 2–5 — THE JOURNEY]\n\"I tried [what didn't work].\"\n\"Then I realized [the insight].\"\n\"So I [what you changed].\"\n\"The result: [specific outcome].\"\n\n[LINES 6–8 — THE BRIDGE]\n\"Here's what I know now:\"\n\"[Key lesson 1]\"\n\"[Key lesson 2]\"\n\"[Key lesson 3]\"\n\n[LINES 9–11 — SOFT CTA]\n\"If you're where I was — there's a way through.\"\n\"I put everything I learned into [your offer name].\"\n\"Comment '[keyword]' or DM me and I'll send you the details.\"\n\n---\nPRO TIP: End with a question to boost comments:\n\"What's the hardest part of [topic] for you right now?\""
+    },
+    {
+      "type": "social_post",
+      "title": "Reel Script Framework",
+      "order_index": 3,
+      "content": "REEL SCRIPT FRAMEWORK (30–60 second format)\n\nSECTION 1 — HOOK (0–3 seconds, on-screen text + voiceover)\n\"[Bold claim or counterintuitive statement]\"\nExamples:\n• \"You don't need more followers. You need this.\"\n• \"The Instagram strategy that got me [result] in [timeframe].\"\n• \"3 things [your audience] get wrong about [topic].\"\n\nSECTION 2 — CONTENT (4–45 seconds)\nFormat: Point-by-point with text overlays\n\nPoint 1: [Short title on screen]\nVoiceover: \"[1–2 sentence explanation]\"\n\nPoint 2: [Short title on screen]\nVoiceover: \"[1–2 sentence explanation]\"\n\nPoint 3: [Short title on screen]\nVoiceover: \"[1–2 sentence explanation]\"\n\nSECTION 3 — CTA (last 5–10 seconds)\n\"Follow for more [topic] tips every [frequency].\"\n\"Save this — you'll want to come back to it.\"\n\"Comment '[word]' if this helped you.\"\n\n---\nFILMING TIPS:\n• Film vertically (9:16 ratio)\n• Good natural light or ring light — no dark corners\n• Captions ON — 85% of Reels are watched without sound\n• Trending audio = more reach (check Reels tab for audio with ↑ arrow)"
+    },
+    {
+      "type": "social_post",
+      "title": "Story Sequence (5 Slides)",
+      "order_index": 4,
+      "content": "5-SLIDE STORY SEQUENCE — LEAD TO OFFER\n(Use once per week to drive DMs and link clicks)\n\nSLIDE 1 — ATTENTION\nBackground: Brand color or relevant image\nText: \"[Question your audience is asking themselves]\"\nExample: \"Wondering why your Instagram isn't growing?\"\nAdd: Poll sticker \"YES 🙋\" / \"NOT MY ISSUE\"\n\nSLIDE 2 — PROBLEM AGITATION\nText: \"Most [your audience] make [X] of the same mistakes:\"\n• Mistake 1: [1 line]\n• Mistake 2: [1 line]\n• Mistake 3: [1 line]\n\nSLIDE 3 — INSIGHT / SHIFT\nText: \"Here's what changes everything:\"\n[Your key insight in 2–3 lines]\nAdd: Emoji to break up text\n\nSLIDE 4 — PROOF\nText: \"[Client result or your own result]\"\n\"[Client name] went from [before] to [after] in [timeframe].\"\nOr: Screenshot of testimonial (with permission)\n\nSLIDE 5 — CTA\nText: \"Ready to [desired outcome]?\"\n\"DM me '[keyword]' for the details.\"\nOr: \"Link in bio → [what they'll find]\"\nAdd: Link sticker or DM sticker\n\n---\nBEST TIME TO POST STORIES: 9–11am or 7–9pm your audience's time zone"
+    },
+    {
+      "type": "outreach_script",
+      "title": "DM Welcome Script (New Follower)",
+      "order_index": 5,
+      "content": "DM SCRIPT — WELCOME NEW FOLLOWERS\n(Send within 24h of someone following you)\n\nMESSAGE:\n\"Hey [First Name] 👋\n\nThanks for following! I noticed [something specific — they liked a post, they're in [niche], their bio mentions [X]].\n\nI create content for [your audience description] — so you're in the right place.\n\nQuick question: what's the #1 thing you're working on in your [business/content/niche] right now?\n\nI ask because I share a lot of free [tips/resources/strategies] and I want to make sure what I send is actually useful for where you're at.\n\n[Your name]\"\n\n---\nFOLLOW-UP (if no reply in 3 days):\n\"Hey [First Name] — just wanted to share this in case it's helpful: [link to a relevant post or free resource]\n\nNo pressure — just thought of you when I posted it. Let me know if you have questions!\"\n\n---\nIF THEY REPLY WITH A PROBLEM → offer to help:\n\"That's exactly what I focus on. I actually have [a post / a system / a resource] on this — want me to send it over?\""
+    },
+    {
+      "type": "social_post",
+      "title": "Hashtag Strategy Document",
+      "order_index": 6,
+      "content": "HASHTAG STRATEGY FOR SOLOPRENEURS\n\nTHE 9-HASHTAG FORMULA (use in first comment)\nMix 3 tiers for maximum reach:\n\nTIER 1 — NICHE HASHTAGS (under 100K posts)\n3 hashtags ultra-specific to your content:\nExamples: #solopreneurmarketing #coachingbusiness #freelancetips\nYour 3: _________________ _________________ _________________\n\nTIER 2 — MEDIUM HASHTAGS (100K–1M posts)\n3 hashtags related to your industry:\nExamples: #onlinecoach #contentcreator #digitalentrepreneur\nYour 3: _________________ _________________ _________________\n\nTIER 3 — BROAD HASHTAGS (1M+ posts)\n3 high-volume hashtags for exposure:\nExamples: #entrepreneur #marketing #business\nYour 3: _________________ _________________ _________________\n\n---\nNEVER USE:\n• Banned hashtags (check by searching — if posts say \"hidden\" it's banned)\n• Irrelevant hashtags just because they're popular\n• The same 9 hashtags on every single post (Instagram flags this)\n\nROTATE SETS:\nCreate 3–4 sets of 9 hashtags and rotate them week to week.\nSave them in your notes app for quick copy-paste.\n\n---\nEXAMPLE SETS FOR SOLOPRENEURS:\nSet A: #solopreneur #solopreneurlife #businessowner + #onlinebusiness #digitalmarketing #contentmarketing + #entrepreneur #marketing #success\nSet B: [Create your own based on your niche]"
+    }
+  ]
+}

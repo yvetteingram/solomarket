@@ -6,6 +6,14 @@ import newsletterGrowthEngine from '../templates/newsletter-growth-engine.json';
 import productLaunchCampaign from '../templates/product-launch-campaign.json';
 import freelancerLeadFunnel from '../templates/freelancer-lead-funnel.json';
 import agencyClientAcquisition from '../templates/agency-client-acquisition.json';
+import youtubeAuthoritySystem from '../templates/youtube-authority-system.json';
+import instagramGrowthEngine from '../templates/instagram-growth-engine.json';
+import podcastGrowthSystem from '../templates/podcast-growth-system.json';
+import speakingVisibilityPack from '../templates/speaking-visibility-pack.json';
+import coldEmailSystem from '../templates/cold-email-system.json';
+import emailMonetizationEngine from '../templates/email-monetization-engine.json';
+import consultingClientAccelerator from '../templates/consulting-client-accelerator.json';
+import courseLaunchBlueprint from '../templates/course-launch-blueprint.json';
 
 export const CAMPAIGN_TEMPLATES: CampaignTemplate[] = [
   linkedInLeadEngine as CampaignTemplate,
@@ -13,6 +21,18 @@ export const CAMPAIGN_TEMPLATES: CampaignTemplate[] = [
   productLaunchCampaign as CampaignTemplate,
   freelancerLeadFunnel as CampaignTemplate,
   agencyClientAcquisition as CampaignTemplate,
+];
+
+// Premium add-on templates (require one-time purchase)
+export const PREMIUM_TEMPLATES: (CampaignTemplate & { price: number; gumroadUrl: string; accessColumn: string })[] = [
+  youtubeAuthoritySystem as any,
+  instagramGrowthEngine as any,
+  podcastGrowthSystem as any,
+  speakingVisibilityPack as any,
+  coldEmailSystem as any,
+  emailMonetizationEngine as any,
+  consultingClientAccelerator as any,
+  courseLaunchBlueprint as any,
 ];
 
 export const TEMPLATE_COLORS: Record<string, { bg: string; text: string; border: string; icon: string }> = {

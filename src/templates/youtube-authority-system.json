@@ -1,0 +1,55 @@
+{
+  "id": "youtube-authority-system",
+  "name": "YouTube Authority System",
+  "description": "Build a YouTube presence that drives subscribers, trust, and inbound leads for your business",
+  "category": "Video Marketing",
+  "outcome": "100+ subscribers and 3–5 inbound leads in 60 days",
+  "color": "orange",
+  "estimatedDuration": "60 days",
+  "price": 29,
+  "gumroadUrl": "https://ketorahdigital.gumroad.com/l/youtube-authority",
+  "accessColumn": "solomarket_youtube_access",
+  "assetSummary": ["Channel positioning script", "4-week content calendar", "5 video description templates", "Thumbnail angle guide", "Community post templates", "Channel trailer script"],
+  "automation": [
+    { "trigger": "New video published", "action": "Post community update + share to LinkedIn", "followUp": "Reply to every comment within 24h to boost algorithm" },
+    { "trigger": "Subscriber milestone hit", "action": "Pin a thank-you community post", "followUp": "Send email to list with video recap" }
+  ],
+  "assets": [
+    {
+      "type": "landing_page_copy",
+      "title": "Channel Positioning Script",
+      "order_index": 0,
+      "content": "CHANNEL POSITIONING FRAMEWORK\n\nYour channel in one sentence:\n\"I help [TARGET AUDIENCE] achieve [SPECIFIC OUTCOME] through [YOUR METHOD].\"\n\nExample: \"I help freelance designers land premium clients through strategic personal branding.\"\n\n---\nYOUR NICHE STATEMENT\nFill in each blank:\n- Who you serve: [e.g., solopreneurs, coaches, consultants]\n- Their #1 frustration: [e.g., inconsistent income, no leads]\n- Your unique angle: [e.g., systems-based, AI-powered, no-fluff]\n- The result you deliver: [e.g., 3 high-ticket clients/month]\n\n---\nCHANNEL KEYWORDS (use in About section and video titles)\nPrimary keyword: [e.g., \"solopreneur marketing\"]\nSecondary keywords: [3–5 related terms your audience searches]\n\n---\nABOUT SECTION COPY\n[Your niche statement]\n\nOn this channel, you'll find:\n→ [Content pillar 1 — e.g., step-by-step systems]\n→ [Content pillar 2 — e.g., real case studies]\n→ [Content pillar 3 — e.g., tools and tech]\n\nNew videos every [day/week]. Subscribe so you don't miss the next one.\n\n📩 Work with me: [your website or booking link]\n📲 Follow on [platform]: [handle]"
+    },
+    {
+      "type": "social_post",
+      "title": "Channel Trailer Script",
+      "order_index": 1,
+      "content": "CHANNEL TRAILER SCRIPT (60–90 seconds)\n\n[0–5 sec — HOOK]\n\"If you're a [target audience] who wants [desired outcome] without [common pain], this channel is built for you.\"\n\n[5–20 sec — WHO YOU ARE]\n\"I'm [Your Name]. I [what you do] — and I've spent [X years/time] figuring out what actually works when it comes to [your topic].\"\n\n[20–45 sec — WHAT THEY'LL GET]\n\"On this channel, every week I share:\"\n→ [Value 1 — e.g., real systems you can copy]\n→ [Value 2 — e.g., honest breakdowns of what worked and what didn't]\n→ [Value 3 — e.g., tools to save you hours]\n\n[45–60 sec — PROOF]\n\"I've helped [X people / clients] go from [before state] to [after state].\"\n\"Here's what [a subscriber / client] said: '[short testimonial].'\"\n\n[60–90 sec — CTA]\n\"If that sounds like what you need — hit Subscribe. I publish every [day/week] and I personally respond to comments.\"\n\"And if you're ready to [take next step], check the link in the description.\"\n\n[End screen + subscribe button]"
+    },
+    {
+      "type": "social_post",
+      "title": "4-Week Content Calendar",
+      "order_index": 2,
+      "content": "4-WEEK YOUTUBE CONTENT CALENDAR\n\nWEEK 1 — AUTHORITY (establish who you are)\nVideo: \"[The #1 mistake [your audience] makes with [your topic]]\"\nFormat: Talking head + screen share\nCTA: Subscribe + comment your biggest challenge\n\nCommunity Post: \"Quick poll — what's your biggest struggle with [topic]?\"\nOptions: A) [Pain 1]  B) [Pain 2]  C) [Pain 3]\n\nWEEK 2 — EDUCATION (teach something valuable)\nVideo: \"How to [achieve specific outcome] in [timeframe] — step by step\"\nFormat: Tutorial / walkthrough\nCTA: Download [free resource] in description\n\nCommunity Post: Share a behind-the-scenes photo or screenshot of your process\n\nWEEK 3 — STORY (build connection and trust)\nVideo: \"[My honest story about [challenge you overcame]]\"\nFormat: Talking head, personal + raw\nCTA: Share this with someone who needs to hear it\n\nCommunity Post: \"What would you want me to cover next? Drop your question below.\"\n\nWEEK 4 — CONVERSION (move viewers to action)\nVideo: \"[The exact framework I use to help clients get [result]]\"\nFormat: Breakdown of your signature system or offer\nCTA: Book a call / DM me / link in description\n\nCommunity Post: Share a client win or result (with permission)"
+    },
+    {
+      "type": "social_post",
+      "title": "Video Description Template",
+      "order_index": 3,
+      "content": "VIDEO DESCRIPTION TEMPLATE\n(Use for every video — customize sections in [ ])\n\n---\nIn this video, I'm sharing [WHAT THE VIDEO COVERS] — specifically designed for [YOUR AUDIENCE].\n\nYou'll learn:\n✅ [Key takeaway 1]\n✅ [Key takeaway 2]\n✅ [Key takeaway 3]\n\n---\n🔗 RESOURCES MENTIONED\n• [Free resource / lead magnet]: [LINK]\n• [Tool or book mentioned]: [LINK]\n• [Related video]: [LINK]\n\n---\n📩 WORK WITH ME\n[Your offer in 1–2 sentences]\n→ Book a free call: [LINK]\n→ Learn more: [LINK]\n\n---\n⏱ TIMESTAMPS\n0:00 — Introduction\n[X:XX] — [Chapter 1 title]\n[X:XX] — [Chapter 2 title]\n[X:XX] — [Chapter 3 title]\n[X:XX] — Final thoughts + next steps\n\n---\n🔔 SUBSCRIBE for new videos every [frequency]\n\n#[keyword1] #[keyword2] #[keyword3] #[keyword4] #[keyword5]"
+    },
+    {
+      "type": "social_post",
+      "title": "Thumbnail Angle Guide",
+      "order_index": 4,
+      "content": "THUMBNAIL ANGLE GUIDE\n(5 proven thumbnail formulas for solopreneurs)\n\nFORMULA 1 — THE RESULT\nImage: You holding/showing something (laptop, results, before/after)\nText overlay: \"[Specific result] in [timeframe]\"\nExample: \"$5K Client in 14 Days\"\n\nFORMULA 2 — THE MISTAKE\nImage: Surprised/concerned face expression\nText overlay: \"Stop doing this\" or \"[X] Mistakes to Avoid\"\nArrow pointing to something on screen\n\nFORMULA 3 — THE NUMBER\nImage: Clean background, confident expression\nText overlay: \"[X] Ways to [Achieve Outcome]\"\nBold number in contrasting color\n\nFORMULA 4 — THE QUESTION\nImage: Thoughtful or curious expression\nText overlay: \"Why [counterintuitive thing]?\"\nCreates curiosity gap that drives clicks\n\nFORMULA 5 — THE COMPARISON\nImage: Before vs. after or two options side by side\nText overlay: \"[Option A] vs [Option B]\"\nX on the wrong option, checkmark on yours\n\n---\nDESIGN RULES:\n• Use 3 colors max (brand color + white + one accent)\n• Text should be readable at 100px wide (thumbnail size in search)\n• Your face = higher CTR — use it whenever possible\n• Consistent style across all thumbnails builds channel identity\n\nFree tool: Canva (search \"YouTube thumbnail\" for templates)"
+    },
+    {
+      "type": "email",
+      "title": "Email to List: New Video Announcement",
+      "order_index": 5,
+      "content": "Subject: New video — [Video Title]\n\nHey [First Name],\n\nJust dropped a new video you're going to want to watch:\n\n👉 [VIDEO TITLE]\n[Link to video]\n\nIn it, I cover:\n• [Key point 1]\n• [Key point 2]\n• [Key point 3]\n\nThis one's [X] minutes — you can watch it over coffee.\n\nThe [specific section/timestamp] is where most people find the biggest \"aha\" moment.\n\nHit reply and let me know what you think after you watch it.\n\n[Your name]\n\nP.S. If you know someone dealing with [problem the video solves], forward this to them. It might be exactly what they need."
+    }
+  ]
+}

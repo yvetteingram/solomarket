@@ -1,0 +1,61 @@
+{
+  "id": "podcast-growth-system",
+  "name": "Podcast Growth System",
+  "description": "Launch or grow your podcast with a complete content, outreach, and promotion system",
+  "category": "Audio & Content",
+  "outcome": "Double your downloads and land 3 guest features in 60 days",
+  "color": "purple",
+  "estimatedDuration": "60 days",
+  "price": 29,
+  "gumroadUrl": "https://ketorahdigital.gumroad.com/l/podcast-growth",
+  "accessColumn": "solomarket_podcast_access",
+  "assetSummary": ["Episode pitch templates", "Guest outreach scripts", "Show notes template", "Cross-promotion email sequence", "Listener CTA scripts", "Social promo templates"],
+  "automation": [
+    { "trigger": "Episode published", "action": "Send email to list + post to LinkedIn and Instagram", "followUp": "Share audiogram clip to Stories 3 days later" },
+    { "trigger": "Guest episode recorded", "action": "Send guest the promo kit", "followUp": "Tag guest in all social posts on publish day" }
+  ],
+  "assets": [
+    {
+      "type": "outreach_script",
+      "title": "Guest Outreach Email",
+      "order_index": 0,
+      "content": "Subject: [Podcast Name] — Would love to have you on\n\nHey [Guest Name],\n\nI've been following your work on [specific thing — their content, book, podcast, LinkedIn] and your take on [specific topic] is exactly what my audience needs to hear.\n\nI host [PODCAST NAME] — a show for [audience description] focused on [your topic]. We've had guests like [1–2 notable past guests if applicable] and episodes regularly hit [download number or listener count].\n\nI'd love to have you on for a [20/30/45]-minute conversation about:\n• [Angle 1 — something they know deeply]\n• [Angle 2 — a topic that fits your show's theme]\n• [Angle 3 — a fresh take or story they haven't told elsewhere]\n\nNo prep required — I do all the editing, write the show notes, and send you a ready-to-share promo kit after we publish.\n\nWould [month] work? Here's a link to book directly: [Calendly/scheduling link]\n\nEither way, keep up the incredible work.\n\n[Your Name]\n[Podcast Name] | [Website]\n[Social handle]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Guest Follow-Up (No Reply)",
+      "order_index": 1,
+      "content": "Subject: Re: [Podcast Name] — quick follow-up\n\nHey [Guest Name],\n\nJust circling back on my note from [X days] ago about coming on [PODCAST NAME].\n\nTotally understand if the timing isn't right — but wanted to share one more thing:\n\nI'm specifically recording an episode series on [THEIR TOPIC AREA] next month and your perspective on [SPECIFIC ANGLE] would be the perfect fit.\n\nIf now's not a good time, I'd love to add you to the list for [Q2/next quarter/after your book launch]. Would that work?\n\nNo pressure either way — just didn't want to miss the chance to feature you.\n\n[Your Name]"
+    },
+    {
+      "type": "social_post",
+      "title": "Show Notes Template",
+      "order_index": 2,
+      "content": "SHOW NOTES TEMPLATE\n(Copy and customize for every episode)\n\n---\nEPISODE [NUMBER]: [EPISODE TITLE]\n\n[1–2 sentence episode summary — what listeners will learn and why it matters]\n\n---\nIN THIS EPISODE:\n• [Key takeaway 1]\n• [Key takeaway 2]\n• [Key takeaway 3]\n• [Bonus insight or story covered]\n\n---\nABOUT THE GUEST (for guest episodes):\n[Guest Name] is [1–2 sentence bio]. Connect with [him/her/them] at [guest's website/social].\n\n---\nRESOURCES MENTIONED:\n• [Resource 1]: [Link]\n• [Resource 2]: [Link]\n• [Free download or tool]: [Link]\n\n---\nTIMESTAMPS:\n[0:00] — Introduction\n[X:XX] — [Topic 1]\n[X:XX] — [Topic 2]\n[X:XX] — [Topic 3]\n[X:XX] — Key takeaways + wrap-up\n\n---\nCONNECT WITH [YOUR NAME]:\n• Website: [URL]\n• Instagram: @[handle]\n• LinkedIn: [URL]\n• Work with me: [booking/sales link]\n\n---\nLOVE THE SHOW?\nLeave a review on Apple Podcasts — it takes 30 seconds and helps more [your audience] find the show.\n[Direct review link]"
+    },
+    {
+      "type": "email",
+      "title": "New Episode Email to List",
+      "order_index": 3,
+      "content": "Subject: 🎙️ New episode: [Episode Title]\n\nHey [First Name],\n\nNew episode of [PODCAST NAME] is live — and this one is worth your full attention.\n\n🎧 [EPISODE TITLE]\n[Podcast link]\n\nIn this episode, [guest name / I] breaks down:\n→ [Key insight 1]\n→ [Key insight 2]\n→ [Key insight 3]\n\nThe part that got me: [YOUR GENUINE REACTION — 1–2 sentences. Be specific.]\n\nThis episode is for you if:\n• You've been struggling with [specific problem]\n• You want [specific outcome] without [pain point]\n• You're ready to [next step or transformation]\n\n▶️ Listen here: [LINK]\n⏱ [X] minutes — perfect for your commute or workout.\n\nAnd if you've been meaning to leave a review — [direct Apple/Spotify link] takes 30 seconds and genuinely helps the show grow.\n\nEnjoy it,\n[Your Name]\n\nP.S. Reply and tell me your biggest takeaway. I read everything."
+    },
+    {
+      "type": "email",
+      "title": "Cross-Promotion Email (to Guest's List)",
+      "order_index": 4,
+      "content": "Subject: I was just on [Your Name]'s podcast — here's the episode\n\n[To be sent by your GUEST to their list]\n\nHey [First Name],\n\nI had a great conversation recently with [YOUR NAME] on [PODCAST NAME] and wanted to share it with you.\n\nWe talked about [TOPIC] — specifically:\n→ [Key point 1]\n→ [Key point 2]\n→ [Something personal or surprising from the conversation]\n\nI think you'll find the [specific section/timestamp] especially useful if you're dealing with [problem].\n\n🎧 Listen here: [EPISODE LINK]\n\n[Guest's sign-off]\n\n---\n[Host note to guest when sending the promo kit:]\nHey [Guest Name]! Here's a ready-to-send email for your list if you'd like to share the episode. Feel free to edit it in your voice — just keeping the link intact is all I ask. Thank you!"
+    },
+    {
+      "type": "social_post",
+      "title": "Social Promo Templates (3 Posts)",
+      "order_index": 5,
+      "content": "SOCIAL PROMO TEMPLATE — POST 1 (Publish Day)\n\n🎙️ New episode out today!\n\n[EPISODE TITLE]\n\nIn this one, [guest name / I] shares:\n→ [Point 1]\n→ [Point 2]\n→ [Point 3]\n\n[Provocative question or bold statement from the episode]\n\n🔗 Link in bio / comments to listen\n\n#podcast #[yourniche] #[yourtopic] #[audiencetype]\n\n---\nSOCIAL PROMO TEMPLATE — POST 2 (3 Days Later — Quote Pull)\n\n\"[Best quote from the episode]\" — [Guest Name / Your Name]\n\nThis came from episode [#] of [PODCAST NAME].\n\nIf this resonated, the full conversation is [X] minutes and worth every second.\n\n🎧 Link in bio to listen.\n\n---\nSOCIAL PROMO TEMPLATE — POST 3 (7 Days Later — Lesson Recap)\n\nWe dropped an episode last week that's still getting messages.\n\nThe #1 thing people took away:\n\n[KEY INSIGHT IN 2–4 SENTENCES]\n\nHaven't listened yet? Here's the link: [LINK]\n\nAnd if you have — what was YOUR biggest takeaway? Drop it below 👇"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Listener CTA Scripts (In-Episode)",
+      "order_index": 6,
+      "content": "IN-EPISODE CTA SCRIPTS\n(Use these word-for-word at natural breaks in your episodes)\n\n---\nCTA 1 — SUBSCRIBE (use in first 5 minutes)\n\"Before we dive in — if you're getting value from this show, hit subscribe wherever you're listening. It's the #1 way to make sure you never miss an episode, and it helps more [your audience description] find the show.\"\n\n---\nCTA 2 — REVIEW ASK (use mid-episode after a strong point)\n\"Quick pause — if what I just shared was useful, the best thing you can do is leave a review on Apple Podcasts. It takes less than a minute and it genuinely changes how many people can find this show. I read every single one.\"\n\n---\nCTA 3 — FREE RESOURCE (use when transitioning to a new topic)\n\"By the way — I put together a free [resource name] that goes deeper on exactly what we're talking about. You can grab it at [URL] — I'll also put the link in the show notes.\"\n\n---\nCTA 4 — WORK WITH YOU (use near the end)\n\"If you're serious about [desired outcome] and you want [your service/product], I work with [audience description] every month. The details are at [URL] — and if it feels like a fit, I'd love to talk.\"\n\n---\nCTA 5 — SHARE THE EPISODE\n\"Last thing — if you know someone dealing with [problem this episode solves], send them this episode. You might just change their day.\""
+    }
+  ]
+}

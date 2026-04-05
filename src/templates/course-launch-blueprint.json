@@ -1,0 +1,61 @@
+{
+  "id": "course-launch-blueprint",
+  "name": "Course Launch Blueprint",
+  "description": "A complete course launch campaign from pre-launch buzz to cart close — built for solopreneurs",
+  "category": "Product Launch",
+  "outcome": "$3,000–$15,000 in course revenue per launch",
+  "color": "orange",
+  "estimatedDuration": "30 days",
+  "price": 59,
+  "gumroadUrl": "https://ketorahdigital.gumroad.com/l/course-launch",
+  "accessColumn": "solomarket_course_launch_access",
+  "assetSummary": ["Pre-launch email sequence (7 emails)", "Launch week emails (5 emails)", "Cart close sequence (3 emails)", "Webinar invite sequence", "Social proof post templates", "Launch debrief framework"],
+  "automation": [
+    { "trigger": "Cart opens", "action": "Send launch email 1 + post across all social channels", "followUp": "Monitor sales and send urgency email when 50% through launch window" },
+    { "trigger": "Cart closes", "action": "Send post-launch thank you + waitlist invite", "followUp": "Send debrief survey to buyers after 7 days" }
+  ],
+  "assets": [
+    {
+      "type": "email",
+      "title": "Pre-Launch Email 1: The Problem Post",
+      "order_index": 0,
+      "content": "Subject: The real reason [desired outcome] feels so hard\n\nHey [First Name],\n\nI want to talk about something most people in [your niche] won't say out loud.\n\n[THE HONEST TRUTH ABOUT THE PROBLEM — 2–3 paragraphs that validate their struggle without talking about your course yet]\n\nExample framework:\n\"If you've been trying to [desired outcome] and it hasn't clicked yet — it's not because you're doing it wrong. It's because [the REAL root cause that most advice misses].\"\n\n\"I know this because [personal story or client observation — 1–2 sentences].\"\n\n\"The problem isn't [what they think it is]. It's [the reframe that makes your course make sense].\"\n\nTomorrow I'm going to share something I've never talked about publicly — the [specific insight/system/approach] that changed everything for me and the [X] clients I've walked through it.\n\nKeep an eye on your inbox.\n\n[Your Name]\n\nP.S. Hit reply and tell me: what's the #1 thing that's kept you from [desired outcome] so far? Your answer will actually shape what I share this week."
+    },
+    {
+      "type": "email",
+      "title": "Pre-Launch Email 3: The Framework Reveal",
+      "order_index": 1,
+      "content": "Subject: The [NAME] framework — here's how it works\n\nHey [First Name],\n\nA few days ago I asked what's kept you from [desired outcome].\n\nThe replies were incredible — and what I noticed is that almost everyone was dealing with [COMMON THEME FROM REPLIES / what you anticipated].\n\nSo today I want to show you the framework I use to solve exactly that.\n\nI call it [YOUR FRAMEWORK NAME / METHOD].\n\nHere's how it works:\n\n[PHASE 1 NAME]: [1–2 sentence explanation]\n↓\n[PHASE 2 NAME]: [1–2 sentence explanation]\n↓\n[PHASE 3 NAME]: [1–2 sentence explanation]\n↓\n[PHASE 4 NAME]: [1–2 sentence explanation — the result]\n\nMost people try to skip straight to [Phase 4] without doing [Phase 1–3]. That's why they stay stuck.\n\nWhen you follow the full sequence, here's what happens:\n• [Result 1]\n• [Result 2]\n• [Result 3]\n\n[CLIENT NAME] used this to [specific result] in [timeframe]. [Brief story.]\n\nI'm going to walk you through every step of this system in my new program, [COURSE NAME].\n\nI'll share the details in a few days — but I wanted to give you the framework first so you can start seeing results immediately.\n\nMore soon.\n\n[Your Name]"
+    },
+    {
+      "type": "email",
+      "title": "Launch Day Email: Cart Open",
+      "order_index": 2,
+      "content": "Subject: It's open — [COURSE NAME] is live\n\nHey [First Name],\n\nThe moment I've been building toward all week:\n\n[COURSE NAME] is officially open for enrollment.\n\n[COURSE NAME] is [what it is] for [your audience] who want [desired outcome] without [pain they want to avoid].\n\nInside, you'll get:\n✅ [Module/Feature 1] — [benefit]\n✅ [Module/Feature 2] — [benefit]\n✅ [Module/Feature 3] — [benefit]\n✅ [Bonus 1] — [value and benefit]\n✅ [Bonus 2 if applicable]\n\nHere's what [STUDENT NAME] said after completing it:\n\"[SPECIFIC TESTIMONIAL]\"\n— [Name, role, location]\n\nEnrollment is open until [DATE] at [TIME] [TIMEZONE].\nAfter that, [what happens — price goes up / doors close].\n\nJoin [COURSE NAME] here:\n[SALES PAGE LINK]\n\nAny questions — hit reply. I'm here all week.\n\n[Your Name]\n\nP.S. The [SPECIFIC BONUS] is only available during this launch window. After [DATE], it goes away."
+    },
+    {
+      "type": "email",
+      "title": "Launch Week — Objection Crusher Email",
+      "order_index": 3,
+      "content": "Subject: \"Is this right for me if I'm [common hesitation]?\"\n\nHey [First Name],\n\nI've been getting a lot of questions this week — which tells me there are people on the fence who haven't found the right information yet.\n\nLet me answer the most common ones:\n\n---\n\"I'm a complete beginner — will this work for me?\"\n[HONEST ANSWER — don't overpromise, but reassure if appropriate]\n\n---\n\"I've bought courses before and not finished them.\"\n[ADDRESS — what makes yours different structurally, or what accountability you offer]\n\n---\n\"I don't have a lot of time.\"\n[ANSWER — how much time is needed, how it's structured for busy people]\n\n---\n\"What if it doesn't work for my specific situation?\"\n[ANSWER — your guarantee, your support, examples of different situations you've helped]\n\n---\nStill have a question not covered here? Hit reply right now — I'll answer you personally before enrollment closes on [DATE].\n\nReady to join?\n[SALES PAGE LINK]\n\n[Your Name]"
+    },
+    {
+      "type": "email",
+      "title": "Cart Close Sequence — Final Day",
+      "order_index": 4,
+      "content": "Subject: Closing in [X] hours\n\nHey [First Name],\n\n[COURSE NAME] closes tonight at [TIME] [TIMEZONE].\n\nIf you've been thinking about it — this is your moment.\n\nHere's the honest truth:\n\nEverything you need to [achieve the desired outcome] is inside this program. The [specific module or feature] alone has helped [clients] get [specific result].\n\nAfter tonight:\n• The price goes up to $[new price] [or] enrollment closes\n• [Bonus] will no longer be included\n• The next time I open this will be [timeframe if known]\n\nThis is not manufactured urgency. [Cart close reason — why it's actually closing: cohort starts, price increases, you're limiting enrollment, etc.]\n\nIf you're in — here's the link:\n[SALES PAGE LINK — make it prominent]\n\nIf you have a last-minute question, reply to this email right now. I'm watching my inbox.\n\n[Your Name]\n\nP.S. If you decide not to join this round — no hard feelings. Hit reply and I'll add you to the waitlist for the next opening."
+    },
+    {
+      "type": "social_post",
+      "title": "Launch Social Posts (3 Templates)",
+      "order_index": 5,
+      "content": "SOCIAL POST 1 — PRE-LAUNCH BUZZ (1 week before)\n\n🚨 Something I've been working on for [timeframe] is almost ready.\n\nI'll be sharing [COURSE NAME] with you [next week / on DATE].\n\nIt's a [describe in one line] for [your audience] who want [desired outcome].\n\nIf you want to be the first to know when it opens — [follow me / drop a 🙋 in the comments / click the link in bio to join the early access list].\n\nMore details coming soon.\n\n---\nSOCIAL POST 2 — LAUNCH DAY\n\n🎉 It's here.\n\n[COURSE NAME] is officially open.\n\nThis is for you if:\n→ You're a [audience type]\n→ You want [desired outcome]\n→ You're ready to [commitment]\n\nEnrollment closes [DATE]. Link in bio.\n\n[1–2 sentence genuine statement about why you built this]\n\n---\nSOCIAL POST 3 — SOCIAL PROOF (mid-launch)\n\n[STUDENT NAME] joined [COURSE NAME] [X] days ago.\n\nHere's what [he/she/they] said:\n\n\"[DIRECT QUOTE — specific result or transformation]\"\n\nThat's why I built this.\n\nEnrollment closes [DATE].\n[Link or 'link in bio']"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Webinar Invite Email",
+      "order_index": 6,
+      "content": "Subject: Free training: [WEBINAR TITLE] — [DATE]\n\nHey [First Name],\n\nI'm hosting a free [live training / workshop / masterclass] and I want you to be there.\n\n📅 [WEBINAR NAME]\n🗓 [DATE] at [TIME] [TIMEZONE]\n🔗 Register here: [LINK]\n\nIn this [60/90]-minute session, I'm going to show you:\n→ [What they'll learn — specific and valuable]\n→ [Second key takeaway]\n→ [Third key takeaway]\n\nThis is NOT a sales pitch disguised as a training. I'm going to give you [specific deliverable — a framework, a template, a live audit] that you can use immediately.\n\n[At the end, I will share details about [COURSE NAME] — but only after I've given you [the value promise] first.]\n\nSpots are limited to [number] (I want to be able to take questions).\n\n→ Reserve your spot here: [LINK]\n\nSee you there,\n[Your Name]\n\nP.S. If you can't make it live — register anyway. I'll send the replay to everyone who signed up, but only for [24/48] hours."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "consulting-client-accelerator",
+  "name": "Consulting Client Accelerator",
+  "description": "A complete client acquisition system for consultants and coaches — from outreach to signed contract",
+  "category": "Client Acquisition",
+  "outcome": "3–5 new consulting clients in 60 days",
+  "color": "indigo",
+  "estimatedDuration": "60 days",
+  "price": 49,
+  "gumroadUrl": "https://ketorahdigital.gumroad.com/l/consulting-accelerator",
+  "accessColumn": "solomarket_consulting_access",
+  "assetSummary": ["LinkedIn outreach sequence", "Discovery call script", "Proposal email template", "Follow-up sequence", "Objection handling scripts", "Client onboarding email"],
+  "automation": [
+    { "trigger": "Discovery call booked", "action": "Send confirmation + pre-call questionnaire", "followUp": "Send reminder 24h before call" },
+    { "trigger": "Proposal sent", "action": "Follow up in 48h if no response", "followUp": "Send final follow-up at 7 days" }
+  ],
+  "assets": [
+    {
+      "type": "outreach_script",
+      "title": "LinkedIn Outreach Sequence (3 Messages)",
+      "order_index": 0,
+      "content": "MESSAGE 1 — CONNECTION REQUEST\n(300 character limit on LinkedIn)\n\n\"Hi [First Name] — I noticed [specific observation about their profile/content/company]. I work with [audience type] on [outcome]. Would love to connect and follow your work.\"\n\n---\nMESSAGE 2 — AFTER THEY ACCEPT (wait 1–2 days)\n\n\"Hey [First Name], thanks for connecting!\n\nI noticed [something specific — their content, a recent post, their role, a company milestone].\n\n[Genuine compliment or observation — 1 sentence]\n\nI work with [their type of business] to [solve the problem they likely have] — typically helping them [specific measurable outcome].\n\nI'm not going to pitch you — but I did put together a [free resource/tool/insight] specifically for [their role/industry] that might be useful: [LINK OR OFFER TO SEND IT]\n\nNo strings attached. Would you like me to send it over?\n\n[Your Name]\"\n\n---\nMESSAGE 3 — IF THEY ENGAGE WITH THE RESOURCE (3–5 days later)\n\n\"Hey [First Name],\n\nGlad you found [resource] useful!\n\nBased on [what you know about them], I think [specific thing you could help with] is probably on your radar.\n\nI've helped [similar client type] tackle this — most recently [brief result].\n\nWould you be open to a quick 20-minute call to see if there's a fit? No pressure — worst case you get a few ideas you can use right away.\n\nHere's a link: [Calendly]\n\n[Your Name]\""
+    },
+    {
+      "type": "outreach_script",
+      "title": "Discovery Call Script",
+      "order_index": 1,
+      "content": "DISCOVERY CALL SCRIPT (20–30 minutes)\n\n[0–2 MIN — WARM UP]\n\"Thanks for making time. Quick note — I have [20/30] minutes blocked for us. My goal today is to understand your situation and be honest about whether I can actually help. Sound good?\"\n\n[2–8 MIN — THEIR SITUATION]\n• \"Tell me about your business right now. What's going well?\"\n• \"What made you want to hop on this call today specifically?\"\n• \"How long have you been dealing with [their stated challenge]?\"\n• \"What have you already tried to fix it?\"\n\n[8–15 MIN — DEEPER DIAGNOSIS]\n• \"What does success look like for you in the next 90 days? 6 months?\"\n• \"What's the cost of NOT solving this? What happens if it stays as-is?\"\n• \"Who else is involved in this decision?\"\n• \"What's your timeline for making a change?\"\n\n[15–20 MIN — YOUR SOLUTION]\n\"Based on what you've shared — here's what I'm thinking.\"\n[Describe your approach, NOT your features — connect it to what they said]\n\"The result most clients in your situation see is [specific outcome].\"\n\n[20–25 MIN — THE CLOSE]\n\"Does this sound like what you're looking for?\"\n[If yes:] \"Here's what next steps look like...\"\n[If uncertain:] \"What questions do you have?\"\n[If no:] \"What's missing for you?\"\n\n[25–30 MIN — WRAP]\n\"What would need to be true for you to feel confident moving forward?\"\n[Address each concern directly]\n\"I'll send you a proposal/summary today. When can I expect to hear back?\""
+    },
+    {
+      "type": "email",
+      "title": "Proposal Email Template",
+      "order_index": 2,
+      "content": "Subject: Your proposal — [Their Name] x [Your Name]\n\nHey [First Name],\n\nReally enjoyed our conversation today. I can see clearly why [the problem] has been frustrating — and I'm confident there's a path through it.\n\nHere's a summary of what we discussed and what I'm proposing:\n\n---\nWHAT I HEARD\n• [Pain point 1 — their words, not yours]\n• [Pain point 2]\n• [Their goal in the timeframe they mentioned]\n\n---\nWHAT I'M PROPOSING\n[PACKAGE NAME]: [1-sentence description]\n\nIncludes:\n✅ [Deliverable 1]\n✅ [Deliverable 2]\n✅ [Deliverable 3]\n✅ [Timeline for delivery]\n\n---\nOUTCOME\nBased on your situation, here's what I expect you'll see:\n• [Specific result 1]\n• [Specific result 2]\n• [Timeline]\n\n---\nINVESTMENT\n[Package price]: $[AMOUNT]\n[Payment options if applicable: full / 2 installments / monthly]\n\n---\nNEXT STEPS\nIf this feels right — reply to this email with \"let's do it\" and I'll send over the agreement and invoice.\n\nIf you have questions, I'm happy to jump on a quick call or answer by email.\n\nI'd love to work together on this, [First Name]. I think [specific result they care most about] is very achievable.\n\n[Your Name]"
+    },
+    {
+      "type": "email",
+      "title": "Post-Proposal Follow-Up Sequence",
+      "order_index": 3,
+      "content": "FOLLOW-UP EMAIL 1 (48 hours after proposal)\nSubject: Re: Your proposal — checking in\n\nHey [First Name],\n\nJust following up on the proposal I sent — wanted to make sure it landed okay and see if any questions came up as you looked through it.\n\nI also wanted to add one thing: [a relevant insight, a recent result from another client, or something that directly addresses their main concern from the call].\n\nHappy to jump on a 10-minute call if that would help make the decision easier. Here's a link: [Calendly]\n\n[Your Name]\n\n---\nFOLLOW-UP EMAIL 2 (5 days after proposal)\nSubject: Still thinking it over?\n\nHey [First Name],\n\nI know decisions like this take time — especially when you're already juggling everything else.\n\nI want to be direct: I think [the thing they told you they want] is very achievable with the right help, and I believe I can deliver that for you.\n\nHere's what [a recent client] said after working with me on something similar:\n\"[SHORT TESTIMONIAL — specific and relevant]\"\n— [Name, role]\n\nIf you're still on the fence, I'd love to understand what's holding you back. Reply and tell me — I'll give you an honest answer.\n\n[Your Name]\n\n---\nFOLLOW-UP EMAIL 3 (10 days after proposal)\nSubject: Closing the loop on this\n\nHey [First Name],\n\nI've followed up a couple of times without hearing back — so I'm going to close the loop on this.\n\nIf the timing or fit isn't right, I completely understand. No hard feelings.\n\nIf circumstances change and you want to revisit — I'm here.\n\n[Your Name]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Objection Handling Scripts",
+      "order_index": 4,
+      "content": "OBJECTION HANDLING SCRIPTS\n(Use during discovery calls or in follow-up emails)\n\n---\nOBJECTION: \"It's too expensive.\"\n\nResponse: \"I hear you on the investment. Let me ask — what would it be worth to you if [specific outcome they told you they want] happened in the next 90 days? [Pause for answer] Most of my clients see [specific ROI or result]. Does the investment feel different when you look at it that way?\"\n\nAlternative: \"I also offer a [smaller engagement / payment plan / phased approach] if that works better for where you are right now. Want me to put together an alternative?\"\n\n---\nOBJECTION: \"I need to think about it.\"\n\nResponse: \"Of course — what specifically do you need to think through? I'd rather address it now while we're both here than have you sit with an unanswered question.\"\n\n---\nOBJECTION: \"I need to talk to my [partner/team/spouse].\"\n\nResponse: \"That makes complete sense. What would be helpful — should I put together a summary you can share with them? Or would it be easier to schedule a quick call with both of you?\"\n\n---\nOBJECTION: \"I've tried this before and it didn't work.\"\n\nResponse: \"Thank you for sharing that — it's important context. Can you tell me more about what you tried? [Listen fully] Based on what you described, what didn't work was [X]. The approach I use is different in [specific way]. Here's why that matters for your situation: [explain].\"\n\n---\nOBJECTION: \"I'm not sure you understand my industry.\"\n\nResponse: \"That's fair to question. Here's what I know about [their industry]: [2–3 specific things]. What I bring is [your specific expertise or framework] — which has worked across [industries]. But tell me: what's the specific thing about your industry that feels unique? Let's dig into it.\""
+    },
+    {
+      "type": "email",
+      "title": "Client Onboarding Email",
+      "order_index": 5,
+      "content": "Subject: Welcome — here's everything you need to get started\n\nHey [First Name],\n\nWelcome aboard — I'm genuinely excited to work with you on this.\n\nHere's everything you need to know for a smooth start:\n\n---\nIMPORTANT LINKS\n• [Project management tool / client portal]: [LINK]\n• Shared folder (documents, deliverables): [LINK]\n• Schedule a call anytime: [Calendly link]\n\n---\nOUR FIRST STEPS\n1. [Action 1 — e.g., complete the onboarding questionnaire: LINK]\n2. [Action 2 — e.g., our kickoff call is scheduled for DATE]\n3. [Action 3 — e.g., I'll send you the first deliverable by DATE]\n\n---\nHOW I WORK\n• Communication: I check email [frequency] and typically respond within [timeframe]\n• Updates: You'll get a [weekly/bi-weekly] progress update from me\n• Questions: Anytime — email me at [your email]\n\n---\nWHAT TO EXPECT IN WEEK 1\n[Brief description of what you'll be doing and what they'll see]\n\n---\nMY COMMITMENT TO YOU\nYou trusted me with [the thing they're trying to solve]. I don't take that lightly. My job is to [deliver specific result] — and I'll do everything I can to make sure you feel that.\n\nLet's build something great.\n\n[Your Name]"
+    }
+  ]
+}

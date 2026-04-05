@@ -5,7 +5,7 @@ import {
   Download, CheckCircle2, ChevronRight, X, Loader2,
   Play, Pause, Trash2, BarChart3, Zap, FileText,
   Mail, MessageSquare, ClipboardList, Globe, Users,
-  ArrowRight, ChevronDown, ChevronUp, Sparkles, Wand2
+  ArrowRight, ChevronDown, ChevronUp, Sparkles, Wand2, Lock, ShoppingCart
 } from 'lucide-react';
 import { generateCampaignSystem } from '../services/geminiService';
 import { apiFetch } from '../services/api';
@@ -14,6 +14,7 @@ import { useAuth } from '../context/AuthContext';
 import { getPlanLimits } from '../utils/planLimits';
 import {
   CAMPAIGN_TEMPLATES,
+  PREMIUM_TEMPLATES,
   TEMPLATE_COLORS,
   TEMPLATE_ICONS,
   installCampaign,
@@ -544,7 +545,7 @@ export function Systems() {
     }
   };
 
-  const { plan, user } = useAuth();
+  const { plan, user, addonAccess } = useAuth();
 
   const handleInstallConfirm = async (productId: string | null) => {
     if (!installTarget) return;
@@ -727,6 +728,61 @@ export function Systems() {
               onView={openDrawer}
             />
           ))}
+
+          {/* Premium Add-on Cards */}
+          {PREMIUM_TEMPLATES.map(template => {
+            const hasAccess = addonAccess[template.accessColumn as keyof typeof addonAccess] || user?.email === 'ketorah.digital@gmail.com';
+            const colors = TEMPLATE_COLORS[template.color] ?? TEMPLATE_COLORS.blue;
+            const icon = TEMPLATE_ICONS[template.id] ?? '⭐';
+            return (
+              <motion.div
+                key={template.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`relative rounded-2xl border p-5 flex flex-col ${hasAccess ? `${colors.bg} ${colors.border}` : 'bg-slate-50 border-slate-200'}`}
+              >
+                {!hasAccess && (
+                  <div className="absolute top-3 right-3">
+                    <Lock size={14} className="text-slate-400" />
+                  </div>
+                )}
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg mb-3 ${hasAccess ? colors.icon : 'bg-slate-200'}`}>
+                  {icon}
+                </div>
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className={`font-bold text-sm ${hasAccess ? colors.text : 'text-slate-500'}`}>{template.name}</h3>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${hasAccess ? `${colors.bg} ${colors.text}` : 'bg-slate-200 text-slate-500'}`}>
+                    {hasAccess ? 'Unlocked' : `$${template.price}`}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 leading-relaxed mb-3 flex-1">{template.description}</p>
+                <div className="flex flex-wrap gap-1 mb-4">
+                  {template.assetSummary?.slice(0, 3).map((a: string) => (
+                    <span key={a} className="text-[10px] bg-white/70 text-slate-500 border border-slate-200 px-2 py-0.5 rounded-md">{a}</span>
+                  ))}
+                </div>
+                {hasAccess ? (
+                  <button
+                    type="button"
+                    onClick={() => setInstallTarget(template as any)}
+                    className={`w-full py-2 rounded-xl text-xs font-bold text-white transition-colors ${colors.icon} hover:opacity-90`}
+                  >
+                    Install System
+                  </button>
+                ) : (
+                  <a
+                    href={template.gumroadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2 rounded-xl text-xs font-bold text-white bg-slate-700 hover:bg-slate-800 transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    <ShoppingCart size={12} />
+                    Unlock — ${template.price}
+                  </a>
+                )}
+              </motion.div>
+            );
+          })}
 
           {/* AI Generate Card */}
           <motion.div

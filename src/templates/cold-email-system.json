@@ -1,0 +1,61 @@
+{
+  "id": "cold-email-system",
+  "name": "Cold Email System",
+  "description": "A proven cold outreach campaign to land clients and customers without paid ads or social media",
+  "category": "Lead Generation",
+  "outcome": "10–20 positive replies and 3–5 booked calls per month",
+  "color": "blue",
+  "estimatedDuration": "30 days",
+  "price": 39,
+  "gumroadUrl": "https://ketorahdigital.gumroad.com/l/cold-email-system",
+  "accessColumn": "solomarket_cold_email_access",
+  "assetSummary": ["5-email cold sequence", "Follow-up cadence", "Subject line swipe file", "Reply handling scripts", "Personalization framework", "List building guide"],
+  "automation": [
+    { "trigger": "No reply after 3 days", "action": "Send follow-up email 2 automatically", "followUp": "Move to break-up sequence after 5 unanswered follow-ups" },
+    { "trigger": "Positive reply received", "action": "Flag as warm lead + move to booking flow", "followUp": "Send calendar link within 1 hour" }
+  ],
+  "assets": [
+    {
+      "type": "outreach_script",
+      "title": "Email 1: The Hook (Day 1)",
+      "order_index": 0,
+      "content": "Subject: [Specific to their situation — not generic]\nSubject line options:\n• \"Quick question about [their company/content/niche]\"\n• \"[Mutual connection] suggested I reach out\"\n• \"Idea for [their company name]\"\n• \"[Specific observation about their business]\"\n\n---\nHey [First Name],\n\n[PERSONALIZED OPENER — 1 sentence, specific to them]\nExamples:\n• \"I saw your post about [topic] last week — your take on [specific point] stuck with me.\"\n• \"I noticed [Company Name] recently [launched/expanded/announced X].\"\n• \"[Mutual contact] mentioned you're working on [thing].\"\n\n[THE BRIDGE — connect your observation to the problem you solve]\n\"Most [their role/industry] I talk to are dealing with [SPECIFIC PROBLEM] right now.\"\n\n[YOUR HOOK — one sentence on what you do]\n\"I help [their type of business] [achieve specific outcome] — typically in [timeframe].\"\n\n[PROOF — one line, specific]\n\"[Client type similar to them] recently went from [before] to [after] using our [approach].\"\n\n[SOFT CTA — low-friction ask]\n\"Would it make sense to have a quick [15/20]-minute call to see if I could do the same for you?\"\n\n[Your Name]\n[Title] | [Company]\n[Phone if appropriate]\n\nP.S. [A personal note or add-on value — e.g., a relevant resource, an observation, a connection]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Email 2: The Value Add (Day 4)",
+      "order_index": 1,
+      "content": "Subject: Re: [Same thread — keep the original subject]\n\nHey [First Name],\n\nFollowing up on my note from a few days ago.\n\nIn the meantime, I put together [a quick tip / a resource / a short video] specifically for [their role or situation] that I thought might be useful regardless of whether we work together:\n\n[LINK TO FREE RESOURCE or paste a short, genuinely useful tip]\n\n[WHY IT'S RELEVANT TO THEM — 1 sentence]\n\nIs [the original problem you mentioned] still something you're actively working on? Happy to dig into your specific situation on a quick call.\n\n[Your Name]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Email 3: The Case Study (Day 8)",
+      "order_index": 2,
+      "content": "Subject: How [Similar Company/Person] got [Specific Result]\n\nHey [First Name],\n\nThought you'd find this relevant:\n\n[CLIENT TYPE similar to them] came to me [timeframe] ago struggling with [SPECIFIC PROBLEM they likely have].\n\nHere's what we did:\n• [Step 1 — your approach]\n• [Step 2]\n• [Step 3]\n\nResult after [timeframe]: [SPECIFIC MEASURABLE OUTCOME]\n\nThe approach is repeatable — I've seen similar results with [X other clients / companies like yours].\n\nI think we could do something similar for [THEIR COMPANY/THEM].\n\nWorth a 15-minute call this week to explore it?\n\n[Calendly/scheduling link]\n\n[Your Name]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Email 4: The Objection Handler (Day 13)",
+      "order_index": 3,
+      "content": "Subject: I know what you're probably thinking\n\nHey [First Name],\n\nI've sent a few notes and haven't heard back — which usually means one of a few things:\n\n→ You're slammed and this keeps falling off the radar (fair — I get it)\n→ You're not sure if [my service/approach] actually works for [their specific situation]\n→ The timing just isn't right\n\nIf it's the middle one — let me address it directly:\n\n[SPECIFIC OBJECTION RESPONSE — address the most likely hesitation for their situation]\nExample: \"I know it can feel like cold outreach is impersonal or pushy. The system I use is built around genuine personalization and value-first — every message is relevant and researched, not blasted.\"\n\nAnd if it's timing — no pressure at all. Just let me know when would be better and I'll follow up then instead.\n\nEither way, I'll leave the door open.\n\n[Your Name]"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Email 5: The Break-Up (Day 18)",
+      "order_index": 4,
+      "content": "Subject: Closing the loop\n\nHey [First Name],\n\nI've reached out a few times and haven't heard back — so I'm going to stop following up after this note.\n\nIf the timing isn't right or you're going in a different direction, I completely understand.\n\nBut if [THE PROBLEM YOU SOLVE] ever becomes a priority, I'd love to help. You can reach me at [email] anytime.\n\nWishing you all the best with [something specific about their work/business].\n\n[Your Name]\n\nP.S. If you have 10 seconds — could you let me know which of these is closest to the truth?\nA) Not the right time\nB) Not the right fit\nC) Went with someone else\nD) Still thinking about it\n\nNo judgment — just helps me improve how I reach out to people like you."
+    },
+    {
+      "type": "landing_page_copy",
+      "title": "Subject Line Swipe File",
+      "order_index": 5,
+      "content": "COLD EMAIL SUBJECT LINE SWIPE FILE\n(40+ tested subject lines — copy, adapt, and split test)\n\nCURIOSITY LINES:\n• \"Quick question, [First Name]\"\n• \"Idea for [Company Name]\"\n• \"[First Name] — saw this and thought of you\"\n• \"Random thought about your [content/strategy/business]\"\n• \"This might sound weird...\"\n\nPERSONALIZED LINES:\n• \"Re: your post about [topic]\"\n• \"[Mutual connection] suggested I reach out\"\n• \"Congrats on [recent achievement]\"\n• \"Question about [something specific from their LinkedIn/website]\"\n• \"[Company Name] + [Your Company Name]\"\n\nPROBLEM-AWARE LINES:\n• \"Struggling with [specific pain]?\"\n• \"Most [their role] I talk to deal with this\"\n• \"Is [specific challenge] on your radar?\"\n• \"The [their industry] problem nobody talks about\"\n\nRESULT-FORWARD LINES:\n• \"How [Similar Client] got [Result] in [Timeframe]\"\n• \"[X]% improvement in [metric] — here's how\"\n• \"From [before state] to [after state]\"\n• \"What I'd do differently if I were in your position\"\n\nCONVERSATIONAL LINES:\n• \"Worth a 15-minute chat?\"\n• \"Can I share something with you?\"\n• \"[First Name], honest question\"\n• \"This probably isn't the right fit, but...\"\n\nRULES FOR SUBJECT LINES:\n• Under 50 characters — many email clients cut off longer lines\n• No ALL CAPS, excessive punctuation, or spam trigger words (free, guaranteed, buy now)\n• A/B test: send 2 versions to different segments\n• Curiosity > description — make them open to find out"
+    },
+    {
+      "type": "outreach_script",
+      "title": "Reply Handling Scripts",
+      "order_index": 6,
+      "content": "REPLY HANDLING SCRIPTS\n(Word-for-word responses to every scenario)\n\n---\nSCENARIO 1: Positive reply — they're interested\nTheir reply: \"Sure, let's chat\" / \"Tell me more\" / \"What does this look like?\"\n\nYour response:\n\"Great, [First Name] — really glad this landed at the right time.\n\nHere's a link to grab a time that works for you: [CALENDLY LINK]\n\nThe call is [15/30] minutes. I'll come prepared with [specific preparation — e.g., a quick audit of your current approach / 3 ideas specific to your situation].\n\nLooking forward to it.\n[Your Name]\"\n\n---\nSCENARIO 2: Not now — come back later\nTheir reply: \"Reach out in Q2\" / \"Try me in 3 months\"\n\nYour response:\n\"Completely understand — I'll circle back in [specific month].\n\nI've set a reminder. In the meantime, I'll keep an eye on what you're building — looks like exciting things ahead.\n\n[Your Name]\"\n[Then: actually set a calendar reminder]\n\n---\nSCENARIO 3: Wrong person — redirect\nTheir reply: \"You should talk to [Name] — they handle this\"\n\nYour response:\n\"Thanks for the redirect, [First Name] — really appreciate it.\n\nDo you mind if I mention your name when I reach out to [Name]? And should I email or connect on LinkedIn?\n\n[Your Name]\"\n\n---\nSCENARIO 4: Not interested\nTheir reply: \"No thanks\" / \"We're all set\" / \"Not a fit\"\n\nYour response:\n\"Completely understand — thanks for the quick reply, [First Name]. I appreciate you taking the time.\n\nBest of luck with [something specific]. If anything changes down the road, you know where to find me.\n\n[Your Name]\"\n[Do NOT follow up again unless they reach out first]"
+    }
+  ]
+}

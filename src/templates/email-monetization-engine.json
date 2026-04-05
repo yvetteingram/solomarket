@@ -1,0 +1,55 @@
+{
+  "id": "email-monetization-engine",
+  "name": "Email Monetization Engine",
+  "description": "Turn your email list into a consistent revenue stream with proven sequences and promotional campaigns",
+  "category": "Email Marketing",
+  "outcome": "$1,000–$5,000 in email-driven revenue per launch cycle",
+  "color": "green",
+  "estimatedDuration": "30 days",
+  "price": 39,
+  "gumroadUrl": "https://ketorahdigital.gumroad.com/l/email-monetization",
+  "accessColumn": "solomarket_email_monetization_access",
+  "assetSummary": ["7-day nurture sequence", "Promotional email templates", "Offer reveal sequence", "Re-engagement campaign", "Abandoned cart follow-up", "Revenue tracking guide"],
+  "automation": [
+    { "trigger": "New subscriber joins list", "action": "Trigger 7-day nurture sequence", "followUp": "Add to broadcast list after sequence completes" },
+    { "trigger": "Promotion email sent", "action": "Segment non-openers for resend with new subject line after 48h", "followUp": "Send cart close sequence to non-buyers on final day" }
+  ],
+  "assets": [
+    {
+      "type": "email",
+      "title": "Nurture Sequence — Email 1: Welcome",
+      "order_index": 0,
+      "content": "Subject: You're in — here's what to expect\n\nHey [First Name],\n\nWelcome to the [LIST NAME] community.\n\nI'm [YOUR NAME] — [one sentence on who you are and who you help].\n\nYou signed up for [what they opted in for] and I'm sending it to you right now:\n[LINK TO LEAD MAGNET OR RESOURCE]\n\nOver the next week, I'll also be sharing:\n→ [Email 2 topic — a quick win]\n→ [Email 3 topic — a common mistake to avoid]\n→ [Email 4 topic — your method or framework]\n→ And more.\n\nThese are my most popular, most-replied-to emails. I think you'll find them useful.\n\nOne quick question before I go:\n\nWhat made you sign up today? What are you working on or trying to figure out?\n\nHit reply — I read every single response and often send personalized tips back.\n\nTalk soon,\n[Your Name]\n\nP.S. Add [your email] to your contacts so my emails don't end up in spam. It takes 2 seconds and ensures you don't miss anything."
+    },
+    {
+      "type": "email",
+      "title": "Nurture Sequence — Email 3: The Quick Win",
+      "order_index": 1,
+      "content": "Subject: The fastest way to [desired outcome]\n\nHey [First Name],\n\nLet me give you something you can use today.\n\nThe fastest way I know to [ACHIEVE THE THING YOUR AUDIENCE WANTS]:\n\n[THE QUICK WIN — be specific, actionable, and keep it under 200 words]\n\nExample structure:\n\"1. [Step 1 — takes 5 minutes]\n2. [Step 2 — takes 10 minutes]\n3. [Step 3 — the payoff]\n\nMost people skip step [X] — that's where the difference is.\"\n\nTry this today and hit reply to tell me what happened.\n\n[Your Name]\n\nP.S. Tomorrow I'm going to share the #1 mistake I see [your audience] make with [topic]. It's one of those things you can't unsee once you know it."
+    },
+    {
+      "type": "email",
+      "title": "Offer Reveal Email",
+      "order_index": 2,
+      "content": "Subject: Here's what I've been building for you\n\nHey [First Name],\n\nFor the past [timeframe], you've been getting my best [tips/content/strategies] on [topic].\n\nToday I want to tell you about something I've put together for people who want to go deeper.\n\nIntroducing: [OFFER NAME]\n\n[OFFER NAME] is [what it is — course, service, template, system] designed specifically for [your audience] who want to [desired outcome] without [the pain they're trying to avoid].\n\nHere's what's inside:\n✅ [Deliverable/Feature 1] — [1-sentence benefit]\n✅ [Deliverable/Feature 2] — [1-sentence benefit]\n✅ [Deliverable/Feature 3] — [1-sentence benefit]\n✅ [Bonus] — [1-sentence benefit]\n\nWho this is for:\n→ [Ideal customer description 1]\n→ [Ideal customer description 2]\n→ [Ideal customer description 3]\n\nWho this is NOT for:\n→ [Exclusion 1 — keep it honest]\n→ [Exclusion 2]\n\nInvestment: [PRICE]\n[If limited: only X spots available / cart closes [DATE]]\n\nGet the details and join here:\n[SALES PAGE LINK]\n\nAny questions? Hit reply — I'll answer every one personally.\n\n[Your Name]\n\nP.S. [Something that creates urgency or reinforces the key benefit in one sentence]"
+    },
+    {
+      "type": "email",
+      "title": "Promotional Campaign — Cart Close Email",
+      "order_index": 3,
+      "content": "Subject: Last chance — closes at midnight\n\nHey [First Name],\n\nThis is it.\n\n[OFFER NAME] closes tonight at midnight [timezone].\n\nAfter that, [the price goes up / doors close / this bonus disappears].\n\nIf you've been on the fence, here's what I want you to know:\n\n[MOST COMMON OBJECTION + HONEST RESPONSE]\nExample: \"If you're worried it won't work for your situation — I get it. Here's what I'll say: [brief, direct response to their specific fear].\"\n\nHere's what people who joined are already saying:\n\"[TESTIMONIAL — specific and recent if possible]\"\n— [Name, role]\n\nThis is your last chance to get [the specific benefit] at [current price].\n\n→ Join [OFFER NAME] before midnight: [LINK]\n\nIf now's not the right time, no hard feelings. I'll keep showing up in your inbox with value regardless.\n\n[Your Name]\n\nP.S. If you have a question that's keeping you from saying yes — reply to this email right now. I'm monitoring this inbox until close and I'll answer you personally."
+    },
+    {
+      "type": "email",
+      "title": "Re-Engagement Campaign (Cold Subscribers)",
+      "order_index": 4,
+      "content": "Subject: Are you still there, [First Name]?\n\nHey [First Name],\n\nI noticed you haven't opened my emails in a while.\n\nWhich is fine — life gets busy, inboxes get messy.\n\nBut before I move you to a less frequent list, I want to make sure you're getting what you actually came here for.\n\nQuick question:\n\nWhat's the #1 thing you're trying to figure out in your [business/life/niche] right now?\n\nA) [Topic/Problem 1]\nB) [Topic/Problem 2]\nC) [Topic/Problem 3]\nD) Something else (just reply and tell me)\n\nBased on your answer, I'll send you the most useful thing I have on that topic — no fluff.\n\nIf you'd rather I just stop emailing — no hurt feelings. Click here to unsubscribe: [UNSUBSCRIBE LINK]\n\nBut if you're still in — hit reply with A, B, C, or D and let's make sure I'm actually useful to you.\n\n[Your Name]\n\nP.S. People who reply to this email tend to become my most engaged subscribers. Something about the conversation that re-ignites the connection. Worth a shot."
+    },
+    {
+      "type": "landing_page_copy",
+      "title": "Revenue Tracking Guide",
+      "order_index": 5,
+      "content": "EMAIL REVENUE TRACKING GUIDE\n\nKEY METRICS TO TRACK (monthly)\n\n1. LIST SIZE & GROWTH\n• Current subscribers: ____\n• New this month: ____\n• Unsubscribes this month: ____\n• Net growth: ____\nTarget: 10–20% monthly growth for early-stage lists\n\n2. ENGAGEMENT METRICS\n• Average open rate: ____%\n• Average click rate: ____%\n• Reply rate (estimate): ____%\nBenchmarks: 30%+ open rate = healthy | 2-3%+ click rate = engaged\n\n3. REVENUE METRICS\n• Revenue per email sent: $____\n• Revenue per subscriber (monthly): $____\n• Best performing email this month: ____\n• Worst performing: ____\nTarget: $1–$3/subscriber/month is strong for solopreneurs\n\n4. CAMPAIGN PERFORMANCE\nFor each promo campaign, track:\n• Emails in sequence: ____\n• Total opens: ____\n• Total clicks: ____\n• Revenue generated: $____\n• Conversion rate (sales / clicks): ____%\n\n5. WHAT TO OPTIMIZE FIRST\nIf open rate is low → fix subject lines\nIf click rate is low → fix calls to action\nIf revenue is low → fix offer clarity or pricing\nIf list isn't growing → fix lead magnet or opt-in visibility\n\n6. SIMPLE MONTHLY REVIEW QUESTIONS\n• What email got the most replies this month? Why?\n• What offer performed best? What can I learn from that?\n• What would I do differently next month?\n• What's my email revenue goal for next month? $_____"
+    }
+  ]
+}

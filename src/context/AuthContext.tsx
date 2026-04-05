@@ -2,11 +2,23 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '../services/supabase';
 
+export interface AddonAccess {
+  solomarket_youtube_access: boolean;
+  solomarket_email_monetization_access: boolean;
+  solomarket_cold_email_access: boolean;
+  solomarket_consulting_access: boolean;
+  solomarket_course_launch_access: boolean;
+  solomarket_instagram_access: boolean;
+  solomarket_podcast_access: boolean;
+  solomarket_speaking_access: boolean;
+}
+
 interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
   plan: string;
+  addonAccess: AddonAccess;
   signOut: () => Promise<void>;
 }
 
@@ -18,6 +30,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [plan, setPlan] = useState<string>('free');
+  const [addonAccess, setAddonAccess] = useState<AddonAccess>({
+    solomarket_youtube_access: false,
+    solomarket_email_monetization_access: false,
+    solomarket_cold_email_access: false,
+    solomarket_consulting_access: false,
+    solomarket_course_launch_access: false,
+    solomarket_instagram_access: false,
+    solomarket_podcast_access: false,
+    solomarket_speaking_access: false,
+  });
 
   const fetchPlan = async (token: string) => {
     try {
@@ -27,6 +49,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (res.ok) {
         const data = await res.json();
         setPlan(data.plan || 'free');
+        setAddonAccess({
+          solomarket_youtube_access: data.solomarket_youtube_access || false,
+          solomarket_email_monetization_access: data.solomarket_email_monetization_access || false,
+          solomarket_cold_email_access: data.solomarket_cold_email_access || false,
+          solomarket_consulting_access: data.solomarket_consulting_access || false,
+          solomarket_course_launch_access: data.solomarket_course_launch_access || false,
+          solomarket_instagram_access: data.solomarket_instagram_access || false,
+          solomarket_podcast_access: data.solomarket_podcast_access || false,
+          solomarket_speaking_access: data.solomarket_speaking_access || false,
+        });
       }
     } catch {}
   };
@@ -106,7 +138,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, plan, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, plan, addonAccess, signOut }}>
       {children}
     </AuthContext.Provider>
   );
