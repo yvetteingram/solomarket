@@ -9,6 +9,7 @@ const LIMITS: Record<string, PlanLimits> = {
   starter: { campaigns: 1,        aiDraftsPerMonth: 5,        leads: 500 },
   growth:  { campaigns: Infinity, aiDraftsPerMonth: Infinity, leads: 5000 },
   agency:  { campaigns: Infinity, aiDraftsPerMonth: Infinity, leads: Infinity },
+  founder: { campaigns: Infinity, aiDraftsPerMonth: Infinity, leads: Infinity }, // Ketorah AI Hub subscribers
 };
 
 const ADMIN_EMAILS = ['ketorah.digital@gmail.com'];
