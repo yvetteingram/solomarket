@@ -619,7 +619,25 @@ export default async (request: Request) => {
       });
     }
 
+    if (path === "upload-avatar" && method === "POST") {
+      const { base64, ext, mimeType } = body;
+      if (!base64 || !ext) return json({ error: "Missing base64 or ext" }, 400);
+      const buffer = Buffer.from(base64, "base64");
+      const filePath = `${userId}/avatar.${ext}`;
+      const { error: uploadError } = await getSupabase()
+        .storage.from("avatars")
+        .upload(filePath, buffer, { contentType: mimeType || "image/jpeg", upsert: true });
+      if (uploadError) throw uploadError;
+      const { data: urlData } = getSupabase().storage.from("avatars").getPublicUrl(filePath);
+      return json({ url: urlData.publicUrl });
+    }
+
     if (path === "profile" && method === "PATCH") {
+      // Only the app owner can switch plans via dev tools
+      const { data: { user: authUser } } = await getSupabase().auth.admin.getUserById(userId);
+      if (authUser?.email !== "ketorah.digital@gmail.com") {
+        return json({ error: "Not authorized" }, 403);
+      }
       const { plan } = body;
       const validPlans = ["free", "starter", "growth", "agency", "pro", "founder"];
       if (!plan || !validPlans.includes(plan)) {

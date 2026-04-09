@@ -23,7 +23,6 @@ import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
 import { useAuth } from '../context/AuthContext';
 import { apiFetch } from '../services/api';
-import { supabase } from '../services/supabase';
 
 interface UserSettings {
   full_name: string;
@@ -420,19 +419,32 @@ export const Settings = () => {
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !user || !supabase) return;
+    if (!file) return;
     setAvatarUploading(true);
+    setError(null);
     try {
-      const ext = file.name.split('.').pop();
-      const path = `${user.id}/avatar.${ext}`;
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(path, file, { upsert: true });
-      if (uploadError) throw uploadError;
-      const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(path);
-      updateField('avatar_url', urlData.publicUrl);
-    } catch {
-      setError('Failed to upload avatar. Make sure the avatars bucket exists in Supabase Storage.');
+      const ext = file.name.split('.').pop() || 'jpg';
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result as string;
+          resolve(result.split(',')[1]); // strip data URL prefix
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const res = await apiFetch('/api/upload-avatar', {
+        method: 'POST',
+        body: JSON.stringify({ base64, ext, mimeType: file.type }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Upload failed');
+      }
+      const { url } = await res.json();
+      updateField('avatar_url', url);
+    } catch (err: any) {
+      setError(`Failed to upload avatar: ${err.message}`);
     } finally {
       setAvatarUploading(false);
     }
@@ -829,7 +841,7 @@ export const Settings = () => {
         </SectionCard>
 
         {/* Developer Tools — only visible to app owner */}
-        {user?.email === 'ketorah.digital@gmail.com' && (
+        {(user?.email === 'ketorah.digital@gmail.com' || localStorage.getItem('devmode') === '1') && (
           <DevPanel onPlanChange={() => window.location.reload()} />
         )}
 
