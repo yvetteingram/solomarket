@@ -76,6 +76,8 @@ const PLAN_CONFIG = {
     icon: Crown,
     color: 'bg-emerald-100 text-emerald-700',
     upgrades: [
+      { name: 'Starter', price: '$29/mo', url: 'https://ketorahdigital.gumroad.com/l/starter', color: 'bg-slate-900 hover:bg-slate-800 text-white' },
+      { name: 'Growth', price: '$59/mo', url: 'https://ketorahdigital.gumroad.com/l/growth', color: 'bg-emerald-600 hover:bg-emerald-700 text-white' },
       { name: 'Agency', price: '$249/mo', url: 'https://ketorahdigital.gumroad.com/l/agency', color: 'bg-indigo-600 hover:bg-indigo-700 text-white' },
     ],
   },
@@ -83,7 +85,11 @@ const PLAN_CONFIG = {
     label: 'Founder',
     icon: Crown,
     color: 'bg-amber-100 text-amber-700',
-    upgrades: [],
+    upgrades: [
+      { name: 'Starter', price: '$29/mo', url: 'https://ketorahdigital.gumroad.com/l/starter', color: 'bg-slate-900 hover:bg-slate-800 text-white' },
+      { name: 'Growth', price: '$59/mo', url: 'https://ketorahdigital.gumroad.com/l/growth', color: 'bg-emerald-600 hover:bg-emerald-700 text-white' },
+      { name: 'Agency', price: '$249/mo', url: 'https://ketorahdigital.gumroad.com/l/agency', color: 'bg-indigo-600 hover:bg-indigo-700 text-white' },
+    ],
   },
 };
 
