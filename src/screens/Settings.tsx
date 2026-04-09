@@ -71,6 +71,20 @@ const PLAN_CONFIG = {
     color: 'bg-indigo-100 text-indigo-700',
     upgrades: [],
   },
+  pro: {
+    label: 'Pro',
+    icon: Crown,
+    color: 'bg-emerald-100 text-emerald-700',
+    upgrades: [
+      { name: 'Agency', price: '$249/mo', url: 'https://ketorahdigital.gumroad.com/l/agency', color: 'bg-indigo-600 hover:bg-indigo-700 text-white' },
+    ],
+  },
+  founder: {
+    label: 'Founder',
+    icon: Crown,
+    color: 'bg-amber-100 text-amber-700',
+    upgrades: [],
+  },
 };
 
 const BillingSection = ({ plan }: { plan: string }) => {
@@ -85,7 +99,7 @@ const BillingSection = ({ plan }: { plan: string }) => {
           <PlanIcon size={15} />
           {config.label} Plan
         </div>
-        {plan !== 'free' && (
+        {key !== 'free' && (
           <span className="flex items-center gap-1 text-xs text-emerald-600 font-semibold">
             <CheckCircle2 size={13} />
             Active
@@ -113,11 +127,11 @@ const BillingSection = ({ plan }: { plan: string }) => {
         </div>
       )}
 
-      {plan === 'agency' && (
+      {(key === 'agency' || key === 'founder') && (
         <p className="text-sm text-slate-500 mb-5">You're on the highest plan — all features unlocked.</p>
       )}
 
-      {plan !== 'free' && (
+      {key !== 'free' && (
         <>
           <a
             href="https://app.gumroad.com/subscriptions"
