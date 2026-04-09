@@ -18,6 +18,7 @@ import { Auth } from './screens/Auth';
 import { LandingPage } from './screens/LandingPage';
 import { QuickStart } from './screens/QuickStart';
 import { AIAssistant } from './screens/AIAssistant';
+import { Demo } from './screens/Demo';
 import { apiFetch } from './services/api';
 
 const ROUTE_TO_ID: Record<string, string> = {
@@ -108,6 +109,7 @@ function AppContent() {
         <Route path="/login" element={<Auth />} />
         <Route path="/signup" element={<Auth />} />
         <Route path="/quick-start" element={<QuickStart />} />
+        <Route path="/demo" element={<Demo />} />
         <Route path="*" element={<LandingPage />} />
       </Routes>
     );

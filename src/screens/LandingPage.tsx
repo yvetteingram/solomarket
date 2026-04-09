@@ -5,7 +5,7 @@ import {
   ArrowRight, Zap, BarChart3, Users, Sparkles,
   CheckCircle2, Menu, X, Star, Layers,
   ShoppingBag, Brain, TrendingUp, Calendar,
-  PenTool, Target,
+  PenTool, Target, Play,
 } from 'lucide-react';
 
 // ── Data ─────────────────────────────────────────────────────────────────────
@@ -198,8 +198,15 @@ export function LandingPage() {
                 Get Started Free
                 <ArrowRight className="w-5 h-5" />
               </button>
-              <p className="text-sm text-slate-500">No credit card required</p>
+              <button
+                onClick={() => navigate('/demo')}
+                className="w-full sm:w-auto px-8 py-4 border border-white/20 hover:border-white/40 text-white font-bold text-lg rounded-2xl transition-all flex items-center justify-center gap-2"
+              >
+                <Play className="w-5 h-5 text-emerald-400" />
+                Watch Demo
+              </button>
             </div>
+            <p className="text-sm text-slate-500 mt-3">No credit card required</p>
           </motion.div>
         </div>
       </section>
