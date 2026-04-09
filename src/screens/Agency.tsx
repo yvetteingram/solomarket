@@ -390,9 +390,8 @@ export function Agency() {
         </div>
         <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all ${
-              atLimit ? 'bg-amber-500' : 'bg-indigo-500'
-            }`}
+            className={`h-full rounded-full transition-all ${atLimit ? 'bg-amber-500' : 'bg-indigo-500'
+              }`}
             style={{ width: `${Math.min((workspaces.length / agency.client_limit) * 100, 100)}%` }}
           />
         </div>

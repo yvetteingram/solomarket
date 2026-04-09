@@ -144,15 +144,13 @@ export const Onboarding = ({ hasProducts, hasPlans, hasPosts }: OnboardingProps)
         {steps.map((step) => (
           <div key={step.number}>
             <div
-              className={`flex items-center gap-5 p-5 rounded-2xl border transition-all ${
-                step.done
-                  ? 'bg-slate-50 border-slate-100 opacity-60'
-                  : 'bg-white border-slate-200 shadow-sm hover:border-brand/20'
-              }`}
+              className={`flex items-center gap-5 p-5 rounded-2xl border transition-all ${step.done
+                ? 'bg-slate-50 border-slate-100 opacity-60'
+                : 'bg-white border-slate-200 shadow-sm hover:border-brand/20'
+                }`}
             >
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                step.done ? 'bg-emerald-50 text-emerald-600' : step.color
-              }`}>
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${step.done ? 'bg-emerald-50 text-emerald-600' : step.color
+                }`}>
                 {step.done ? (
                   <CheckCircle2 size={24} />
                 ) : (

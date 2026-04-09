@@ -32,11 +32,10 @@ interface SidebarItemProps {
 const SidebarItem = ({ icon: Icon, label, active, onClick, collapsed }: SidebarItemProps) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 ${
-      active
+    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 ${active
         ? 'bg-brand/10 text-brand font-medium'
         : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
-    }`}
+      }`}
   >
     <Icon size={20} className={active ? 'text-brand' : ''} />
     {!collapsed && <span className="text-sm">{label}</span>}
