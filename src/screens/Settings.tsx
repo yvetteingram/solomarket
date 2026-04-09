@@ -15,9 +15,6 @@ import {
   MapPin,
   MessageCircle,
   Pencil,
-  Zap,
-  Crown,
-  Building2,
   ExternalLink,
   ArrowRight,
   CheckCircle2,
@@ -36,109 +33,181 @@ interface UserSettings {
   avatar_url: string;
 }
 
-// ── Plan config ──────────────────────────────────────────────────────────────
-const PLAN_CONFIG = {
-  free: {
+// ── Plan tiers ────────────────────────────────────────────────────────────────
+const PLAN_TIERS = [
+  {
+    key: 'free',
     label: 'Free',
-    icon: Zap,
-    color: 'bg-slate-100 text-slate-600',
-    upgrades: [
-      { name: 'Starter', price: '$29/mo', url: 'https://ketorahdigital.gumroad.com/l/starter', color: 'bg-slate-900 hover:bg-slate-800 text-white' },
-      { name: 'Growth', price: '$59/mo', url: 'https://ketorahdigital.gumroad.com/l/growth', color: 'bg-emerald-600 hover:bg-emerald-700 text-white' },
-      { name: 'Agency', price: '$249/mo', url: 'https://ketorahdigital.gumroad.com/l/agency', color: 'bg-indigo-600 hover:bg-indigo-700 text-white' },
+    price: '$0',
+    period: 'forever',
+    color: 'border-slate-200',
+    badgeColor: 'bg-slate-100 text-slate-600',
+    btnColor: 'bg-slate-900 hover:bg-slate-800 text-white',
+    url: null,
+    features: [
+      '1 marketing plan',
+      'Basic content lab',
+      'Up to 3 products',
+      'AI Assistant (limited)',
+      'Calendar view',
+      'Lead tracker (10 leads)',
     ],
   },
-  starter: {
+  {
+    key: 'starter',
     label: 'Starter',
-    icon: Zap,
-    color: 'bg-slate-100 text-slate-700',
-    upgrades: [
-      { name: 'Growth', price: '$59/mo', url: 'https://ketorahdigital.gumroad.com/l/growth', color: 'bg-emerald-600 hover:bg-emerald-700 text-white' },
-      { name: 'Agency', price: '$249/mo', url: 'https://ketorahdigital.gumroad.com/l/agency', color: 'bg-indigo-600 hover:bg-indigo-700 text-white' },
+    price: '$29',
+    period: '/mo',
+    color: 'border-slate-300',
+    badgeColor: 'bg-slate-100 text-slate-700',
+    btnColor: 'bg-slate-900 hover:bg-slate-800 text-white',
+    url: 'https://ketorahdigital.gumroad.com/l/starter',
+    features: [
+      'Everything in Free',
+      'Unlimited marketing plans',
+      'Full content lab',
+      'Unlimited products',
+      'AI content generation',
+      'Lead tracker (unlimited)',
+      'Analytics dashboard',
     ],
   },
-  growth: {
+  {
+    key: 'growth',
     label: 'Growth',
-    icon: Crown,
-    color: 'bg-emerald-100 text-emerald-700',
-    upgrades: [
-      { name: 'Agency', price: '$249/mo', url: 'https://ketorahdigital.gumroad.com/l/agency', color: 'bg-indigo-600 hover:bg-indigo-700 text-white' },
+    price: '$59',
+    period: '/mo',
+    color: 'border-emerald-400',
+    badgeColor: 'bg-emerald-100 text-emerald-700',
+    btnColor: 'bg-emerald-600 hover:bg-emerald-700 text-white',
+    url: 'https://ketorahdigital.gumroad.com/l/growth',
+    popular: true,
+    features: [
+      'Everything in Starter',
+      'Premium marketing systems',
+      'YouTube system',
+      'Email monetization system',
+      'Cold email system',
+      'Instagram & Podcast systems',
+      'Advanced AI Assistant',
+      'Priority support',
     ],
   },
-  agency: {
+  {
+    key: 'agency',
     label: 'Agency',
-    icon: Building2,
-    color: 'bg-indigo-100 text-indigo-700',
-    upgrades: [],
-  },
-  pro: {
-    label: 'Pro',
-    icon: Crown,
-    color: 'bg-emerald-100 text-emerald-700',
-    upgrades: [
-      { name: 'Starter', price: '$29/mo', url: 'https://ketorahdigital.gumroad.com/l/starter', color: 'bg-slate-900 hover:bg-slate-800 text-white' },
-      { name: 'Growth', price: '$59/mo', url: 'https://ketorahdigital.gumroad.com/l/growth', color: 'bg-emerald-600 hover:bg-emerald-700 text-white' },
-      { name: 'Agency', price: '$249/mo', url: 'https://ketorahdigital.gumroad.com/l/agency', color: 'bg-indigo-600 hover:bg-indigo-700 text-white' },
+    price: '$249',
+    period: '/mo',
+    color: 'border-indigo-400',
+    badgeColor: 'bg-indigo-100 text-indigo-700',
+    btnColor: 'bg-indigo-600 hover:bg-indigo-700 text-white',
+    url: 'https://ketorahdigital.gumroad.com/l/agency',
+    features: [
+      'Everything in Growth',
+      'Agency workspace',
+      'Client management',
+      'Multiple client sites',
+      'White-label ready',
+      'Consulting & Speaking systems',
+      'Course launch system',
+      'Dedicated support',
     ],
   },
-  founder: {
-    label: 'Founder',
-    icon: Crown,
-    color: 'bg-amber-100 text-amber-700',
-    upgrades: [
-      { name: 'Starter', price: '$29/mo', url: 'https://ketorahdigital.gumroad.com/l/starter', color: 'bg-slate-900 hover:bg-slate-800 text-white' },
-      { name: 'Growth', price: '$59/mo', url: 'https://ketorahdigital.gumroad.com/l/growth', color: 'bg-emerald-600 hover:bg-emerald-700 text-white' },
-      { name: 'Agency', price: '$249/mo', url: 'https://ketorahdigital.gumroad.com/l/agency', color: 'bg-indigo-600 hover:bg-indigo-700 text-white' },
-    ],
-  },
+];
+
+// Map variant plan keys (pro, founder) to their display equivalent
+const PLAN_KEY_MAP: Record<string, string> = {
+  pro: 'growth',
+  founder: 'agency',
 };
 
 const BillingSection = ({ plan }: { plan: string }) => {
-  const key = (plan in PLAN_CONFIG ? plan : 'free') as keyof typeof PLAN_CONFIG;
-  const config = PLAN_CONFIG[key];
-  const PlanIcon = config.icon;
+  const currentKey = PLAN_KEY_MAP[plan] ?? plan;
 
   return (
-    <SectionCard title="Subscription & Billing" description="Your current plan and upgrade options.">
+    <SectionCard title="Subscription & Billing" description="Compare plans and manage your subscription.">
+      {/* Current plan badge */}
       <div className="flex items-center gap-3 mb-6">
-        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-bold ${config.color}`}>
-          <PlanIcon size={15} />
-          {config.label} Plan
-        </div>
-        {key !== 'free' && (
-          <span className="flex items-center gap-1 text-xs text-emerald-600 font-semibold">
-            <CheckCircle2 size={13} />
-            Active
-          </span>
-        )}
+        {(() => {
+          const tier = PLAN_TIERS.find(t => t.key === currentKey) ?? PLAN_TIERS[0];
+          return (
+            <>
+              <span className={`px-3 py-1.5 rounded-xl text-sm font-bold ${tier.badgeColor}`}>
+                {plan === 'pro' ? 'Pro' : plan === 'founder' ? 'Founder' : tier.label} Plan
+              </span>
+              {currentKey !== 'free' && (
+                <span className="flex items-center gap-1 text-xs text-emerald-600 font-semibold">
+                  <CheckCircle2 size={13} />
+                  Active
+                </span>
+              )}
+            </>
+          );
+        })()}
       </div>
 
-      {config.upgrades.length > 0 && (
-        <div className="space-y-2 mb-5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">
-            {plan === 'free' ? 'Choose a plan' : 'Upgrade to'}
-          </p>
-          {config.upgrades.map(u => (
-            <a
-              key={u.name}
-              href={u.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`flex items-center justify-between w-full px-4 py-3 rounded-xl font-bold text-sm transition-all ${u.color}`}
+      {/* Plan comparison cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+        {PLAN_TIERS.map(tier => {
+          const isCurrent = tier.key === currentKey;
+          return (
+            <div
+              key={tier.key}
+              className={`relative rounded-2xl border-2 p-5 flex flex-col gap-4 transition-all ${
+                isCurrent ? `${tier.color} bg-slate-50 shadow-sm` : 'border-slate-100 bg-white'
+              }`}
             >
-              <span>{u.name} — {u.price}</span>
-              <ArrowRight size={15} />
-            </a>
-          ))}
-        </div>
-      )}
+              {tier.popular && !isCurrent && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-emerald-500 text-white text-[10px] font-bold rounded-full uppercase tracking-wider">
+                  Popular
+                </span>
+              )}
+              {isCurrent && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-slate-800 text-white text-[10px] font-bold rounded-full uppercase tracking-wider">
+                  Your Plan
+                </span>
+              )}
 
-      {(key === 'agency' || key === 'founder') && (
-        <p className="text-sm text-slate-500 mb-5">You're on the highest plan — all features unlocked.</p>
-      )}
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">{tier.label}</p>
+                <div className="flex items-baseline gap-0.5">
+                  <span className="text-2xl font-black text-slate-900">{tier.price}</span>
+                  <span className="text-xs text-slate-400">{tier.period}</span>
+                </div>
+              </div>
 
-      {key !== 'free' && (
-        <>
+              <ul className="space-y-2 flex-1">
+                {tier.features.map(f => (
+                  <li key={f} className="flex items-start gap-2 text-xs text-slate-600">
+                    <CheckCircle2 size={13} className="text-emerald-500 mt-0.5 shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
+              {isCurrent ? (
+                <div className="w-full py-2.5 rounded-xl text-xs font-bold text-center bg-slate-200 text-slate-500 cursor-default">
+                  Current Plan
+                </div>
+              ) : tier.url ? (
+                <a
+                  href={tier.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-full py-2.5 rounded-xl text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5 ${tier.btnColor}`}
+                >
+                  Get {tier.label}
+                  <ArrowRight size={13} />
+                </a>
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Manage link */}
+      {currentKey !== 'free' && (
+        <div className="flex flex-col gap-1.5">
           <a
             href="https://app.gumroad.com/subscriptions"
             target="_blank"
@@ -148,12 +217,10 @@ const BillingSection = ({ plan }: { plan: string }) => {
             <ExternalLink size={12} />
             Manage or cancel subscription on Gumroad
           </a>
-          {config.upgrades.length > 0 && (
-            <p className="text-[11px] text-slate-400 mt-3">
-              To upgrade: cancel your current plan on Gumroad, then purchase the new plan above.
-            </p>
-          )}
-        </>
+          <p className="text-[11px] text-slate-400">
+            To switch plans: cancel your current plan on Gumroad, then purchase the new plan above.
+          </p>
+        </div>
       )}
     </SectionCard>
   );
