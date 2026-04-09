@@ -622,6 +622,63 @@ export default async (request: Request) => {
     if (path === "settings" && method === "GET") return await handleGetSettings(userId);
     if (path === "settings" && method === "PUT") return await handlePutSettings(userId, body);
 
+    // Agency
+    if (path === "agency" && method === "GET") {
+      const { data, error } = await getSupabase().from("agencies").select("*").eq("owner_user_id", userId).single();
+      if (error && error.code !== "PGRST116") throw error;
+      return json(data || null);
+    }
+    if (path === "agency" && method === "POST") {
+      const { name, client_limit } = body;
+      if (!name) return json({ error: "name is required" }, 400);
+      const { data, error } = await getSupabase()
+        .from("agencies")
+        .upsert({ owner_user_id: userId, name, client_limit: client_limit || 3 }, { onConflict: "owner_user_id" })
+        .select().single();
+      if (error) throw error;
+      return json(data, 201);
+    }
+    const agencyMatch = path.match(/^agency\/(.+)$/);
+    if (agencyMatch && method === "PATCH") {
+      const { data, error } = await getSupabase()
+        .from("agencies").update({ name: body.name }).eq("id", agencyMatch[1]).eq("owner_user_id", userId).select().single();
+      if (error) throw error;
+      return json(data);
+    }
+
+    // Client Workspaces
+    if (path === "workspaces" && method === "GET") {
+      const { data: agency } = await getSupabase().from("agencies").select("id").eq("owner_user_id", userId).single();
+      if (!agency) return json([]);
+      const { data, error } = await getSupabase().from("client_workspaces").select("*").eq("agency_id", agency.id).order("created_at", { ascending: false });
+      if (error) throw error;
+      return json(data || []);
+    }
+    if (path === "workspaces" && method === "POST") {
+      const { agency_id, client_name, client_email, notes } = body;
+      if (!agency_id || !client_name) return json({ error: "agency_id and client_name are required" }, 400);
+      const { data, error } = await getSupabase()
+        .from("client_workspaces").insert({ agency_id, client_name, client_email: client_email || null, notes: notes || null }).select().single();
+      if (error) throw error;
+      return json(data, 201);
+    }
+    const workspaceMatch = path.match(/^workspaces\/(.+)$/);
+    if (workspaceMatch && method === "PATCH") {
+      const { client_name, client_email, notes } = body;
+      const updates: Record<string, unknown> = {};
+      if (client_name !== undefined) updates.client_name = client_name;
+      if (client_email !== undefined) updates.client_email = client_email;
+      if (notes !== undefined) updates.notes = notes;
+      const { data, error } = await getSupabase().from("client_workspaces").update(updates).eq("id", workspaceMatch[1]).select().single();
+      if (error) throw error;
+      return json(data);
+    }
+    if (workspaceMatch && method === "DELETE") {
+      const { error } = await getSupabase().from("client_workspaces").delete().eq("id", workspaceMatch[1]);
+      if (error) throw error;
+      return json({ success: true });
+    }
+
     return json({ error: "Not found" }, 404);
   } catch (err: any) {
     console.error("API error:", err);
