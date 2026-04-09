@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /plans
+Disallow: /campaigns
+Disallow: /content
+Disallow: /calendar
+Disallow: /leads
+Disallow: /analytics
+Disallow: /ai-assistant
+Disallow: /marketplace
+Disallow: /agency
+Disallow: /settings
+Disallow: /welcome
+
+Sitemap: https://solomarket.netlify.app/sitemap.xml
