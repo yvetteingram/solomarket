@@ -6,7 +6,7 @@ import {
   AlertCircle, ShoppingBag, ArrowRight
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Agency, ClientWorkspace } from '../types';
+import type { Agency, ClientWorkspace } from '../types';
 import { apiFetch } from '../services/api';
 import { PageHeader } from '../components/PageHeader';
 
@@ -205,18 +205,27 @@ function WorkspaceModal({
 function AgencySetup({ onSetup }: { onSetup: (agency: Agency) => void }) {
   const [name, setName] = useState('');
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return;
     setSaving(true);
+    setError(null);
     try {
       const res = await apiFetch('/api/agency', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: name.trim(), client_limit: 3 }),
       });
-      if (res.ok) onSetup(await res.json());
+      if (res.ok) {
+        onSetup(await res.json());
+      } else {
+        const body = await res.json().catch(() => ({}));
+        setError(body.error || `Failed to create agency (${res.status})`);
+      }
+    } catch {
+      setError('Network error — please try again.');
     } finally {
       setSaving(false);
     }
@@ -231,6 +240,12 @@ function AgencySetup({ onSetup }: { onSetup: (agency: Agency) => void }) {
       <p className="text-slate-500 mb-8 leading-relaxed">
         Create your agency workspace to manage multiple clients, run campaigns on their behalf, and track results per client.
       </p>
+
+      {error && (
+        <div className="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-600 text-left">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleCreate} className="flex gap-3 max-w-sm mx-auto">
         <input
