@@ -327,6 +327,8 @@ function SystemDrawer({
   onDelete,
   onUpdateStatus,
   onUpdateProgress,
+  onReinstallAssets,
+  reinstalling,
 }: {
   campaign: Campaign;
   assets: CampaignAsset[];
@@ -335,6 +337,8 @@ function SystemDrawer({
   onDelete: (id: string) => void;
   onUpdateStatus: (id: string, status: Campaign['status']) => void;
   onUpdateProgress: (id: string, progress: number) => void;
+  onReinstallAssets: (campaign: Campaign) => void;
+  reinstalling: boolean;
 }) {
   const navigate = useNavigate();
   const template = getTemplateById(campaign.type);
@@ -426,7 +430,18 @@ function SystemDrawer({
                 <Loader2 size={20} className="animate-spin text-slate-300" />
               </div>
             ) : assets.length === 0 ? (
-              <p className="text-sm text-slate-400 text-center py-4">No assets found — try reinstalling.</p>
+              <div className="flex flex-col items-center gap-3 py-6 text-center">
+                <p className="text-sm text-slate-400">No assets found — the content failed to save during install.</p>
+                <button
+                  type="button"
+                  onClick={() => onReinstallAssets(campaign)}
+                  disabled={reinstalling}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-xl hover:bg-amber-100 transition-colors disabled:opacity-50"
+                >
+                  {reinstalling ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
+                  {reinstalling ? 'Reinstalling…' : 'Reinstall Assets'}
+                </button>
+              </div>
             ) : (
               <div className="space-y-2">
                 {sortedTypes.map((type) =>
@@ -510,6 +525,8 @@ export function Systems() {
   const [installError, setInstallError] = useState<string | null>(null);
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
   const [successId, setSuccessId] = useState<string | null>(null);
+  const [assetWarning, setAssetWarning] = useState<string | null>(null);
+  const [reinstalling, setReinstalling] = useState(false);
 
   // AI generator state
   const [aiModalOpen, setAiModalOpen] = useState(false);
@@ -562,13 +579,20 @@ export function Systems() {
 
     setInstalling(true);
     setInstallError(null);
+    setAssetWarning(null);
     try {
-      const { campaignId } = await installCampaign(installTarget, productId);
+      const { campaignId, assetsTotal, assetsFailed } = await installCampaign(installTarget, productId);
       setInstallTarget(null);
       setInstallError(null);
       setSuccessId(campaignId);
+      if (assetsFailed > 0) {
+        setAssetWarning(
+          `System installed, but ${assetsFailed} of ${assetsTotal} assets failed to save. Open the system and click "Reinstall Assets" to fix it.`
+        );
+      }
       await fetchCampaigns();
-      setTimeout(() => setSuccessId(null), 3000);
+      setTimeout(() => setSuccessId(null), 4000);
+      setTimeout(() => setAssetWarning(null), 8000);
     } catch (err) {
       setInstallError(err instanceof Error ? err.message : 'Install failed. Please try again.');
     } finally {
@@ -580,6 +604,37 @@ export function Systems() {
     await apiFetch(`/api/campaigns/${id}`, { method: 'DELETE' });
     setSelectedCampaign(null);
     setCampaigns(prev => prev.filter(c => c.id !== id));
+  };
+
+  const handleReinstallAssets = async (campaign: Campaign) => {
+    const template = getTemplateById(campaign.type);
+    if (!template) return;
+    setReinstalling(true);
+    try {
+      const results = await Promise.all(
+        template.assets.map((asset) =>
+          apiFetch('/api/campaign-assets', {
+            method: 'POST',
+            body: JSON.stringify({
+              campaign_id: campaign.id,
+              asset_type: asset.type,
+              title: asset.title,
+              content: asset.content,
+              order_index: asset.order_index,
+            }),
+          })
+            .then((r) => r.ok)
+            .catch(() => false)
+        )
+      );
+      const failed = results.filter((ok) => !ok).length;
+      // Reload assets in drawer
+      const res = await apiFetch(`/api/campaign-assets?campaign_id=${campaign.id}`);
+      if (res.ok) setAssets(await res.json());
+      if (failed > 0) setAssetWarning(`${failed} asset(s) still failed. Check your connection and try again.`);
+    } finally {
+      setReinstalling(false);
+    }
   };
 
   const handleAIGenerate = async () => {
@@ -691,10 +746,25 @@ export function Systems() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="mb-6 flex items-center gap-3 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-800"
+            className="mb-4 flex items-center gap-3 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-800"
           >
             <CheckCircle2 size={16} className="text-emerald-600 flex-shrink-0" />
             <span><strong>System installed!</strong> Your campaign and all assets are ready.</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Asset warning toast */}
+      <AnimatePresence>
+        {assetWarning && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-4 flex items-center gap-3 px-4 py-3 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800"
+          >
+            <X size={16} className="text-amber-600 flex-shrink-0" />
+            <span>{assetWarning}</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -941,6 +1011,8 @@ export function Systems() {
             onDelete={handleDelete}
             onUpdateStatus={handleUpdateStatus}
             onUpdateProgress={handleUpdateProgress}
+            onReinstallAssets={handleReinstallAssets}
+            reinstalling={reinstalling}
           />
         )}
       </AnimatePresence>

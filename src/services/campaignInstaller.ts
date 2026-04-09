@@ -54,7 +54,7 @@ export const TEMPLATE_ICONS: Record<string, string> = {
 export async function installCampaign(
   template: CampaignTemplate,
   productId?: string | null
-): Promise<{ campaignId: string }> {
+): Promise<{ campaignId: string; assetsTotal: number; assetsFailed: number }> {
   // 1. Create the campaign record
   const campaignRes = await apiFetch('/api/campaigns', {
     method: 'POST',
@@ -75,23 +75,27 @@ export async function installCampaign(
 
   const campaign = await campaignRes.json();
 
-  // 2. Save all template assets
-  const assetPromises = template.assets.map((asset) =>
-    apiFetch('/api/campaign-assets', {
-      method: 'POST',
-      body: JSON.stringify({
-        campaign_id: campaign.id,
-        asset_type: asset.type,
-        title: asset.title,
-        content: asset.content,
-        order_index: asset.order_index,
-      }),
-    }).catch(() => null) // non-fatal if assets endpoint not yet set up
+  // 2. Save all template assets — track failures individually
+  const results = await Promise.all(
+    template.assets.map((asset) =>
+      apiFetch('/api/campaign-assets', {
+        method: 'POST',
+        body: JSON.stringify({
+          campaign_id: campaign.id,
+          asset_type: asset.type,
+          title: asset.title,
+          content: asset.content,
+          order_index: asset.order_index,
+        }),
+      })
+        .then((r) => r.ok)
+        .catch(() => false)
+    )
   );
 
-  await Promise.all(assetPromises);
+  const assetsFailed = results.filter((ok) => !ok).length;
 
-  return { campaignId: campaign.id };
+  return { campaignId: campaign.id, assetsTotal: template.assets.length, assetsFailed };
 }
 
 export function getTemplateById(id: string): CampaignTemplate | undefined {
