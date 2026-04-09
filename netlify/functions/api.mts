@@ -619,6 +619,23 @@ export default async (request: Request) => {
       });
     }
 
+    if (path === "profile" && method === "PATCH") {
+      const { plan } = body;
+      const validPlans = ["free", "starter", "growth", "agency", "pro", "founder"];
+      if (!plan || !validPlans.includes(plan)) {
+        return json({ error: "Invalid plan" }, 400);
+      }
+      const subscription_status = plan === "free" ? "inactive" : "active";
+      const { data, error } = await getSupabase()
+        .from("profiles")
+        .update({ plan, subscription_status })
+        .eq("id", userId)
+        .select("plan, subscription_status")
+        .single();
+      if (error) throw error;
+      return json(data);
+    }
+
     if (path === "settings" && method === "GET") return await handleGetSettings(userId);
     if (path === "settings" && method === "PUT") return await handlePutSettings(userId, body);
 

@@ -226,6 +226,61 @@ const BillingSection = ({ plan }: { plan: string }) => {
   );
 }
 
+const DEV_PLANS = ['free', 'starter', 'growth', 'agency', 'pro', 'founder'] as const;
+
+const DevPanel = ({ onPlanChange }: { onPlanChange: () => void }) => {
+  const [switching, setSwitching] = useState(false);
+  const [devPlan, setDevPlan] = useState('');
+
+  const handleSwitch = async () => {
+    if (!devPlan) return;
+    setSwitching(true);
+    try {
+      const res = await apiFetch('/api/profile', {
+        method: 'PATCH',
+        body: JSON.stringify({ plan: devPlan }),
+      });
+      if (!res.ok) throw new Error('Failed');
+      onPlanChange();
+    } catch {
+      alert('Failed to switch plan');
+    } finally {
+      setSwitching(false);
+    }
+  };
+
+  return (
+    <div className="p-6 bg-amber-50 rounded-2xl border border-amber-200">
+      <div className="flex items-center gap-2 mb-1">
+        <span className="text-xs font-black uppercase tracking-widest text-amber-700">Developer Tools</span>
+        <span className="px-2 py-0.5 bg-amber-200 text-amber-800 text-[10px] font-bold rounded-full">Owner only</span>
+      </div>
+      <p className="text-xs text-amber-600 mb-4">Switch your plan to test any tier. This directly updates your Supabase profile.</p>
+      <div className="flex gap-3 items-center">
+        <select
+          value={devPlan}
+          onChange={e => setDevPlan(e.target.value)}
+          title="Select plan to switch to"
+          className="px-4 py-2 bg-white border border-amber-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-300"
+        >
+          <option value="">Select a plan...</option>
+          {DEV_PLANS.map(p => (
+            <option key={p} value={p}>{p}</option>
+          ))}
+        </select>
+        <button
+          type="button"
+          onClick={handleSwitch}
+          disabled={!devPlan || switching}
+          className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-bold rounded-xl transition-colors disabled:opacity-50"
+        >
+          {switching ? 'Switching...' : 'Switch Plan'}
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export const Settings = () => {
   const { user, plan, signOut } = useAuth();
   const [settings, setSettings] = useState<UserSettings>({
@@ -772,6 +827,11 @@ export const Settings = () => {
             </p>
           </div>
         </SectionCard>
+
+        {/* Developer Tools — only visible to app owner */}
+        {user?.email === 'ketorah.digital@gmail.com' && (
+          <DevPanel onPlanChange={() => window.location.reload()} />
+        )}
 
         {/* Danger Zone */}
         <div className="p-6 bg-rose-50 rounded-2xl border border-rose-100">
