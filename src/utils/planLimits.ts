@@ -1,15 +1,17 @@
+// planLimits.ts
+//
+// SoloMarket is a one-time purchase — everyone who buys gets the founder plan.
+// Two states only: free (trial) and founder (purchased = unlimited).
+
 export interface PlanLimits {
-  campaigns: number;       // max active campaign systems (Infinity = unlimited)
+  campaigns: number;        // max active campaign systems (Infinity = unlimited)
   aiDraftsPerMonth: number; // max AI content drafts per calendar month
-  leads: number;           // max leads stored
+  leads: number;            // max leads stored
 }
 
 const LIMITS: Record<string, PlanLimits> = {
-  free:    { campaigns: 1,        aiDraftsPerMonth: 3,        leads: 100 },
-  starter: { campaigns: 1,        aiDraftsPerMonth: 5,        leads: 500 },
-  growth:  { campaigns: Infinity, aiDraftsPerMonth: Infinity, leads: 5000 },
-  agency:  { campaigns: Infinity, aiDraftsPerMonth: Infinity, leads: Infinity },
-  founder: { campaigns: Infinity, aiDraftsPerMonth: Infinity, leads: Infinity }, // Ketorah AI Hub subscribers
+  free:    { campaigns: 1, aiDraftsPerMonth: 3, leads: 100 },
+  founder: { campaigns: Infinity, aiDraftsPerMonth: Infinity, leads: Infinity },
 };
 
 const ADMIN_EMAILS = ['ketorah.digital@gmail.com'];
@@ -19,7 +21,7 @@ export function isAdmin(email?: string | null): boolean {
 }
 
 export function getPlanLimits(plan: string, email?: string | null): PlanLimits {
-  if (isAdmin(email)) return LIMITS.agency; // admins always get unlimited
+  if (isAdmin(email)) return LIMITS.founder;
   return LIMITS[plan] ?? LIMITS.free;
 }
 
@@ -41,15 +43,5 @@ export function incrementAiDrafts(userId: string): void {
 }
 
 export function planLabel(plan: string): string {
-  const map: Record<string, string> = {
-    starter: 'Starter ($29/mo)',
-    growth: 'Growth ($59/mo)',
-    agency: 'Agency ($249/mo)',
-  };
-  return map[plan] ?? 'Starter';
-}
-
-export function upgradeUrl(plan: string): string {
-  if (plan === 'starter') return 'https://ketorahdigital.gumroad.com/l/growth';
-  return 'https://ketorahdigital.gumroad.com/l/growth';
+  return plan === 'founder' ? 'Founder' : 'Free';
 }

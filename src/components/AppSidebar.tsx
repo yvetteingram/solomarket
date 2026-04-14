@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   LayoutDashboard,
   Target,
-  Megaphone,
   FlaskConical,
   Calendar,
   Users,
@@ -14,8 +13,6 @@ import {
   MessageSquareText,
   X,
   Bot,
-  ShoppingBag,
-  Building2,
   Rocket,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -58,18 +55,15 @@ export const AppSidebar = ({ activeItem, onNavigate, collapsed, onToggle, mobile
   const [feedbackSent, setFeedbackSent] = useState(false);
 
   const items = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'plans', label: 'Plans', icon: Target },
-    { id: 'campaigns', label: 'Systems', icon: Megaphone },
-    { id: 'content', label: 'Content Lab', icon: FlaskConical },
-    { id: 'calendar', label: 'Calendar', icon: Calendar },
-    { id: 'leads', label: 'Leads', icon: Users },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { id: 'ai-assistant', label: 'AI Assistant', icon: Bot },
-    { id: 'marketplace', label: 'Marketplace', icon: ShoppingBag },
-    { id: 'agency', label: 'Agency', icon: Building2 },
-    { id: 'settings', label: 'Settings', icon: Settings },
-    { id: 'quick-start', label: 'Quick Start', icon: Rocket },
+    { id: 'dashboard',    label: 'Dashboard',    icon: LayoutDashboard },
+    { id: 'plans',        label: 'Plans',         icon: Target },
+    { id: 'content',      label: 'Content Lab',   icon: FlaskConical },
+    { id: 'calendar',     label: 'Calendar',      icon: Calendar },
+    { id: 'leads',        label: 'Leads',         icon: Users },
+    { id: 'analytics',    label: 'Analytics',     icon: BarChart3 },
+    { id: 'ai-assistant', label: 'AI Assistant',  icon: Bot },
+    { id: 'settings',     label: 'Settings',      icon: Settings },
+    { id: 'quick-start',  label: 'Quick Start',   icon: Rocket },
   ];
 
   const handleSendFeedback = () => {

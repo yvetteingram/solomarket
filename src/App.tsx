@@ -5,9 +5,6 @@ import { AppSidebar } from './components/AppSidebar';
 import { Dashboard } from './screens/Dashboard';
 import { Plans } from './screens/Plans';
 import { ContentLab } from './screens/ContentLab';
-import { Systems } from './screens/Systems';
-import { Marketplace } from './screens/Marketplace';
-import { Agency } from './screens/Agency';
 import { Leads } from './screens/Leads';
 import { Analytics } from './screens/Analytics';
 import { Settings } from './screens/Settings';
@@ -22,33 +19,27 @@ import { Demo } from './screens/Demo';
 import { apiFetch } from './services/api';
 
 const ROUTE_TO_ID: Record<string, string> = {
-  '/': 'dashboard',
-  '/plans': 'plans',
-  '/campaigns': 'campaigns',
-  '/content': 'content',
-  '/calendar': 'calendar',
-  '/leads': 'leads',
-  '/analytics': 'analytics',
-  '/settings': 'settings',
-  '/ai-assistant': 'ai-assistant',
-  '/marketplace': 'marketplace',
-  '/agency': 'agency',
-  '/welcome': 'dashboard',
+  '/':              'dashboard',
+  '/plans':         'plans',
+  '/content':       'content',
+  '/calendar':      'calendar',
+  '/leads':         'leads',
+  '/analytics':     'analytics',
+  '/settings':      'settings',
+  '/ai-assistant':  'ai-assistant',
+  '/welcome':       'dashboard',
 };
 
 const ID_TO_ROUTE: Record<string, string> = {
-  'dashboard': '/',
-  'plans': '/plans',
-  'campaigns': '/campaigns',
-  'content': '/content',
-  'calendar': '/calendar',
-  'leads': '/leads',
-  'analytics': '/analytics',
+  'dashboard':    '/',
+  'plans':        '/plans',
+  'content':      '/content',
+  'calendar':     '/calendar',
+  'leads':        '/leads',
+  'analytics':    '/analytics',
   'ai-assistant': '/ai-assistant',
-  'marketplace': '/marketplace',
-  'agency': '/agency',
-  'settings': '/settings',
-  'quick-start': '/quick-start',
+  'settings':     '/settings',
+  'quick-start':  '/quick-start',
 };
 
 function AppContent() {
@@ -148,9 +139,8 @@ function AppContent() {
       </div>
 
       <main
-        className={`flex-1 transition-all duration-300 p-4 pt-18 md:p-8 ${
-          sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-        } ml-0`}
+        className={`flex-1 transition-all duration-300 p-4 pt-18 md:p-8 ${sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
+          } ml-0`}
       >
         <Routes>
           <Route path="/" element={<Dashboard />} />
@@ -158,14 +148,11 @@ function AppContent() {
             <Onboarding hasProducts={hasProducts} hasPlans={hasPlans} hasPosts={hasPosts} />
           } />
           <Route path="/plans" element={<Plans />} />
-          <Route path="/campaigns" element={<Systems />} />
           <Route path="/content" element={<ContentLab />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/leads" element={<Leads />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/ai-assistant" element={<AIAssistant />} />
-          <Route path="/marketplace" element={<Marketplace />} />
-          <Route path="/agency" element={<Agency />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/quick-start" element={<QuickStart />} />
           <Route path="*" element={<Navigate to="/" replace />} />
