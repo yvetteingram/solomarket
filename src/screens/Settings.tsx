@@ -33,100 +33,80 @@ interface UserSettings {
 }
 
 // ── Plan display ─────────────────────────────────────────────────────────────
-const FOUNDER_GUMROAD_URL = 'https://ketorahdigital.gumroad.com/l/solomarket';
+const GUMROAD_URL = 'https://ketorahdigital.gumroad.com/l/solomarket';
 
-const FREE_FEATURES = [
-  '1 marketing plan',
-  'Basic content lab',
-  'Up to 3 products',
-  'AI Assistant (3 drafts/month)',
-  'Calendar view',
-  'Lead tracker (100 leads)',
-];
-
-const FOUNDER_FEATURES = [
-  'Unlimited marketing plans',
-  'Full content lab',
-  'Unlimited products',
-  'Unlimited AI content drafts',
-  'Calendar view',
-  'Unlimited lead tracker',
-  'Analytics dashboard',
-  'All future updates included',
+const PRO_FEATURES = [
+  'AI Marketing Plan Generator',
+  'Campaign Management',
+  'Marketing Calendar ⭐',
+  'Content Lab — drafts, repurposing + image generation',
+  'Lead Tracker + AI re-engagement emails',
+  'AI Assistant',
+  'Your own personal account — sign in anytime',
+  '7-day money-back guarantee',
 ];
 
 const BillingSection = ({ plan }: { plan: string }) => {
-  const isFounder = plan === 'founder';
+  const isActive = plan === 'pro' || plan === 'founder';
 
   return (
-    <SectionCard title="Plan & Access" description="Your current SoloMarket access level.">
-      {isFounder ? (
-        /* ── Founder ── */
+    <SectionCard title="Plan & Billing" description="Your current SoloMarket subscription.">
+      {isActive ? (
+        /* ── Active Subscription ── */
         <div className="rounded-2xl border-2 border-emerald-400 bg-emerald-50 p-6">
           <div className="flex items-center gap-3 mb-4">
             <span className="px-3 py-1.5 rounded-xl text-sm font-bold bg-emerald-600 text-white">
-              Founder Plan
+              SoloMarket Pro
             </span>
             <span className="flex items-center gap-1 text-xs text-emerald-700 font-semibold">
               <CheckCircle2 size={13} />
-              Lifetime Access — Unlimited
+              Active — $29/month
             </span>
           </div>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
-            {FOUNDER_FEATURES.map(f => (
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5">
+            {PRO_FEATURES.map(f => (
               <li key={f} className="flex items-start gap-2 text-xs text-emerald-800">
                 <CheckCircle2 size={13} className="text-emerald-500 mt-0.5 shrink-0" />
                 {f}
               </li>
             ))}
           </ul>
-          <p className="text-xs text-emerald-700 font-medium">
-            Thank you for being a founding member. You have full, unlimited access — no recurring charges.
-          </p>
+          <div className="flex items-center gap-4 flex-wrap">
+            <a
+              href="https://app.gumroad.com/subscriptions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs text-emerald-700 hover:text-emerald-900 font-semibold transition-colors"
+            >
+              <ExternalLink size={12} />
+              Manage subscription on Gumroad
+            </a>
+          </div>
         </div>
       ) : (
-        /* ── Free ── */
+        /* ── Subscribe CTA ── */
         <div className="space-y-4">
-          {/* Current plan */}
-          <div className="rounded-2xl border-2 border-slate-200 bg-white p-5">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="px-3 py-1.5 rounded-xl text-sm font-bold bg-slate-100 text-slate-600">
-                Free Plan
-              </span>
-              <span className="text-xs text-slate-400 font-medium">Limited access</span>
-            </div>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {FREE_FEATURES.map(f => (
-                <li key={f} className="flex items-start gap-2 text-xs text-slate-600">
-                  <CheckCircle2 size={13} className="text-slate-400 mt-0.5 shrink-0" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Upgrade CTA */}
           <div className="rounded-2xl border-2 border-emerald-300 bg-gradient-to-br from-emerald-50 to-white p-5">
             <div className="flex items-start justify-between gap-4 flex-wrap">
               <div>
-                <p className="text-xs font-black uppercase tracking-widest text-emerald-700 mb-1">Founder Access</p>
+                <p className="text-xs font-black uppercase tracking-widest text-emerald-700 mb-1">SoloMarket Pro</p>
                 <p className="text-2xl font-black text-slate-900">
-                  $47 <span className="text-sm font-medium text-slate-400">one-time</span>
+                  $29 <span className="text-sm font-medium text-slate-400">/month</span>
                 </p>
-                <p className="text-xs text-slate-500 mt-1">No subscriptions. No monthly fees. Yours forever.</p>
+                <p className="text-xs text-slate-500 mt-1">All features included. Cancel anytime. 7-day money-back guarantee.</p>
               </div>
               <a
-                href={FOUNDER_GUMROAD_URL}
+                href={GUMROAD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl transition-colors shrink-0"
               >
                 <Rocket size={15} />
-                Get Founder Access
+                Subscribe — $29/month
               </a>
             </div>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
-              {FOUNDER_FEATURES.map(f => (
+              {PRO_FEATURES.map(f => (
                 <li key={f} className="flex items-start gap-2 text-xs text-slate-600">
                   <CheckCircle2 size={13} className="text-emerald-500 mt-0.5 shrink-0" />
                   {f}
@@ -136,25 +116,11 @@ const BillingSection = ({ plan }: { plan: string }) => {
           </div>
         </div>
       )}
-
-      {isFounder && (
-        <div className="mt-4">
-          <a
-            href="https://app.gumroad.com/library"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-600 transition-colors"
-          >
-            <ExternalLink size={12} />
-            View your purchase on Gumroad
-          </a>
-        </div>
-      )}
     </SectionCard>
   );
 }
 
-const DEV_PLANS = ['free', 'founder'] as const;
+const DEV_PLANS = ['free', 'pro'] as const;
 
 const DevPanel = ({ onPlanChange }: { onPlanChange: () => void }) => {
   const [switching, setSwitching] = useState(false);
@@ -183,7 +149,7 @@ const DevPanel = ({ onPlanChange }: { onPlanChange: () => void }) => {
         <span className="text-xs font-black uppercase tracking-widest text-amber-700">Developer Tools</span>
         <span className="px-2 py-0.5 bg-amber-200 text-amber-800 text-[10px] font-bold rounded-full">Owner only</span>
       </div>
-      <p className="text-xs text-amber-600 mb-4">Toggle between Free and Founder to test plan-gated features.</p>
+      <p className="text-xs text-amber-600 mb-4">Toggle between Free and Pro to test plan-gated features.</p>
       <div className="flex gap-3 items-center">
         <select
           value={devPlan}
