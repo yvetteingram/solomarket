@@ -233,8 +233,8 @@ export const ContentLab = () => {
       const used = getAiDraftsUsed(user.id);
       if (used >= limits.aiDraftsPerMonth) {
         setError(
-          `You've used all ${limits.aiDraftsPerMonth} AI drafts for this month on your ${plan === 'starter' ? 'Starter' : 'current'} plan. ` +
-          `Upgrade to Growth for unlimited AI content drafts.`
+          `You've used all ${limits.aiDraftsPerMonth} AI drafts for this month on the Free plan. ` +
+          `Upgrade to Founder Access for unlimited AI content drafts.`
         );
         return;
       }

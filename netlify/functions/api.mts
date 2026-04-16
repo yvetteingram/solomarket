@@ -468,20 +468,15 @@ async function handleEnsureProfile(userId: string) {
   const sb = getSupabase();
 
   try {
+    // email is NOT NULL in profiles — fetch it from auth before inserting
+    const { data: { user: authUser } } = await sb.auth.admin.getUserById(userId);
+    const email = authUser?.email || '';
+
     const { error } = await sb
       .from("profiles")
       .upsert(
-        {
-          id: userId,
-          full_name: "",
-          industry: "",
-          system_profile: {},
-          beta_access: true,
-        },
-        {
-          onConflict: "id",
-          ignoreDuplicates: true,
-        }
+        { id: userId, email, full_name: "", industry: "", system_profile: {} },
+        { onConflict: "id", ignoreDuplicates: true }
       );
 
     if (error && error.code !== "23505") {
@@ -639,7 +634,7 @@ export default async (request: Request) => {
         return json({ error: "Not authorized" }, 403);
       }
       const { plan } = body;
-      const validPlans = ["free", "starter", "growth", "agency", "pro", "founder"];
+      const validPlans = ["free", "founder"];
       if (!plan || !validPlans.includes(plan)) {
         return json({ error: "Invalid plan" }, 400);
       }
