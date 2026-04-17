@@ -735,8 +735,8 @@ export const Settings = () => {
           </div>
         </SectionCard>
 
-        {/* Developer Tools — only visible to app owner */}
-        {(user?.email === 'ketorah.digital@gmail.com' || localStorage.getItem('devmode') === '1') && (
+        {/* Developer Tools — localhost only */}
+        {(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && (
           <DevPanel onPlanChange={() => window.location.reload()} />
         )}
 
