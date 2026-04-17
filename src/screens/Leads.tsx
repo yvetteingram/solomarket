@@ -21,7 +21,7 @@ import { SectionCard } from '../components/SectionCard';
 import { MetricCard } from '../components/MetricCard';
 import { Lead as LeadType } from '../types';
 import { apiFetch } from '../services/api';
-import { generateReengagementEmail } from '../services/geminiService';
+import { generateReengagementEmail } from '../services/groqService';
 
 const INACTIVE_DAYS = 14;
 

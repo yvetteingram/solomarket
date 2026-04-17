@@ -16,7 +16,7 @@ import {
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
 import { PlanWeek, Product } from '../types';
-import { generateMarketingPlan } from '../services/geminiService';
+import { generateMarketingPlan } from '../services/groqService';
 import { apiFetch } from '../services/api';
 
 const detectCampaignType = (action: string): string => {

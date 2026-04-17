@@ -1,0 +1,251 @@
+import Groq from "groq-sdk";
+import { PlanWeek } from "../types";
+
+const groq = new Groq({
+  apiKey: import.meta.env.VITE_GROQ_API_KEY || "",
+  dangerouslyAllowBrowser: true,
+});
+
+export const generateMarketingPlan = async (product: any): Promise<PlanWeek[]> => {
+  const priceDisplay = product.price || (product.price_cents ? `$${(product.price_cents / 100).toFixed(2)}` : 'N/A');
+  const prompt = `Generate a 4-week marketing plan for the following product:
+  Name: ${product.name}
+  Description: ${product.description || 'N/A'}
+  Product Type: ${product.product_type || product.product_category || 'General'}
+  Price: ${priceDisplay}
+
+  CRITICAL RULES FOR SPECIFICITY — every action must include:
+  - REAL platform/community names (e.g. "r/Entrepreneur", "Indie Hackers", "Creator Economy Facebook Group", "Skool AI Automation Hub") — not vague phrases like "online communities"
+  - EXACT numbers (e.g. "offer a 20% launch discount", "DM 10 micro-influencers with 5k-20k followers", "post 3x per week")
+  - NAMED channels or tools where relevant (e.g. "Twitter/X", "LinkedIn newsletter", "Beehiiv", "ConvertKit", "ProductHunt")
+  - CONCRETE next steps (e.g. "write a cold outreach template offering a 30-day free trial", not "reach out to potential partners")
+
+  BAD example action: "Partner with writing communities to offer exclusive discounts"
+  GOOD example action: "Reach out to 3 communities (Indie Hackers, r/SideProject, and Creator Economy Skool group) with a 25% launch discount code valid for 7 days — DM the community admins first"
+
+  The plan should focus on building authority and driving conversions.
+  Return ONLY a valid JSON array of 4 weeks, where each week has:
+  - week: number (1-4)
+  - theme: string (the focus of the week)
+  - actions: string[] (3-4 specific marketing actions, each following the SPECIFICITY rules above)
+  - contentPrompts: string[] (2-3 content ideas with a named platform and angle, e.g. "LinkedIn post: behind-the-scenes of building [product name] — target founders and freelancers")
+  - conversionActivity: string (a concrete CTA with specific offer, platform, and deadline)
+
+  Return ONLY the JSON array, no markdown, no code fences.`;
+
+  const response = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    messages: [
+      { role: "system", content: "You are a senior marketing strategist who gives hyper-specific, actionable advice. Always name real platforms, communities, and exact numbers. Never use vague language. Always respond with valid JSON only, no markdown formatting." },
+      { role: "user", content: prompt }
+    ],
+    temperature: 0.5,
+    response_format: { type: "json_object" },
+  });
+
+  const text = response.choices[0]?.message?.content || "[]";
+  const parsed = JSON.parse(text);
+  if (Array.isArray(parsed)) return parsed;
+  // Try common wrapper keys the model might use
+  for (const key of ['weeks', 'plan', 'marketing_plan', 'marketingPlan', 'planWeeks', 'week_plans', 'monthly_plan', 'four_week_plan', 'schedule']) {
+    if (Array.isArray(parsed[key])) return parsed[key];
+  }
+  // Last resort: find any array value in the object
+  const firstArray = Object.values(parsed).find(v => Array.isArray(v));
+  return (firstArray as PlanWeek[]) || [];
+};
+
+export const generateImagePrompt = async (params: {
+  contentType: string;
+  topic: string;
+  goal: string;
+  body?: string;
+  variation?: number;
+}): Promise<string> => {
+  const bodyExcerpt = params.body ? params.body.slice(0, 250).replace(/\n+/g, ' ').trim() : '';
+  const variation = params.variation ?? Math.floor(Math.random() * 100);
+
+  const prompt = `Write a concise image generation prompt for a social media visual.
+
+Platform: ${params.contentType}
+Post topic: ${params.topic}
+Goal: ${params.goal}
+${bodyExcerpt ? `Post content (use this as the primary source of truth): "${bodyExcerpt}"` : ''}
+Creative variation seed: ${variation} (use this to pick a distinct visual angle — different compositions, settings, or color moods each time)
+
+Rules:
+- Max 30 words
+- Describe a scene or flat-design illustration that directly reflects the post content above
+- Professional, clean, suitable for ${params.contentType}
+- No text overlays, no logos, no people's faces
+- Return ONLY the image prompt string, nothing else`;
+
+  const response = await groq.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    messages: [
+      { role: 'system', content: 'You write concise, vivid image generation prompts that directly reflect the content provided. Return only the prompt text, nothing else.' },
+      { role: 'user', content: prompt }
+    ],
+    temperature: 0.95,
+  });
+
+  return response.choices[0]?.message?.content?.trim() || `Professional ${params.contentType} visual for ${params.topic}`;
+};
+
+export const generateReengagementEmail = async (lead: {
+  email: string;
+  source: string;
+  stage: string;
+  notes?: string;
+  last_contacted?: string;
+}): Promise<{ subject: string; body: string }> => {
+  const daysSince = lead.last_contacted
+    ? Math.floor((Date.now() - new Date(lead.last_contacted).getTime()) / (1000 * 60 * 60 * 24))
+    : null;
+
+  const prompt = `Write a short, warm, personalized re-engagement email for a lead who has gone quiet.
+
+Lead info:
+- Email: ${lead.email}
+- How they found us: ${lead.source}
+- Stage in funnel: ${lead.stage}
+- Last contacted: ${daysSince !== null ? `${daysSince} days ago` : 'never'}
+- Notes: ${lead.notes || 'none'}
+
+Rules:
+- Keep it under 120 words
+- Sound human and genuine, NOT salesy
+- Reference their source/stage naturally if possible
+- Include ONE specific value reminder or soft offer
+- End with a low-friction CTA (reply, book a call, or try again)
+- Subject line must be under 50 chars, conversational
+
+Return ONLY valid JSON: { "subject": "...", "body": "..." }`;
+
+  const response = await groq.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    messages: [
+      { role: 'system', content: 'You are a friendly copywriter who writes short, genuine re-engagement emails. Always return valid JSON only.' },
+      { role: 'user', content: prompt }
+    ],
+    temperature: 0.7,
+    response_format: { type: 'json_object' },
+  });
+
+  const parsed = JSON.parse(response.choices[0]?.message?.content || '{}');
+  return { subject: parsed.subject || 'Checking in', body: parsed.body || '' };
+};
+
+export interface GeneratedAsset {
+  type: string;
+  title: string;
+  content: string;
+  order_index: number;
+}
+
+export interface GeneratedCampaign {
+  name: string;
+  description: string;
+  category: string;
+  outcome: string;
+  assets: GeneratedAsset[];
+}
+
+export const generateCampaignSystem = async (prompt: string): Promise<GeneratedCampaign> => {
+  const systemPrompt = `You are an expert marketing strategist for solopreneurs and freelancers. When given a business description and goal, generate a complete, ready-to-use marketing campaign system.
+
+Return ONLY valid JSON in this exact format — no markdown, no code fences:
+{
+  "name": "Short campaign name (4-6 words)",
+  "description": "One sentence describing what this campaign does",
+  "category": "One of: Lead Generation, Audience Building, Product Launch, Client Acquisition, Authority Building",
+  "outcome": "Expected result in specific terms (e.g. '5-10 qualified leads per month')",
+  "assets": [
+    { "type": "linkedin_post", "title": "Descriptive post title", "content": "Full ready-to-use post content", "order_index": 0 },
+    { "type": "linkedin_post", "title": "...", "content": "...", "order_index": 1 },
+    { "type": "linkedin_post", "title": "...", "content": "...", "order_index": 2 },
+    { "type": "outreach_script", "title": "...", "content": "...", "order_index": 3 },
+    { "type": "outreach_script", "title": "...", "content": "...", "order_index": 4 },
+    { "type": "email", "title": "...", "content": "...", "order_index": 5 },
+    { "type": "email", "title": "...", "content": "...", "order_index": 6 },
+    { "type": "lead_form", "title": "Lead Capture Form", "content": "JSON spec with headline, fields, and buttonText", "order_index": 7 }
+  ]
+}
+
+CONTENT RULES:
+- Write REAL, usable content — not placeholder descriptions
+- Use [BRACKETS] for things the user must personalize (e.g. [Your Name], [Your Service], [Price])
+- LinkedIn posts: 150-400 words, hook opening, 3-5 bullet points or numbered steps, engagement CTA
+- Outreach scripts: DM/email message, value-first, no hard pitch, under 100 words
+- Emails: subject line on first line as "Subject: ...", 150-300 words, clear CTA
+- Lead form: JSON with headline, subheadline, fields array, buttonText, thankYouMessage
+- Match the tone and niche to the user's specific business type`;
+
+  const response = await groq.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: `Create a complete marketing campaign system for this business: ${prompt}` },
+    ],
+    temperature: 0.7,
+    response_format: { type: 'json_object' },
+  });
+
+  const text = response.choices[0]?.message?.content || '{}';
+  const parsed = JSON.parse(text);
+
+  return {
+    name: parsed.name || 'Custom AI Campaign',
+    description: parsed.description || '',
+    category: parsed.category || 'Custom',
+    outcome: parsed.outcome || 'Measurable growth',
+    assets: Array.isArray(parsed.assets) ? parsed.assets : [],
+  };
+};
+
+export const generateContentDraft = async (params: {
+  type: string;
+  topic: string;
+  goal: string;
+  product: any;
+}): Promise<string> => {
+  const platformGuide: Record<string, string> = {
+    'LinkedIn Post': `LinkedIn Post (1,300 chars ideal, 3,000 max). Use line breaks for readability. Include 3-5 relevant hashtags at the end. Open with a hook line. Use emojis sparingly for emphasis.`,
+    'Twitter Thread': `Twitter/X Thread (280 chars per tweet). Write 4-6 tweets numbered 1/, 2/, etc. First tweet is the hook. Last tweet is the CTA. Keep each tweet self-contained. Include 1-2 hashtags on the first tweet only.`,
+    'Email Newsletter': `Email Newsletter. Include a compelling subject line on the first line as "Subject: ...". Keep paragraphs short (2-3 sentences). Include a clear CTA button text in [brackets]. Aim for 300-500 words.`,
+    'Blog Outline': `Blog Post Outline. Include a working title, meta description (155 chars), 5-8 H2 sections with 2-3 bullet points each, and a conclusion with CTA. Optimized for SEO.`,
+    'Instagram Caption': `Instagram Caption (2,200 chars max, first 125 chars visible before "more"). Open with a strong hook in the first line. Use line breaks and emojis for readability. Include 20-30 relevant hashtags in a separate block at the end. End with a CTA (comment, save, share).`,
+    'Instagram Reel Script': `Instagram Reel Script (60-90 seconds). Format as: HOOK (first 3 seconds to stop the scroll), BODY (main content in 3-4 short points), CTA (what to do next). Include on-screen text suggestions in [brackets]. Keep language conversational and punchy.`,
+    'Facebook Post': `Facebook Post (ideal 40-80 chars for engagement, max 63,206). Open with a question or bold statement. Use short paragraphs. Include a CTA. Can be longer and more conversational than LinkedIn. Add 1-3 relevant hashtags.`,
+    'YouTube Script': `YouTube Video Script (8-12 minutes). Format as: HOOK (first 30 seconds — pose the problem), INTRO (brief channel intro + what they'll learn), BODY (3-5 main points with transitions), CTA (subscribe, comment, related video). Include [B-ROLL] and [GRAPHIC] cues where visuals should change.`,
+    'YouTube Shorts Script': `YouTube Shorts Script (under 60 seconds). Format as: HOOK (first 2 seconds), KEY POINT (one clear takeaway), CTA (follow for more). Keep it punchy and fast-paced. Include on-screen text suggestions in [brackets].`,
+    'TikTok Script': `TikTok Script (15-60 seconds). Format as: HOOK (first 1-2 seconds to stop scroll), CONTENT (quick-hit value, trending format), CTA. Write in casual, authentic voice. Include trending sound/format suggestions. Add 3-5 hashtags including niche + trending ones.`,
+    'Pinterest Pin': `Pinterest Pin description (500 chars max) + Title (100 chars max). Write a keyword-rich title first, then a description with natural keyword placement. Include a clear CTA. Pinterest is a search engine — optimize for discovery. Suggest ideal pin dimensions (1000x1500px standard, 1000x2100px for infographics).`,
+    'Threads Post': `Threads Post (500 chars max). Conversational and authentic tone. Can be a single post or a thread of 2-3 posts. Less formal than LinkedIn, more thoughtful than Twitter. No hashtags needed (Threads doesn't heavily use them yet). Focus on starting conversations.`,
+  };
+
+  const guide = platformGuide[params.type] || `${params.type} content. Make it platform-appropriate.`;
+
+  const prompt = `Generate a ${params.type} draft for the following:
+  Product: ${params.product.name}
+  Product Description: ${params.product.description || 'N/A'}
+  Topic: ${params.topic}
+  Goal: ${params.goal}
+
+  PLATFORM SPECIFICATIONS:
+  ${guide}
+
+  Make it engaging, professional, and tailored for a solopreneur's audience.
+  Return only the text content of the draft.`;
+
+  const response = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    messages: [
+      { role: "system", content: "You are a marketing copywriter for solopreneurs." },
+      { role: "user", content: prompt }
+    ],
+    temperature: 0.8,
+  });
+
+  return response.choices[0]?.message?.content || "";
+};

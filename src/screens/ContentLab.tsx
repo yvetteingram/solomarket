@@ -31,7 +31,7 @@ import {
 } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
-import { generateContentDraft, generateImagePrompt } from '../services/geminiService';
+import { generateContentDraft, generateImagePrompt } from '../services/groqService';
 import { apiFetch } from '../services/api';
 import { Product } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -192,13 +192,18 @@ export const ContentLab = () => {
     setGeneratingImage(true);
     setGeneratedImageUrl(null);
     try {
+      const variation = Math.floor(Math.random() * 9999);
       const prompt = await generateImagePrompt({
         contentType: selectedContent.type,
         topic: editTitle || selectedContent.title,
         goal,
+        body: editBody,        // ← pass actual post content so image matches
+        variation,             // ← forces Groq to pick a fresh creative angle
       });
       const { w, h } = getImageDimensions(selectedContent.type);
-      const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${w}&height=${h}&nologo=true&model=flux&seed=${Date.now()}`;
+      // Use a cryptographically random seed so Pollinations never serves a cached image
+      const seed = Math.floor(Math.random() * 2_147_483_647);
+      const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${w}&height=${h}&nologo=true&model=flux&seed=${seed}`;
       setGeneratedImageUrl(url);
     } catch {
       // silent fail
@@ -921,16 +926,4 @@ export const ContentLab = () => {
                       onClick={() => handleRepurpose(opt.label)}
                       className="p-3 bg-white border border-slate-200 rounded-xl hover:border-brand/30 hover:bg-brand/5 transition-all flex flex-col items-center gap-2 group"
                     >
-                      <opt.icon size={18} className="text-slate-400 group-hover:text-brand transition-colors" />
-                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest group-hover:text-brand transition-colors">{opt.label}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+                      <opt.icon size={18} className="text-slate-400 group-hover:text-br
