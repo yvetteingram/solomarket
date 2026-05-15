@@ -115,7 +115,7 @@
 
 | Request | Priority | Notes |
 |---|---|---|
-| Video generation for Content Lab | Medium | Explore Replicate or RunwayML API — requires paid plan |
+| Video creation workflow | Shipped | Copy Script + free links to CapCut and Canva Video — all paid AI video APIs have costs; creator-recorded video performs better on TikTok/Reels anyway |
 | Tighter Plan → Campaign workflow (full pre-population) | Medium | Currently name/type passes through; could pre-fill posts |
 | Nano Banana model evaluation | Low | Pollinations.ai (FLUX) ships now; revisit if quality feedback received |
 
@@ -136,3 +136,32 @@
 - Track whether cross-linking (plan → campaign / content) gets used organically
 - Monitor Pollinations.ai image quality feedback — upgrade path is Replicate/fal.ai if needed
 - Consider adding video generation as a beta milestone feature for Round 2
+
+---
+
+## Round 2 Recommendations (May 2026)
+
+### Shipped Since Round 1
+- **Video creation workflow** added to Content Lab for video platforms (TikTok, Instagram Reel, YouTube, YouTube Short): Copy Script button + one-click links to CapCut and Canva Video (both free). AI-generated video APIs all have costs; creator-recorded video performs better on these platforms anyway.
+- **Quick Start fixed**: Step 2 no longer references the removed "Systems" screen — now describes the Campaigns AI builder accurately. AI Assistant added as Step 6.
+- **Sidebar routing fixed**: `/quick-start` now highlights correctly in the sidebar.
+
+### Priority Improvements for Round 2 Testing
+
+| Area | Recommendation | Why |
+|------|---------------|-----|
+| **Onboarding** | Redirect new users to `/quick-start` instead of the Onboarding checklist widget | Testers said "I don't know how to use this" — Quick Start is more useful than the widget for first-timers |
+| **Content Lab** | Add a "Cover image for video" toggle — generate a static thumbnail alongside the video | TikTok/Reels need a thumbnail for scheduling tools |
+| **Plans → Content** | Pre-fill content type (not just topic) when navigating from a plan content prompt | Cross-link is there but doesn't pick the platform automatically |
+| **Campaigns** | Add a "Run this post in Content Lab" button on each campaign asset | Closes the loop from campaign creation to content editing |
+| **Leads** | Lower inactive threshold from 14 → 7 days for the beta audience (power users move fast) | Beta testers are active; 14 days may be too long to catch drift |
+| **AI Assistant** | Add suggested starter prompts on the empty state | No one knows what to ask first; prompts like "What should I post this week?" lower the barrier |
+| **Video workflow** | Ask testers if CapCut/Canva links are useful, or if they want a different free tool linked | All AI video generation APIs cost money — the script + free editor workflow is the right zero-cost approach |
+
+### Questions for Round 2 Testers
+
+1. Did the Marketing Plan name real communities you recognized? Which ones?
+2. Did you use the Plan → Content Lab or Plan → Campaign links? Did they save you time?
+3. Did the AI-generated image match what you expected for your post?
+4. Did you try video generation (TikTok/Reels/YouTube)? Was the quality usable?
+5. What's the one thing you wish the app did that it doesn't do yet?

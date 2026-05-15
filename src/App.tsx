@@ -27,6 +27,7 @@ const ROUTE_TO_ID: Record<string, string> = {
   '/analytics':     'analytics',
   '/settings':      'settings',
   '/ai-assistant':  'ai-assistant',
+  '/quick-start':   'quick-start',
   '/welcome':       'dashboard',
 };
 

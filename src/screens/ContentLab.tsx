@@ -32,6 +32,7 @@ import {
 import { PageHeader } from '../components/PageHeader';
 import { SectionCard } from '../components/SectionCard';
 import { generateContentDraft, generateImagePrompt } from '../services/groqService';
+import { SocialVideoPlayer } from '../components/remotion/SocialVideoPlayer';
 import { apiFetch } from '../services/api';
 import { Product } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -50,7 +51,7 @@ interface ContentItem {
 export const ContentLab = () => {
   const location = useLocation();
   const { plan, user } = useAuth();
-  const generatorRef = useRef<HTMLDivElement>(null);
+  const generatorRef = useRef<HTMLTextAreaElement>(null);
   const [generating, setGenerating] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProductId, setSelectedProductId] = useState('');
@@ -72,6 +73,7 @@ export const ContentLab = () => {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
   const [generatingImage, setGeneratingImage] = useState(false);
+  const [scriptCopied, setScriptCopied] = useState(false);
 
   // Latest plan theme for dynamic tip
   const [planTheme, setPlanTheme] = useState('');
@@ -179,7 +181,11 @@ export const ContentLab = () => {
       setEditBody(item.preview);
     }
     setGeneratedImageUrl(null);
+    setScriptCopied(false);
   };
+
+  const isVideoType = (type: string) =>
+    ['TikTok', 'Instagram Reel', 'YouTube', 'YouTube Short'].includes(type);
 
   const getImageDimensions = (type: string): { w: number; h: number } => {
     if (['Instagram', 'Instagram Reel', 'TikTok', 'Threads'].includes(type)) return { w: 1080, h: 1080 };
@@ -490,7 +496,7 @@ export const ContentLab = () => {
         subtitle="Generate, edit, and schedule your marketing assets."
         actions={
           <button
-            onClick={handleGenerate}
+            onClick={() => handleGenerate()}
             disabled={generating}
             className="px-4 py-2 bg-brand text-white rounded-lg text-sm font-medium hover:bg-brand/90 transition-colors flex items-center gap-2 disabled:opacity-50"
           >
@@ -616,7 +622,7 @@ export const ContentLab = () => {
                 </select>
               </div>
               <button
-                onClick={handleGenerate}
+                onClick={() => handleGenerate()}
                 disabled={generating}
                 className="w-full py-2.5 bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-slate-800 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
               >
@@ -778,6 +784,64 @@ export const ContentLab = () => {
                         </div>
                       )}
                     </div>
+
+                    {/* Remotion animated preview — video platforms only */}
+                    {isVideoType(selectedContent.type) && (
+                      <div className="border-t border-slate-100 pt-4">
+                        <div className="flex items-center gap-1.5 mb-3">
+                          <Video size={12} className="text-slate-400" />
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            Animated Video Preview
+                          </span>
+                        </div>
+                        <div className="flex gap-4 items-start flex-wrap">
+                          <SocialVideoPlayer
+                            title={editTitle}
+                            body={editBody}
+                            productName={products.find(p => p.id === selectedProductId)?.name ?? 'SoloMarket'}
+                            platform={selectedContent.type}
+                          />
+                          <div className="flex-1 min-w-[160px] space-y-3">
+                            <p className="text-xs text-slate-500 leading-relaxed">
+                              Live animated card — updates as you edit. Record your screen or layer it behind your talking-head video in CapCut.
+                            </p>
+                            <div className="flex flex-col gap-2">
+                              <button
+                                onClick={async () => {
+                                  try { await navigator.clipboard.writeText(`${editTitle}\n\n${editBody}`); } catch { /* ignore */ }
+                                  setScriptCopied(true);
+                                  setTimeout(() => setScriptCopied(false), 3000);
+                                }}
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 text-slate-900 text-xs font-bold rounded-lg hover:bg-slate-50 transition-colors w-fit"
+                              >
+                                {scriptCopied ? <Check size={12} className="text-emerald-500" /> : <Copy size={12} />}
+                                {scriptCopied ? 'Copied!' : 'Copy Script'}
+                              </button>
+                              <a
+                                href="https://www.capcut.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-lg hover:bg-slate-800 transition-colors w-fit"
+                              >
+                                <Video size={12} />
+                                CapCut (free)
+                                <ExternalLink size={10} />
+                              </a>
+                              <a
+                                href="https://www.canva.com/video-editor/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-[#7C3AED] text-white text-xs font-bold rounded-lg hover:bg-[#6D28D9] transition-colors w-fit"
+                              >
+                                <Play size={12} />
+                                Canva Video (free)
+                                <ExternalLink size={10} />
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="p-4 border-t border-slate-100 bg-slate-50/50 space-y-3">
@@ -926,4 +990,16 @@ export const ContentLab = () => {
                       onClick={() => handleRepurpose(opt.label)}
                       className="p-3 bg-white border border-slate-200 rounded-xl hover:border-brand/30 hover:bg-brand/5 transition-all flex flex-col items-center gap-2 group"
                     >
-                      <opt.icon size={18} className="text-slate-400 group-hover:text-br
+                      <opt.icon size={18} className="text-slate-400 group-hover:text-brand transition-colors" />
+                      <span className="text-[10px] font-bold text-slate-500 text-center">{opt.label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

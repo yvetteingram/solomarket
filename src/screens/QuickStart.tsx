@@ -10,6 +10,7 @@ import {
   ArrowRight,
   Sparkles,
   LogIn,
+  Bot,
 } from 'lucide-react';
 
 const steps = [
@@ -24,9 +25,9 @@ const steps = [
   },
   {
     number: 2,
-    title: 'Install a Campaign System',
+    title: 'Build your first Campaign',
     description:
-      'Go to Systems and pick a pre-built campaign template — LinkedIn Lead Engine, Product Launch, Freelancer Funnel, and more. Click Install System, link it to your product, and start executing immediately.',
+      'Go to Campaigns and create a new campaign with AI. Describe your business and goal — SoloMarket generates a full campaign with ready-to-use LinkedIn posts, outreach scripts, and email sequences you can run immediately.',
     icon: Layers,
     color: 'bg-emerald-50 text-emerald-600 border-emerald-100',
     route: '/campaigns',
@@ -60,6 +61,15 @@ const steps = [
   },
   {
     number: 6,
+    title: 'Ask the AI Assistant',
+    description:
+      'Stuck on strategy, messaging, or what to post next? Open the AI Assistant and ask anything — it\'s a marketing advisor that knows your business context.',
+    icon: Bot,
+    color: 'bg-violet-50 text-violet-600 border-violet-100',
+    route: '/ai-assistant',
+  },
+  {
+    number: 7,
     title: 'Monitor your analytics',
     description:
       'See your content performance, campaign progress, lead sources, and conversion metrics all in one place. Check this weekly to see what\'s working.',
